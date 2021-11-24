@@ -1,0 +1,38 @@
+﻿@model Presentation.Web.Models.Configuration.OccurrencesViewModel
+@if (Model.Documents != null) {
+    <div class="row">
+        @for (int i = 0; i < Model.Documents.Count; i++) {
+            <div class="col-md-6 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-8 col-md-7">
+                                <input type="hidden" name="@Html.NameFor(x=> Model.Documents[i].OccurrenceTypeDocumentId)" value="@(Model.Documents[i].OccurrenceTypeDocumentId)" />
+                                <input type="hidden" name="@Html.NameFor(x=> Model.Documents[i].DocumentTypeId)" value="@(Model.Documents[i].DocumentTypeId)" />
+                                <label>@(Model.Documents[i].Name)</label>
+                            </div>
+                            <div class="col-sm-4 col-md-5">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <input type="checkbox" value="true" class="EditControl"
+                                               id="checked-@(Model.Documents[i].DocumentTypeId)"
+                                               name="@Html.NameFor(x=> Model.Documents[i].IsChecked)"
+                                               @(Model.Documents[i].IsChecked ? "checked" : "") 
+                                               @(Model.IsEditable ? "": "disabled")/>&nbsp;<label>Exibir</label>
+                                    </div>
+                                    <div class="col-12">
+                                        <input type="checkbox" value="true" class="EditControl"
+                                               id="required-@(Model.Documents[i].DocumentTypeId)"
+                                               name="@Html.NameFor(x=> Model.Documents[i].IsRequired)"
+                                               @(Model.Documents[i].IsRequired ? "checked" : "")
+                                               @(Model.IsEditable ? "": "disabled")/>&nbsp;<label>Obrigatório</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

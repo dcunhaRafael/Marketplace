@@ -1,0 +1,535 @@
+﻿@model Presentation.Web.Models.Workflow.WorkflowViewModel
+@using Domain.Enumerators;
+@using Domain.Util.Extensions;
+@{
+    ViewBag.Title = "Index";
+}
+<div class="container-fluid screen-taker-appeal-table__query WorkflowSearch">
+    <div class="row mb-4 header__title__with__buttom">
+        <div class="col-12 header__text">
+            <p class="title"><span>Liberação de Propostas</span></p>
+            <p class="subtitle">Use os filtros para guiar uma consulta avançada</p>
+        </div>
+    </div>
+    <form id="formFilters" autocomplete="off" AutoCompleteType="Disabled">
+        @Html.AntiForgeryToken()
+        <div class="row mb-4 WorkflowFilter container__form">
+
+            <div class="col-md-6 form-group">
+                <label>Produto</label>
+                <select name="@Html.NameFor(x=> x.Filters.ProductId)" class="form-control mat-input-element mat-form-field-autofill-control SearchFilter"
+                        onchange="Workflow.loadCoverages(this.value, '#formFilters .CoverageId', 'Todas');">
+                    <option value="">Todos</option>
+                    @foreach (var item in Model.ProductList) {
+                        <option value="@item.ProductId">@item.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-6 form-group">
+                <label>Cobertura</label>
+                <select name="@Html.NameFor(x=> x.Filters.CoverageId)" class="form-control mat-input-element mat-form-field-autofill-control SearchFilter CoverageId">
+                    <option value="">Todas</option>
+                </select>
+            </div>
+
+            <div class="col-md-3 form-group">
+                <label>Proposta</label>
+                <input type="text" class="form-control mat-input-element mat-form-field-autofill-control mask-number SearchFilter" maxlength="9"
+                       name="@Html.NameFor(x=> x.Filters.ProposalNumber)">
+            </div>
+            <div class="col-md-3 form-group">
+                <label>A partir de</label>
+                <div class="input-group">
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control mask-date SearchFilter"
+                           name="@Html.NameFor(x=> x.Filters.DateFrom)">
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="fas fa-calendar-alt" onclick="$('.ToDate').focus();"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 form-group">
+                <label>Até</label>
+                <div class="input-group">
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control mask-date SearchFilter"
+                           name="@Html.NameFor(x=> x.Filters.DateTo)">
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="fas fa-calendar-alt" onclick="$('.ToDate').focus();"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 form-group">
+                <label>Situação</label>
+                <select name="@Html.NameFor(x=> x.Filters.OccurrenceStatus)" class="form-control mat-input-element mat-form-field-autofill-control SearchFilter">
+                    <option value="">Todas</option>
+                    @foreach (var item in EnumExtensions.ToList<OccurrenceStatusEnum>()) {
+                        <option value="@item.Key">@item.Value</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-6 form-group">
+                <label>Ocorrência</label>
+                <select name="@Html.NameFor(x=> x.Filters.OccurrenceTypeId)" class="form-control mat-input-element mat-form-field-autofill-control SearchFilter">
+                    <option value="">Todas</option>
+                    @foreach (var item in Model.OccurrenceTypeList) {
+                        <option value="@item.OccurrenceTypeId">@item.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-6 form-group">
+                <label>Corretor</label>
+                <div class="input-group">
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control SearchFilter BrokerFilter"
+                           placeholder="Informe o nome/razão social do corretor" name="BrokerName">
+                    <input type="hidden" class="BrokerData BrokerId SearchFilter" value="" name="@Html.NameFor(x=> x.Filters.BrokerId)" />
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 form-group">
+                <label>Empresa</label>
+                <div class="input-group">
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control SearchFilter TakerFilter"
+                           placeholder="Informe a razão social da empresa" name="TakerName">
+                    <input type="hidden" class="TakerData TakerId SearchFilter" value="" name="@Html.NameFor(x=> x.Filters.TakerId)" />
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 form-group">
+                <label>Segurado</label>
+                <div class="input-group">
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control SearchFilter InsuredFilter"
+                           placeholder="Informe o nome/razão social do segurado" name="InsuredName">
+                    <input type="hidden" class="InsuredData InsuredId SearchFilter" value="" name="@Html.NameFor(x=> x.Filters.InsuredId)" />
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <button type="button" class="btn mat-focus-indicator button mat-raised-button mat-button-base" onclick="Workflow.search()">PESQUISAR</button>
+                <button type="button" class="btn mat-focus-indicator button__white mat-raised-button mat-button-base" onclick="Workflow.clear()">LIMPAR BUSCA</button>
+            </div>
+        </div>
+    </form>
+    <form id="formOccurrences" autocomplete="off" AutoCompleteType="Disabled">
+        @Html.AntiForgeryToken()
+        <div class="row WorkflowResult" style="display: none;">
+            <div class="col-12 header__title mb-3">
+                <p class="title__semibold__orange">Resultado</p>
+                <p class="subtitle"></p>
+            </div>
+            <div class="col-12">
+                <div class="data__table" id="WorkflowGridContainer">
+                    @{await Html.RenderPartialAsync("~/Views/Workflow/OccurrencesGrid.cshtml", Model);}
+                </div>
+            </div>
+            <div class="col-12">
+                <button type="button" id="btnApprove" class="btn mat-focus-indicator button mat-raised-button mat-button-base" onclick="Workflow.openApproval()">APROVAR SELECIONADA(S)</button>
+                <button type="button" id="btnRefuse" class="btn mat-focus-indicator button__white mat-raised-button mat-button-base" onclick="Workflow.openRefusal()">RECUSAR SELECIONADA(S)</button>
+            </div>
+        </div>
+        <div id="OccurrenceApprovalRefusalModalContainer"></div>
+    </form>
+</div>
+<div id="OccurrenceLiberationUsersModalContainer"></div>
+<div id="OccurrenceHistoriesModalContainer"></div>
+<div id="OccurrenceForwardModalContainer"></div>
+<div id="OccurrenceDocumentsModalContainer"></div>
+<script src="~/js/AutoCompleteFilters.js?version=@DateTime.Now.Ticks"></script>
+<script>
+    $(document).ready(function () {
+        format.initializeInputMasks('#formFilters');
+        validationrules.init('#formFilters');
+        Workflow.clear();
+
+        AutoCompleteFilters.brokerInit('.BrokerFilter', '#formFilters',
+            function (data) {
+                $('.BrokerData.BrokerId').val(data.brokerId);
+            },
+            function () {
+                $('.BrokerData').val('');
+            }
+        );
+
+        AutoCompleteFilters.takerInit('.TakerFilter', '#formFilters', '.BrokerId',
+            function (data) {
+                $('.TakerData.TakerId').val(data.takerId);
+            },
+            function () {
+                $('.TakerData').val('');
+            }
+        );
+
+        AutoCompleteFilters.insuredInit('.InsuredFilter', '#formFilters',
+            function (data) {
+                $('.InsuredData.InsuredId').val(data.insuredId);
+            },
+            function () {
+                $('.InsuredData').val('');
+            }
+        );
+    });
+
+    var Workflow = {
+
+        loadCoverages: function (productId, coverageInputSelector, coverageUnselectedLabel) {
+            var $coverageInputSelector = $(coverageInputSelector);
+            $coverageInputSelector.empty();
+            $coverageInputSelector.append($("<option></option>").attr("value", "").text(coverageUnselectedLabel));
+            if (productId != '') {
+                $.ajax({
+                    type: 'GET',
+                    url: '/Common/ListCoverages',
+                    data: {
+                        "productId": productId
+                    },
+                    dataType: 'json',
+                    beforeSend: function () {
+                        loading.show("Processando... por favor, aguarde...");
+                    },
+                    success: function (data) {
+                        loading.hide();
+                        $.each(data.coverages, function (key, value) {
+                            $coverageInputSelector.append($("<option></option>").attr("value", value.coverageId).text(value.name));
+                        });
+                    },
+                    error: function (xhr) {
+                        loading.hide();
+                        messages.ajaxError(xhr);
+                    }
+                });
+            }
+        },
+
+        search: function () {
+            commons.postAndCallback('#formFilters', true, function (formValues) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Workflow/OccurrencesGrid',
+                    data: formValues,
+                    dataType: 'html',
+                    beforeSend: function () {
+                        loading.show("Processando... por favor, aguarde...");
+                    },
+                    success: function (data) {
+                        loading.hide();
+                        $('#WorkflowGridContainer').html(data);
+                        $('.WorkflowResult').show();
+                        commons.scrollToElement('#WorkflowGridContainer');
+                        Workflow.occurrencesSelectionChanged();
+                    },
+                    error: function (xhr) {
+                        loading.hide();
+                        messages.ajaxError(xhr);
+                    }
+                });
+            });
+        },
+
+        clear: function () {
+            $('.SearchFilter').val('');
+            $('.WorkflowResult').hide();
+        },
+
+        viewLiberationUsers: function (proposalOccurrenceId) {
+            $.ajax({
+                type: 'POST',
+                url: '/Workflow/OccurrenceLiberationUsers',
+                data: {
+                    'proposalOccurrenceId': proposalOccurrenceId
+                },
+                dataType: 'html',
+                beforeSend: function () {
+                    loading.show("Processando... por favor, aguarde...");
+                },
+                success: function (data) {
+                    loading.hide();
+                    $('#OccurrenceLiberationUsersModalContainer').html(data);
+                    $('#OccurrenceLiberationUsersModal').modal();
+                },
+                error: function (xhr) {
+                    loading.hide();
+                    messages.ajaxError(xhr);
+                }
+            });
+        },
+
+        viewHistories: function (proposalOccurrenceId) {
+            $.ajax({
+                type: 'POST',
+                url: '/Workflow/OccurrenceHistories',
+                data: {
+                    'proposalOccurrenceId': proposalOccurrenceId
+                },
+                dataType: 'html',
+                beforeSend: function () {
+                    loading.show("Processando... por favor, aguarde...");
+                },
+                success: function (data) {
+                    loading.hide();
+                    $('#OccurrenceHistoriesModalContainer').html(data);
+                    $('#OccurrenceHistoriesModal').modal();
+                },
+                error: function (xhr) {
+                    loading.hide();
+                    messages.ajaxError(xhr);
+                }
+            });
+        },
+
+        openForward: function (proposalNumber, proposalOccurrenceId) {
+            $.ajax({
+                type: 'POST',
+                url: '/Workflow/OccurrenceForward',
+                data: {
+                    'proposalNumber': proposalNumber,
+                    'proposalOccurrenceId': proposalOccurrenceId
+                },
+                dataType: 'html',
+                beforeSend: function () {
+                    loading.show("Processando... por favor, aguarde...");
+                },
+                success: function (data) {
+                    loading.hide();
+                    $('#OccurrenceForwardModalContainer').html(data);
+                    $('#OccurrenceForwardModal').modal();
+                },
+                error: function (xhr) {
+                    loading.hide();
+                    messages.ajaxError(xhr);
+                }
+            });
+        },
+
+        forward: function () {
+            commons.postAndCallback('#formOccurrenceForward', true, function (formValues) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Workflow/OccurrenceForwardConfirm',
+                    data: formValues,
+                    dataType: 'json',
+                    beforeSend: function () {
+                        loading.show("Processando... por favor, aguarde...");
+                    },
+                    success: function (data) {
+                        loading.hide();
+                        $('#OccurrenceForwardModal').modal('hide');
+                        messages.info('Sucesso', 'Ocorrência encaminhada com sucesso.');
+                    },
+                    error: function (xhr) {
+                        loading.hide();
+                        messages.ajaxError(xhr);
+                    }
+                });
+            });
+        },
+
+        viewDocuments: function (proposalOccurrenceId) {
+            $.ajax({
+                type: 'POST',
+                url: '/Workflow/OccurrenceDocuments',
+                data: {
+                    'proposalOccurrenceId': proposalOccurrenceId
+                },
+                dataType: 'html',
+                beforeSend: function () {
+                    loading.show("Processando... por favor, aguarde...");
+                },
+                success: function (data) {
+                    loading.hide();
+                    $('#OccurrenceDocumentsModalContainer').html(data);
+                    $('#OccurrenceDocumentsModal').modal();
+                },
+                error: function (xhr) {
+                    loading.hide();
+                    messages.ajaxError(xhr);
+                }
+            });
+        },
+
+        browseDocument: function (index) {
+            $('#DocumentIndex').val(index);
+            $('#Document').trigger('click');
+            return false;
+        },
+
+        uploadDocument: function () {
+            var documentIndex = $('#DocumentIndex').val();
+            var formValues = new FormData();
+            formValues.append('proposalOccurrenceId', $('#ProposalOccurrenceId').val());
+            formValues.append('documentTypeId', $('#DocumentType-' + documentIndex).val());
+            formValues.append('file', ($('#Document'))[0].files[0]);
+            $.ajax({
+                type: 'POST',
+                url: '/Workflow/OccurrenceDocumentUpload',
+                data: formValues,
+                dataType: 'json',
+                processData: false, // important
+                contentType: false, // important
+                beforeSend: function () {
+                    loading.show("Processando... por favor, aguarde...");
+                },
+                success: function (data) {
+                    loading.hide();
+                    $('#ProposalOccurrenceDocumentId-' + documentIndex).val(data.response.proposalOccurrenceDocumentId);
+                    $('#FileName-' + documentIndex).text(data.response.fileName);
+                    $('#Upload-' + documentIndex).hide();
+                    $('#Download-' + documentIndex).show();
+                    $('#Delete-' + documentIndex).show();
+                },
+                error: function (xhr) {
+                    loading.hide();
+                    messages.ajaxError(xhr);
+                }
+            });
+            $('#Document').val('');
+            return false;
+        },
+
+        downloadDocument: function (index) {
+            var documentId = $('#ProposalOccurrenceDocumentId-' + index).val();
+            file.download(
+                '/Workflow/OccurrenceDocumentDownload',
+                { 'proposalOccurrenceDocumentId': documentId },
+                'Processando... por favor aguarde',
+                'application/octet-stream'
+            );
+        },
+
+        deleteDocument: function (index) {
+            messages.confirm('Confirmação', 'Confirma a exclusão do documento?',
+                function () {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Workflow/OccurrenceDocumentDelete',
+                        data: {
+                            'proposalOccurrenceDocumentId': $('#ProposalOccurrenceDocumentId-' + index).val()
+                        },
+                        dataType: 'json',
+                        beforeSend: function () {
+                            loading.show("Processando... por favor, aguarde...");
+                        },
+                        success: function (data) {
+                            loading.hide();
+                            $('#ProposalOccurrenceDocumentId-' + index).val('');
+                            $('#FileName-' + index).text('Não anexado.');
+                            $('#Upload-' + index).show();
+                            $('#Download-' + index).hide();
+                            $('#Delete-' + index).hide();
+                            messages.info('Sucesso', 'Documento excluído com sucesso!');
+                        },
+                        error: function (xhr) {
+                            loading.hide();
+                            messages.ajaxError(xhr);
+                        }
+                    });
+                });
+        },
+
+        occurrencesSelectionChanged: function () {
+            var checkedCount = $('.ProposalOccurrenceCheckbox').filter(':checked').length;
+            $("#btnApprove").prop("disabled", (checkedCount == 0));
+            $("#btnRefuse").prop("disabled", (checkedCount == 0));
+        },
+
+        openApproval: function () {
+            $.ajax({
+                type: 'POST',
+                url: '/Workflow/OccurrenceApproval',
+                data: null,
+                dataType: 'html',
+                beforeSend: function () {
+                    loading.show("Processando... por favor, aguarde...");
+                },
+                success: function (data) {
+                    loading.hide();
+                    $('#OccurrenceApprovalRefusalModalContainer').html(data);
+                    $('#OccurrenceApprovalModal').modal();
+                },
+                error: function (xhr) {
+                    loading.hide();
+                    messages.ajaxError(xhr);
+                }
+            });
+        },
+
+        approve: function () {
+            commons.postAndCallback('#formOccurrences', true, function (formValues) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Workflow/OccurrenceApprovalConfirm',
+                    data: formValues,
+                    dataType: 'json',
+                    beforeSend: function () {
+                        loading.show("Processando... por favor, aguarde...");
+                    },
+                    success: function (data) {
+                        loading.hide();
+                        $('#OccurrenceApprovalModal').modal('hide');
+                        messages.info('Sucesso', 'Ocorrência(s) aprovada(s) com sucesso.', function () { Workflow.search(); });
+                    },
+                    error: function (xhr) {
+                        loading.hide();
+                        messages.ajaxError(xhr);
+                    }
+                });
+            });
+        },
+
+        openRefusal: function () {
+            $.ajax({
+                type: 'POST',
+                url: '/Workflow/OccurrenceRefusal',
+                data: null,
+                dataType: 'html',
+                beforeSend: function () {
+                    loading.show("Processando... por favor, aguarde...");
+                },
+                success: function (data) {
+                    loading.hide();
+                    $('#OccurrenceApprovalRefusalModalContainer').html(data);
+                    $('#OccurrenceRefusalModal').modal();
+                },
+                error: function (xhr) {
+                    loading.hide();
+                    messages.ajaxError(xhr);
+                }
+            });
+        },
+
+        refuse: function () {
+            commons.postAndCallback('#formOccurrences', true, function (formValues) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Workflow/OccurrenceRefusalConfirm',
+                    data: formValues,
+                    dataType: 'json',
+                    beforeSend: function () {
+                        loading.show("Processando... por favor, aguarde...");
+                    },
+                    success: function (data) {
+                        loading.hide();
+                        $('#OccurrenceRefusalModal').modal('hide');
+                        messages.info('Sucesso', 'Ocorrência(s) recusadas(s) com sucesso.', function () { Workflow.search(); });
+                    },
+                    error: function (xhr) {
+                        loading.hide();
+                        messages.ajaxError(xhr);
+                    }
+                });
+            });
+        },
+
+        back: function () {
+            $('.WorkflowData').hide();
+            $('.WorkflowSearch').show();
+        },
+
+    };
+
+</script>

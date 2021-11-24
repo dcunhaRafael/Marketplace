@@ -1,0 +1,48 @@
+﻿@model Presentation.Web.Models.Renewal.RenewalViewModel
+@using Domain.Enumerators;
+@using Domain.Util.Extensions;
+<table id="BatchDetailsGrid" cellpadding="0" class="mat-table cdk-table mat-elevation-z8">
+    <thead>
+        <tr>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">ID</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">APÓLICE</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">TOMADOR</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">SEGURADO</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">INÍCIO DE VIGÊNCIA</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">FIM DE VIGÊNCIA</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">RENOVAÇÃO</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">I.S.</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">PRÊMIO</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">SITUAÇÃO</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">AÇÕES</th>
+        </tr>
+    </thead>
+    @if (Model.CurrentBatchItems != null) {
+        <tbody>
+            @for (int i = 0; i < Model.CurrentBatchItems.Count; i++) {
+            <tr class="mat-row cdk-row ng-star-inserted">
+                <td class="mat-cell cdk-cell">@(Model.CurrentBatchItems[i].PolicyRenovationId)</td>
+                <td>@(Model.CurrentBatchItems[i].PolicyCode)</td>
+                <td>@(Model.CurrentBatchItems[i].TakerName)</td>
+                <td>@(Model.CurrentBatchItems[i].InsuredName)</td>
+                <td>@(Model.CurrentBatchItems[i].StartOfTerm?.FormatDate())</td>
+                <td>@(Model.CurrentBatchItems[i].EndOfTerm?.FormatDate())</td>
+                <td>@(Model.CurrentBatchItems[i].NewProposalNumber)</td>
+                <td>@(Model.CurrentBatchItems[i].NewInsuredAmount?.FormatDecimal())</td>
+                <td>@(Model.CurrentBatchItems[i].NewPremiumValue?.FormatDecimal())</td>
+                <td>@(Model.CurrentBatchItems[i].RenovationStatusId?.GetDescription())</td>
+                <td>
+                    <a title="Editar" onclick="event.preventDefault(); Renewal.editProposal(@(Model.CurrentBatchItems[i].PolicyRenovationId))">
+                        <span class="fas fa-edit"></span>
+                    </a>@Html.Raw("&nbsp;")
+                </td>
+            </tr>
+            }
+        </tbody>
+    }
+</table>
+<script>
+    $(document).ready(function () {
+        controls.dataTableInit3("#BatchDetailsGrid");
+    });
+</script>

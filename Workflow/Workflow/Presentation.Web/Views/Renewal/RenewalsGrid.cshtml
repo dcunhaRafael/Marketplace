@@ -1,0 +1,40 @@
+﻿@model Presentation.Web.Models.Renewal.RenewalViewModel
+@using Domain.Enumerators;
+@using Domain.Util.Extensions;
+<table id="RenewalsGrid" cellpadding="0" class="mat-table cdk-table mat-elevation-z8">
+    <thead>
+        <tr>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">LOTE</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">TIPO</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted text-center">COMPETÊNCIA</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted text-right">QTD. PROPOSTAS</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted text-right">VALOR TOTAL</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">SITUAÇÃO</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">AÇÕES</th>
+        </tr>
+    </thead>
+    @if (Model.Results != null) {
+        <tbody>
+            @for (int i = 0; i < Model.Results.Count; i++) {
+            <tr class="mat-row cdk-row ng-star-inserted">
+                <td class="mat-cell cdk-cell">@(Model.Results[i].PolicyBatchId)</td>
+                <td>@Model.Results[i].BatchType?.GetDescription()</td>
+                <td class="text-center">@Model.Results[i].Competency</td>
+                <td class="text-right">@Model.Results[i].PolicyCount</td>
+                <td class="text-right">@Model.Results[i].PolicyTotal.FormatDecimal()</td>
+                <td>@Model.Results[i].BatchStatus?.GetDescription()</td>
+                <td>
+                    <a title="Detalhes" onclick="event.preventDefault(); Renewal.viewDetails(@Model.Results[i].PolicyBatchId)">
+                        <span class="fas fa-file-alt"></span>
+                    </a>@Html.Raw("&nbsp;")
+                </td>
+            </tr>
+            }
+        </tbody>
+    }
+</table>
+<script>
+    $(document).ready(function () {
+        controls.dataTableInit3("#RenewalsGrid");
+    });
+</script>

@@ -1,0 +1,48 @@
+﻿@model Presentation.Web.Models.Workflow.WorkflowViewModel
+@using Domain.Enumerators;
+@using Domain.Util.Extensions;
+<div id="OccurrenceForwardModal" class="modal fade in StandardModal" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg StandardModalDialog">
+        <div class="modal-content StandardModalContent">
+            <div class="modal-header modal-header-primary StandardModalHeader">
+                <div class="row header__title__with__buttom">
+                    <div class="col-12 header__text">
+                        <p class="title"><span>Encaminhar Ocorrência</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body StandardModalBody">
+                <form id="formOccurrenceForward" autocomplete="off">
+                    <input type="hidden" name="@Html.NameFor(x=> x.ProposalNumber)" value="@(Model.ProposalNumber)" />
+                    <input type="hidden" name="@Html.NameFor(x=> x.ProposalOccurrenceId)" value="@(Model.ProposalOccurrenceId)" />
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <label>Usuário</label>
+                            <select name="@Html.NameFor(x=> x.ForwardUserId)" class="form-control mat-input-element mat-form-field-autofill-control" required>
+                                <option value="">Selecione</option>
+                                @foreach (var item in Model.LiberationUsers) {
+                                    <option value="@item.UserId">@item.Name (@item.Email)</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <label>Justifique o encaminhamento</label>
+                            <textarea class="form-control mat-input-element mat-form-field-autofill-control" rows="10" name="@Html.NameFor(x => x.UserComments)"
+                                      required minlength="5" maxlength="8000"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer StandardModalFooter">
+                <button type="button" class="btn mat-focus-indicator button mat-raised-button mat-button-base"
+                        onclick="Workflow.forward()">
+                    ENCAMINHAR
+                </button>
+                <button type="button" class="btn mat-focus-indicator button__white mat-raised-button mat-button-base text-left"
+                        onclick="$('#OccurrenceForwardModal').modal('hide');">
+                    FECHAR
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,176 @@
+﻿@model Presentation.Web.Models.Renewal.RenewalViewModel
+@using Domain.Enumerators;
+@using Domain.Util.Extensions;
+<div class="col-12 mb-3">
+    <div class="card">
+        <div class="card-header">
+            <label>Dados Básicos</label>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3 form-group">
+                    <label>ID</label>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" name="@Html.NameFor(x=> x.CurrentDocument.PolicyRenovationId)"
+                           value="@(Model.CurrentDocument.PolicyRenovationId)" readonly />
+                </div>
+                <div class="col-md-3 form-group">
+                    <label>Apólice</label>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" name="@Html.NameFor(x=> x.CurrentDocument.PolicyCode)"
+                           value="@(Model.CurrentDocument.PolicyCode)" readonly />
+                </div>
+                <div class="col-md-3 form-group">
+                    <label>Início de vigência</label>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" name="@Html.NameFor(x=> x.CurrentDocument.StartOfTerm)"
+                           value="@(Model.CurrentDocument.StartOfTerm?.FormatDate())" readonly />
+                </div>
+                <div class="col-md-3 form-group">
+                    <label>Fim de vigência</label>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" name="@Html.NameFor(x=> x.CurrentDocument.EndOfTerm)"
+                           value="@(Model.CurrentDocument.EndOfTerm?.FormatDate())" readonly />
+                </div>
+                <div class="col-md-6 form-group">
+                    <label>Produto</label>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" name="@Html.NameFor(x=> x.CurrentDocument.ProductName)"
+                           value="@(Model.CurrentDocument.ProductName)" readonly />
+                </div>
+                <div class="col-md-6 form-group">
+                    <label>Modalidade</label>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" name="@Html.NameFor(x=> x.CurrentDocument.CoverageName)"
+                           value="@(Model.CurrentDocument.CoverageName)" readonly />
+                </div>
+                <div class="col-md-6 form-group">
+                    <label>Corretor</label>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" name="@Html.NameFor(x=> x.CurrentDocument.BrokerName)"
+                           value="@(Model.CurrentDocument.BrokerName)" readonly />
+                </div>
+                <div class="col-md-6 form-group">
+                    <label>Segurado</label>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" name="@Html.NameFor(x=> x.CurrentDocument.InsuredName)"
+                           value="@(Model.CurrentDocument.InsuredName)" readonly />
+                </div>
+                <div class="col-md-12 form-group">
+                    <label>Objeto segurado</label>
+                    <textarea class="form-control mat-input-element mat-form-field-autofill-control" rows="5" 
+                              name="@Html.NameFor(x=> x.CurrentDocument.InsuredObject)" readonly>@(Model.CurrentDocument.InsuredObject)</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-12 mb-3">
+    <div class="card">
+        <div class="card-header">
+            <label>Dados do Tomador</label>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3 form-group">
+                    <label>CNPJ</label>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" name="@Html.NameFor(x=> x.CurrentDocument.TakerDocument)"
+                           value="@(Model.CurrentDocument.TakerDocument?.FormatCpfCnpj())" readonly />
+                </div>
+                <div class="col-md-6 form-group">
+                    <label>Razão social</label>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" name="@Html.NameFor(x=> x.CurrentDocument.TakerName)"
+                           value="@(Model.CurrentDocument.TakerName)" readonly />
+                </div>
+                <div class="col-md-3 form-group">
+                    <label>Classe de risco</label>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" name="@Html.NameFor(x=> x.CurrentDocument.TakerRating)"
+                           value="@(Model.CurrentDocument.TakerRating)" readonly />
+                </div>
+                <div class="col-md-3 form-group">
+                    <label>Limite de crédito</label>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" name="@Html.NameFor(x=> x.CurrentDocument.TakerCreditLimit)"
+                           value="@(Model.CurrentDocument.TakerCreditLimit?.FormatDecimal())" readonly />
+                </div>
+                <div class="col-md-3 form-group">
+                    <label>Taxa</label>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" name="@Html.NameFor(x=> x.CurrentDocument.TakerRiskRate)"
+                           value="@(Model.CurrentDocument.TakerRiskRate?.FormatDecimal())" readonly />
+                </div>
+                @*<div class="col-md-3 form-group">
+                    <label>Status</label>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" name="@Html.NameFor(x=> x.CurrentDocument.InsuredName)"
+                           value="@(Model.CurrentDocument.ProposalDate?.FormatDate())" readonly />
+                </div>*@
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-12 mb-3">
+    <div class="card">
+        <div class="card-header">
+            <label>Dados da Renovação</label>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3 form-group">
+                    <label>Valor IS inicial</label>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" name="@Html.NameFor(x=> x.CurrentDocument.InsuredAmount)"
+                           value="@(Model.CurrentDocument.InsuredAmount?.FormatDecimal())" readonly />
+                </div>
+                <div class="col-md-3 form-group">
+                    <label>Índice</label>
+                    <select class="form-control mat-input-element mat-form-field-autofill-control required EditControl CopyToCoverageId"
+                            name="@Html.NameFor(x => x.CurrentDocument.RenovationUpdateIndexId)">
+                        <option value="">Selecione</option>
+                        @foreach (var item in Model.RenovationIndexes) {
+                            <option value="@item.Id"
+                                    selected="@(Model.CurrentDocument.RenovationUpdateIndexId != null && (Model.CurrentDocument.RenovationUpdateIndexId == item.Id))">
+                                @item.Name
+                            </option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label>Valor IS atual</label>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" name="@Html.NameFor(x=> x.CurrentDocument.NewInsuredAmount)"
+                           value="@(Model.CurrentDocument.NewInsuredAmount?.FormatDecimal())" />
+                </div>
+                <div class="col-md-3 form-group">
+                    <label>Valor do prêmio</label>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" name="@Html.NameFor(x=> x.CurrentDocument.NewPremiumValue)"
+                           value="@(Model.CurrentDocument.NewPremiumValue?.FormatDecimal())" readonly />
+                </div>
+                <div class="col-md-3 form-group">
+                    <label>Início de vigência</label>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" name="@Html.NameFor(x=> x.CurrentDocument.NewStartOfTerm)"
+                           value="@(Model.CurrentDocument.NewStartOfTerm?.FormatDate())" readonly />
+                </div>
+                <div class="col-md-3 form-group">
+                    <label>Fim de vigência</label>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" name="@Html.NameFor(x=> x.CurrentDocument.NewEndOfTerm)"
+                           value="@(Model.CurrentDocument.NewEndOfTerm?.FormatDate())" readonly />
+                </div>
+                <div class="col-md-3 form-group">
+                    <label>Proposta</label>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" name="@Html.NameFor(x=> x.CurrentDocument.NewProposalNumber)"
+                           value="@(Model.CurrentDocument.NewProposalNumber)" readonly />
+                </div>
+                <div class="col-md-3 form-group">
+                    <label>Apólice</label>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" name="@Html.NameFor(x=> x.CurrentDocument.NewPolicyCode)"
+                           value="@(Model.CurrentDocument.NewPolicyCode)" readonly />
+                </div>
+                <div class="col-md-3 form-group">
+                    <label>Status</label>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" name="@Html.NameFor(x=> x.CurrentDocument.NewProposalStatusName)"
+                           value="@(Model.CurrentDocument.NewProposalStatusName)" readonly />
+                </div>
+                <div class="col-md-12 form-group">
+                    <label>Objeto segurado</label>
+                    <textarea class="form-control mat-input-element mat-form-field-autofill-control" rows="5" 
+                              name="@Html.NameFor(x=> x.CurrentDocument.NewInsuredObject)">@(Model.CurrentDocument.NewInsuredObject)</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-12">
+    <button type="button" class="btn mat-focus-indicator button mat-raised-button mat-button-base" onclick="Renewal.issueProposal()">LIBERAÇÃO DE PROPOSTA</button>
+    <button type="button" class="btn mat-focus-indicator button mat-raised-button mat-button-base" onclick="Renewal.transmitProposal()">TRANSMITIR PROPOSTA</button>
+    <button type="button" class="btn mat-focus-indicator button mat-raised-button mat-button-base" onclick="Renewal.issueProposal()">EMITIR APÓLICE</button>
+    <button type="button" class="btn mat-focus-indicator button mat-raised-button mat-button-base" onclick="Renewal.saveProposal()">GRAVAR PROPOSTA</button>
+    <button type="button" class="btn mat-focus-indicator button__white mat-raised-button mat-button-base" onclick="Renewal.backDetails()">VOLTAR</button>
+</div>

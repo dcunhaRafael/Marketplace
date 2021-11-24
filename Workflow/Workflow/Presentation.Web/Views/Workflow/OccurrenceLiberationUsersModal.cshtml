@@ -1,0 +1,44 @@
+﻿@model Presentation.Web.Models.Workflow.WorkflowViewModel
+@using Domain.Enumerators;
+@using Domain.Util.Extensions;
+<div id="OccurrenceLiberationUsersModal" class="modal fade in StandardModal" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg StandardModalDialog">
+        <div class="modal-content StandardModalContent">
+            <div class="modal-header modal-header-primary StandardModalHeader">
+                <div class="row header__title__with__buttom">
+                    <div class="col-12 header__text">
+                        <p class="title"><span>Usuários para Liberação</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body StandardModalBody">
+                <div class="row">
+                    <div class="col-12">
+                        <table cellpadding="0" class="mat-table cdk-table mat-elevation-z8">
+                            <thead>
+                                <tr>
+                                    <th class="mat-header-cell cdk-header-cell ng-star-inserted">Nome</th>
+                                    <th class="mat-header-cell cdk-header-cell ng-star-inserted">E-mail</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.LiberationUsers) {
+                                    <tr>
+                                        <td>@(item.Name)</td>
+                                        <td>@(item.Email)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer StandardModalFooter">
+                <button type="button" class="btn mat-focus-indicator button__white mat-raised-button mat-button-base text-left"
+                        onclick="$('#OccurrenceLiberationUsersModal').modal('hide');">
+                    FECHAR
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

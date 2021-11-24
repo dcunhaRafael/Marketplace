@@ -1,0 +1,108 @@
+﻿@model Portal.Web.Models.ComissionStatement.ComissionStatementViewModel;
+@using Domain.Util.Extensions; 
+<div class="col-md-3" style="@(Model.Summary.Count == 0 ? "display:none": "")">
+    <div class="card h-100">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-12">
+                    <i class="fas fa-coins"></i>&nbsp;Sumário
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-12 mb-2 form-group">
+                    <label>Corretor:&nbsp;</label><span class="label-bold">@(Model.Broker.Name)</span>
+                </div>
+                <div class="col-12 mb-2 form-group">
+                    <label>CNPJ:&nbsp;</label><span class="label-bold">@(Model.Broker.CpfCnpjNumber.FormatCpfCnpj())</span>
+                </div>
+                <div class="col-12 mb-2 form-group">
+                    <label>Período:&nbsp;</label><span class="label-bold">@(Model.FromDate?.FormatDate()) à @(Model.ToDate?.FormatDate())</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 mb-2 form-group">
+                    <label>Totais por situação:</label>
+                </div>
+                @foreach (var item in Model.Summary) {
+                    <div class="col-12 mb-2 form-group">
+                        <label>@(item.Status.Name):&nbsp;@(item.Value.FormatCurrency())</label>
+                        <div class="progress" style="height: 2em;">
+                            <div class="progress-bar" role="progressbar" style="width: @(item.Percentage)%; background-color: @(item.Status.BackgroundColor);"
+                                 aria-valuenow="@(item.Percentage)" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div class="@(Model.Summary.Count == 0 ? "col-12": "col-md-9")">
+    <div class="card h-100">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-12">
+                    <i class="fas fa-list"></i>&nbsp;Detalhes
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 table-responsive">
+                    <table class="mat-table cdk-table mat-elevation-z8" id="ComissionStatementTable">
+                        <thead>
+                            <tr>
+                                <th class="mat-header-cell cdk-header-cell ng-star-inserted">N° EXTRATO</th>
+                                <th class="mat-header-cell cdk-header-cell ng-star-inserted">COMPETÊNCIA</th>
+                                <th class="mat-header-cell cdk-header-cell ng-star-inserted">VALOR</th>
+                                <th class="mat-header-cell cdk-header-cell ng-star-inserted">LANÇAMENTOS</th>
+                                <th class="mat-header-cell cdk-header-cell ng-star-inserted">ABERTURA</th>
+                                <th class="mat-header-cell cdk-header-cell ng-star-inserted">FECHAMENTO</th>
+                                <th class="mat-header-cell cdk-header-cell ng-star-inserted">PAGAMENTO</th>
+                                <th class="mat-header-cell cdk-header-cell ng-star-inserted">SITUAÇÃO</th>
+                                <th class="mat-header-cell cdk-header-cell ng-star-inserted">AÇÕES</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Statements) {
+                            <tr class="mat-row cdk-row ng-star-inserted">
+                                <td>@(item.StatementNumber)</td>
+                                <td class="text-center">@(item.Competency?.FormatCompetency())</td>
+                                <td class="text-right">@(item.ComissionValue?.FormatCurrency())</td>
+                                <td class="text-right">@(item.EntryCount)</td>
+                                <td class="text-center">@(item.OpeningDate?.FormatDate())</td>
+                                <td class="text-center">@(item.ClosingDate?.FormatDate())</td>
+                                <td class="text-center">@(item.PayDay?.FormatDate())</td>
+                                <td>@(item.StatusName)</td>
+                                <td class="text-center">
+                                    <a title="Capa do extrato" href="#" onclick="event.preventDefault(); ComissionStatement.openStatementCover('@(item.StatementNumber)', '@(item.Competency)');">
+                                        <span class="fas fa-file-invoice-dollar" />
+                                    </a>
+                                    <a title="Lançamentos" href="#" onclick="event.preventDefault(); ComissionStatement.openStatementEntries('@(item.StatementNumber)', '@(item.Competency)');">
+                                        <span class="fas fa-clipboard-list" />
+                                    </a>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<form id="formSelectedStatement" autocomplete="off">
+    <input type="hidden" class="SelectedStatement BrokerName" name="@Html.NameFor(x=> x.Broker.Name)" value="@(Model.Broker.Name)" />
+    <input type="hidden" class="SelectedStatement BrokerCpfCnpjNumber" name="@Html.NameFor(x=> x.Broker.CpfCnpjNumber)" value="@(Model.Broker.CpfCnpjNumber)" />
+    <input type="hidden" class="SelectedStatement BrokerLegacyCode" name="@Html.NameFor(x=> x.Broker.LegacyCode)" value="@(Model.Broker.LegacyCode)" />
+    <input type="hidden" class="SelectedStatement BrokerUserId" name="@Html.NameFor(x=> x.Broker.LegacyUserId)" value="@(Model.Broker.LegacyUserId)" />
+    <input type="hidden" class="SelectedStatement BrokerSusepCode" name="@Html.NameFor(x=> x.Broker.SusepCode)" value="@(Model.Broker.SusepCode)" />
+    <input type="hidden" class="SelectedStatement StatementNumber" name="@Html.NameFor(x=> x.StatementNumber)" />
+    <input type="hidden" class="SelectedStatement Competency" name="@Html.NameFor(x=> x.Competency)" />
+</form>
+<script>
+    $(document).ready(function () {
+        controls.dataTableInit3('#ComissionStatementTable');
+    });
+</script>

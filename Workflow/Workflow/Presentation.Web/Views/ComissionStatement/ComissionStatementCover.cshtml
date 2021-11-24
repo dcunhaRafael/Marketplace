@@ -1,0 +1,150 @@
+﻿@model Portal.Web.Models.ComissionStatement.ComissionStatementViewModel;
+@using Domain.Enumerators
+@using Domain.Util.Extensions;
+<div class="col-sm-12">
+    <h5 class="section-header-default"><i class="fas fa-asterisk"></i>&nbsp;Extrato</h5>
+</div>
+<div class="col-12">
+    <hr class="remove-top-margin">
+</div>
+<div class="col-12">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 mb-2 form-group">
+                    <label>Corretor:&nbsp;@(Model.Broker.Name)</label>
+                </div>
+                <div class="col-md-3 mb-2 form-group">
+                    <label>CNPJ:&nbsp;@(Model.Broker.CpfCnpjNumber.FormatCpfCnpj())</label>
+                </div>
+                <div class="col-md-3 mb-2 form-group">
+                    <label>SUSEP:&nbsp;@(Model.Broker.SusepCode)</label>
+                </div>
+
+                <div class="col-md-3 mb-2 form-group">
+                    <label>N° extrato:&nbsp;@(Model.CurrentStatement.StatementNumber)</label>
+                </div>
+                <div class="col-md-3 mb-2 form-group">
+                    <label>Competência:&nbsp;@(Model.CurrentStatement.Competency)</label>
+                </div>
+                <div class="col-md-3 mb-2 form-group">
+                    <label>Valor:&nbsp;@(Model.CurrentStatement.ComissionValue?.FormatCurrency())</label>
+                </div>
+                <div class="col-md-3 mb-2 form-group">
+                    <label>Lançamentos:&nbsp;@(Model.CurrentStatement.EntryCount)</label>
+                </div>
+
+                <div class="col-md-3 mb-2 form-group">
+                    <label>Abertura:&nbsp;@(Model.CurrentStatement.OpeningDate?.FormatDate())</label>
+                </div>
+                <div class="col-md-3 mb-2 form-group">
+                    <label>Fechamento:&nbsp;@(Model.CurrentStatement.ClosingDate?.FormatDate())</label>
+                </div>
+                <div class="col-md-6 mb-2 form-group">
+                    <label>Situação:&nbsp;@(Model.CurrentStatement.StatusName)</label>
+                </div>
+
+                <div class="col-md-3 mb-2 form-group">
+                    <label>Solicitação de pagamento:&nbsp;TODO</label>
+                </div>
+                <div class="col-md-3 mb-2 form-group">
+                    <label>Pagamento:&nbsp;@(Model.CurrentStatement.PayDay?.FormatDate())</label>
+                </div>
+                <div class="col-md-3 mb-2 form-group">
+                    <label>N° recibo:&nbsp;TODO</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-12"><br /></div>
+
+<div class="col-12">
+    <h5 class="section-header-default"><i class="fas fa-list"></i>&nbsp;Comissão por ramo</h5>
+</div>
+<div class="col-12">
+    <hr class="remove-top-margin">
+</div>
+<div class="col-12 table-responsive">
+    <table class="mat-table cdk-table mat-elevation-z8" id="ComissionStatementBusinessTable">
+        <thead>
+            <tr>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted">RAMO</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted">TIPO DE COMISSÃO</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted">VALOR COMISSÃO</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.StatementBusiness) {
+            <tr class="mat-row cdk-row ng-star-inserted">
+                <td>@(item.BusinessId) - @(item.BusinessName)</td>
+                <td>@(item.ComissionTypeName)</td>
+                <td class="text-right">@(item.ComissionValue?.FormatCurrency())</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="col-12"><br /></div>
+
+<div class="col-12">
+    <h5 class="section-header-default"><i class="fas fa-list"></i>&nbsp;Comissão por tipo</h5>
+</div>
+<div class="col-12">
+    <hr class="remove-top-margin">
+</div>
+<div class="col-12 table-responsive">
+    <table class="mat-table cdk-table mat-elevation-z8" id="ComissionStatementTypesTable">
+        <thead>
+            <tr>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted">TIPO DE COMISSÃO</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted">VALOR COMISSÃO</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.StatementTypes) {
+            <tr class="mat-row cdk-row ng-star-inserted">
+                <td>@(item.ComissionTypeName)</td>
+                <td class="text-right">@(item.ComissionValue?.FormatCurrency())</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="col-12"><br /></div>
+
+<div class="col-12">
+    <h5 class="section-header-default"><i class="fas fa-funnel-dollar"></i>&nbsp;Totais</h5>
+</div>
+<div class="col-12">
+    <hr class="remove-top-margin">
+</div>
+<div class="col-12 table-responsive">
+    <table class="mat-table cdk-table mat-elevation-z8">
+        <thead>
+            <tr>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted">$ COMISSÃO</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted">$ Líquido</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted">$ Impostos</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted">$ Tributado</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted">$ Não tributado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="mat-row cdk-row ng-star-inserted">
+                <td class="text-right">@(Model.CurrentStatement.ComissionValue?.FormatCurrency())</td>
+                <td class="text-right">TODO</td>
+                <td class="text-right">TODO</td>
+                <td class="text-right">TODO</td>
+                <td class="text-right">TODO</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function () {
+        controls.dataTableInit3('#ComissionStatementBusinessTable');
+        controls.dataTableInit3('#ComissionStatementTypesTable');
+    });
+</script>

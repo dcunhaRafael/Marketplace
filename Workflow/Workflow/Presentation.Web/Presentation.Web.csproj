@@ -1,0 +1,93 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Workflow\DocumentosModal.cshtml" />
+    <Content Remove="Views\Workflow\EncaminharModal.cshtml" />
+    <Content Remove="Views\Workflow\HistoricoModal.cshtml" />
+    <Content Remove="Views\Workflow\LiberarModal.cshtml" />
+    <Content Remove="Views\Workflow\RecusarModal.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DeviceDetector.NET.NetCore" Version="3.9.2.2" />
+    <PackageReference Include="LazyCache.AspNetCore" Version="2.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\assets\.gitkeep" />
+    <None Include="wwwroot\assets\icons\account-white-icon.svg" />
+    <None Include="wwwroot\assets\icons\business-and-trade.svg" />
+    <None Include="wwwroot\assets\icons\close-white.svg" />
+    <None Include="wwwroot\assets\icons\error-white.svg" />
+    <None Include="wwwroot\assets\icons\icon-add-filled.svg" />
+    <None Include="wwwroot\assets\icons\icon-archive.svg" />
+    <None Include="wwwroot\assets\icons\icon-awesome-clipboard-check.svg" />
+    <None Include="wwwroot\assets\icons\icon-awesome-file-import.svg" />
+    <None Include="wwwroot\assets\icons\icon-briefcase.svg" />
+    <None Include="wwwroot\assets\icons\icon-ccg.svg" />
+    <None Include="wwwroot\assets\icons\icon-delete-red.svg" />
+    <None Include="wwwroot\assets\icons\icon-edit.svg" />
+    <None Include="wwwroot\assets\icons\icon-email.svg" />
+    <None Include="wwwroot\assets\icons\icon-envelope.svg" />
+    <None Include="wwwroot\assets\icons\icon-exittoapp.svg" />
+    <None Include="wwwroot\assets\icons\icon-family.svg" />
+    <None Include="wwwroot\assets\icons\icon-feather-arrow-left-circle.svg" />
+    <None Include="wwwroot\assets\icons\icon-file-1.svg" />
+    <None Include="wwwroot\assets\icons\icon-file-2.svg" />
+    <None Include="wwwroot\assets\icons\icon-file-3.svg" />
+    <None Include="wwwroot\assets\icons\icon-file-4.svg" />
+    <None Include="wwwroot\assets\icons\icon-file-5.svg" />
+    <None Include="wwwroot\assets\icons\icon-file-alt.svg" />
+    <None Include="wwwroot\assets\icons\icon-hands.svg" />
+    <None Include="wwwroot\assets\icons\icon-menu.svg" />
+    <None Include="wwwroot\assets\icons\icon-metro-printer.svg" />
+    <None Include="wwwroot\assets\icons\icon-paper.svg" />
+    <None Include="wwwroot\assets\icons\icon-parametros.svg" />
+    <None Include="wwwroot\assets\icons\icon-plus.svg" />
+    <None Include="wwwroot\assets\icons\icon-print.svg" />
+    <None Include="wwwroot\assets\icons\icon-proposals.svg" />
+    <None Include="wwwroot\assets\icons\icon-reject.svg" />
+    <None Include="wwwroot\assets\icons\icon-remove-red-eye.svg" />
+    <None Include="wwwroot\assets\icons\icon-segurado.svg" />
+    <None Include="wwwroot\assets\icons\icon-structure.svg" />
+    <None Include="wwwroot\assets\icons\icon-user.svg" />
+    <None Include="wwwroot\assets\icons\profile-icon.svg" />
+    <None Include="wwwroot\assets\icons\renewal-icon.svg" />
+    <None Include="wwwroot\assets\icons\search-icon.svg" />
+    <None Include="wwwroot\assets\icons\share-icon.svg" />
+    <None Include="wwwroot\assets\icons\warning.svg" />
+    <None Include="wwwroot\lib\bootstrap-waitingfor\bootstrap-waitingfor.js" />
+    <None Include="wwwroot\lib\bootstrap-waitingfor\bootstrap-waitingfor.min.js" />
+    <None Include="wwwroot\lib\data-tables\DataTables-1.10.21\js\dataTables.bootstrap.js" />
+    <None Include="wwwroot\lib\data-tables\DataTables-1.10.21\js\dataTables.bootstrap.min.js" />
+    <None Include="wwwroot\lib\data-tables\DataTables-1.10.21\js\dataTables.bootstrap4.js" />
+    <None Include="wwwroot\lib\data-tables\DataTables-1.10.21\js\dataTables.bootstrap4.min.js" />
+    <None Include="wwwroot\lib\data-tables\DataTables-1.10.21\js\dataTables.foundation.js" />
+    <None Include="wwwroot\lib\data-tables\DataTables-1.10.21\js\dataTables.foundation.min.js" />
+    <None Include="wwwroot\lib\data-tables\DataTables-1.10.21\js\dataTables.jqueryui.js" />
+    <None Include="wwwroot\lib\data-tables\DataTables-1.10.21\js\dataTables.jqueryui.min.js" />
+    <None Include="wwwroot\lib\data-tables\DataTables-1.10.21\js\dataTables.semanticui.js" />
+    <None Include="wwwroot\lib\data-tables\DataTables-1.10.21\js\dataTables.semanticui.min.js" />
+    <None Include="wwwroot\lib\data-tables\DataTables-1.10.21\js\jquery.dataTables.js" />
+    <None Include="wwwroot\lib\data-tables\DataTables-1.10.21\js\jquery.dataTables.min.js" />
+    <None Include="wwwroot\lib\data-tables\datatables.js" />
+    <None Include="wwwroot\lib\data-tables\datatables.min.js" />
+    <None Include="wwwroot\lib\jquery-maskmoney\jquery.maskMoney.min.js" />
+    <None Include="wwwroot\lib\jquery-mask\jquery.mask.js" />
+    <None Include="wwwroot\lib\moment\moment-with-locales.js" />
+    <None Include="wwwroot\lib\moment\moment-with-locales.min.js" />
+    <None Include="wwwroot\lib\moment\moment.js" />
+    <None Include="wwwroot\lib\moment\moment.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+  </ItemGroup>
+
+</Project>

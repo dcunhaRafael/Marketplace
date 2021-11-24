@@ -1,0 +1,72 @@
+﻿@model Presentation.Web.Models.Configuration.PolicyBatchConfigurationViewModel
+@using Domain.Enumerators;
+@using Domain.Util.Extensions;
+<input type="hidden" name="@Html.NameFor(x=> x.CurrentMail.PolicyBatchConfigurationMailId)" value="@Model.CurrentMail.PolicyBatchConfigurationMailId" autocomplete="off">
+<input type="hidden" name="@Html.NameFor(x=> x.CurrentMail.PolicyBatchConfigurationId)" value="@Model.CurrentMail.PolicyBatchConfigurationId" autocomplete="off">
+
+<div class="col-sm-3 form-group">
+    <label>Dias envio</label>
+    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control mask-number required EditControl"
+           name="@Html.NameFor(x => x.CurrentMail.DaysBeforeExpiration)" value="@Model.CurrentMail.DaysBeforeExpiration" maxlength="3"
+           @(Model.IsEditable ? "" : "disabled")>
+</div>
+<div class="col-sm-3 form-group">
+    <label>Enviar para corretor?</label>
+    <select class="form-control mat-input-element mat-form-field-autofill-control required EditControl"
+            name="@Html.NameFor(x=> x.CurrentMail.SendToBroker)"
+            @(Model.IsEditable ? "" : "disabled")>
+        <option value="">Selecione</option>
+        <option value="true" selected="@(Model.CurrentMail.SendToBroker == true)">Sim</option>
+        <option value="false" selected="@(Model.CurrentMail.SendToBroker == false)">Não</option>
+    </select>
+</div>
+<div class="col-sm-3 form-group">
+    <label>Enviar para empresa?</label>
+    <select class="form-control mat-input-element mat-form-field-autofill-control required EditControl"
+            name="@Html.NameFor(x=> x.CurrentMail.SendToTaker)"
+            @(Model.IsEditable ? "" : "disabled")>
+        <option value="">Selecione</option>
+        <option value="true" selected="@(Model.CurrentMail.SendToTaker == true)">Sim</option>
+        <option value="false" selected="@(Model.CurrentMail.SendToTaker == false)">Não</option>
+    </select>
+</div>
+
+<div class="col-sm-12 form-group">
+    <label>Assunto</label>
+    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control required EditControl"
+           name="@Html.NameFor(x => x.CurrentMail.Subject)" value="@Model.CurrentMail.Subject" maxlength="200"
+           @(Model.IsEditable ? "" : "disabled")>
+</div>
+<div class="col-sm-12 form-group">
+    <label>Corpo do e-mail</label>
+    <textarea class="form-control mat-input-element mat-form-field-autofill-control" rows="10" name="@Html.NameFor(x => x.CurrentMail.Body)"
+              required minlength="10" maxlength="8000">@(Model.CurrentMail.Body)</textarea>
+</div>
+<div class="col-sm-12 form-group">
+    <label>Placeholders</label>
+    <textarea class="form-control mat-input-element mat-form-field-autofill-control" rows="4" name="CurrentMailBodyPaceholders">
+        Utilize #NUMERO_APOLICE para o número da apólice, #CORRETOR, #TOMADOR, #SEGURADO... 
+    </textarea>
+</div>
+<div class="col-sm-12 form-group">
+    <label>Enviar para usuários de subscrição específicos</label>
+    <div id="PolicyBatchConfigurationMailDestinationContainer" class="container-fluid" style="border: 1px solid #dcdcdc; padding:10px; margin:0px;">
+        @{await Html.RenderPartialAsync("~/Views/Configuration/PolicyBatchConfiguration/PolicyBatchConfigurationMailDestination.cshtml", Model);}
+    </div>
+</div>
+<div class="col-sm-12">
+    <hr />
+</div>
+<div class="col-12">
+    <button type="button" class="btn mat-focus-indicator button mat-raised-button mat-button-base" onclick="PolicyBatchConfiguration.saveMail()"
+            style="@(Model.IsEditable ? "": "display:none")">
+        SALVAR DADOS
+    </button>
+    <button type="button" class="btn mat-focus-indicator button__white mat-raised-button mat-button-base" onclick="PolicyBatchConfiguration.backMailList()">CANCELAR</button>
+</div>
+<script>
+    $(document).ready(function () {
+        format.initializeInputMasks('#formMailData');
+        validationrules.init('#formMailData');
+    });
+</script>

@@ -1,0 +1,323 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px; /* Vertically center the text there */
+}
+
+/* Marketplace styles
+-------------------------------------------------- */
+
+label {
+    font-family: SFProDisplay;
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 0.2rem;
+}
+
+.form-control {
+    font-family: SFProDisplay;
+    font-size: 16px;
+    font-weight: 400;
+    width: 100%;
+    margin-top: 5px;
+    color: currentColor;
+}
+
+.button, .button__white {
+    margin-top: 8px !important;
+    padding: 0 16px;
+}
+
+.input-group > input.mat-input-element {
+    margin-top: 0 !important;
+}
+
+label.error:before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: -10px;
+    left: 27%;
+    margin-left: -15px;
+    border-left: 7px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 9px solid #D3D3D3;
+    display: block;
+    font-size: 0;
+    height: 0;
+    line-height: 0;
+    width: 0;
+    z-index: 9;
+}
+
+label.error:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: -8px;
+    left: 27.5%;
+    margin-left: -15px;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 8px solid #fffcd1;
+    display: block;
+    font-size: 0;
+    height: 0;
+    line-height: 0;
+    width: 0;
+    z-index: 9;
+}
+
+label.error {
+    background-color: #f99d1c !important;
+    color: #ffffff !important;
+    font-weight: normal;
+    box-shadow: 2px 1px 1px rgba(50, 50, 50, 0.77);
+    box-shadow: 2px 1px 1px rgba(50, 50, 50, 0.77);
+    box-shadow: 2px 1px 1px rgba(50, 50, 100, 0.77);
+    position: absolute;
+    background-color: #fffcd1;
+    border: 1px solid #D3D3D3;
+    padding: 0px 10px;
+    border-radius: 4px;
+    clear: both;
+    margin-left: 5px;
+    z-index: 10;
+    /* display: none; */
+}
+
+.input-group label.error {
+    left: 10px;
+    top: 0;
+    margin-top: 34px;
+}
+
+.checkbox label.error {
+    margin-top: 1.5em;
+}
+
+.form-control.error {
+    border-color: red;
+}
+
+.dataTables_length,
+.dataTables_filter,
+.dataTables_info,
+.paginate_button {
+    font-size: .875rem;
+    font-weight: 400 !important;
+    color: #495057;
+}
+
+.page-item.active .page-link {
+    background: #f58022 0 0 no-repeat padding-box !important;
+    color: #fff !important;
+}
+
+
+table td, table th {
+    width: auto!important;
+    padding: 0.25rem;
+}
+
+/* Configurações para o DatePicker */
+.ui-datepicker {
+    background-color: #ffffff;
+    padding: 0.5em;
+    border: 0.1em solid #e5e5e5;
+    display: none;
+    z-index: 9999 !important;
+}
+
+.ui-datepicker-header {
+    margin-bottom: 0.5em;
+}
+
+    .ui-datepicker-header.ui-widget-header {
+        text-align: center;
+    }
+
+        .ui-datepicker-header.ui-widget-header a {
+            margin-right: 0.25em;
+            margin-left: 0.25em;
+        }
+
+.ui-datepicker-calendar tr {
+    margin: 0.5em;
+}
+
+.ui-datepicker-calendar td {
+    padding: 0.25em;
+}
+
+/* Configurações para o jQuery UI Autocomplete */
+.ui-autocomplete {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    list-style: none;
+    font-size: .875rem; /*14px*/
+    text-align: left;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    background-clip: padding-box;
+    max-height: 25vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+    .ui-autocomplete > li > div {
+        display: block;
+        padding: 3px 20px;
+        clear: both;
+        font-weight: normal;
+        line-height: 1.42857143;
+        color: #333333;
+        white-space: nowrap;
+    }
+
+.ui-state-hover,
+.ui-state-active,
+.ui-state-focus {
+    text-decoration: none;
+    color: #262626;
+    background-color: #f5f5f5;
+    cursor: pointer;
+}
+
+.ui-helper-hidden-accessible {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+/* Padrão de modais */
+.StandardModal {
+    max-height: 96vh;
+    margin: 2vh auto 2vh auto;
+}
+
+.StandardModalDialog {
+    margin: 2.5vh auto;
+}
+
+.StandardModalHeader {
+    max-height: 5rem;
+    height: 5rem;
+}
+
+.StandardModalContent {
+    max-height: 96vh;
+}
+
+.StandardModalBody {
+    max-height: calc(94vh - 10rem);
+    margin: 0px 0px 0px 0px;
+    padding-top: 0px !important;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.StandardModalFooter {
+    max-height: 5rem;
+    height: 5rem;
+    justify-content: flex-start;
+    padding: 0.5rem 0.5rem 0.85rem;
+}
+
+/* Sinalizações */
+.NormalSignaling {
+    color: #00ff00;
+}
+.WarningSignaling {
+    color: #fffa00;
+}
+.CriticalSignaling {
+    color: #ff0000;
+}
+.HiddenSignaling {
+    display: none;
+}

@@ -1,0 +1,236 @@
+﻿@model Presentation.Web.Models.Configuration.OccurrencesViewModel
+@using Domain.Enumerators;
+@using Domain.Util.Extensions;
+<input type="hidden" name="@Html.NameFor(x=> x.CurrentItem.OccurrenceTypeId)" value="@Model.CurrentItem.OccurrenceTypeId" id="OccurrenceId" autocomplete="off">
+<div class="col-sm-6 form-group">
+    <label>Produto</label>
+    <select class="form-control mat-input-element mat-form-field-autofill-control required EditControl"
+            name="@Html.NameFor(x => x.CurrentItem.ProductId)"
+            onchange="Occurrences.loadCoverages(this.value, '#formData .CoverageId', 'Selecione');"
+            @(Model.IsEditable ? "" : "disabled")>
+        <option value="">Selecione</option>
+        @foreach (var item in Model.ProductList) {
+            <option value="@item.ProductId"
+                    selected="@(Model.CurrentItem.ProductId != null && (Model.CurrentItem.ProductId == item.ProductId))">
+                @item.Name
+            </option>
+        }
+    </select>
+</div>
+<div class="col-sm-6 form-group">
+    <label>Cobertura</label>
+    <select class="form-control mat-input-element mat-form-field-autofill-control required EditControl CoverageId"
+            name="@Html.NameFor(x => x.CurrentItem.CoverageId)"
+            @(Model.IsEditable ? "" : "disabled")>
+        <option value="">Selecione</option>
+        @foreach (var item in Model.CoverageList) {
+            <option value="@item.CoverageId"
+                    selected="@(Model.CurrentItem.CoverageId != null && (Model.CurrentItem.CoverageId == item.CoverageId))">
+                @item.Name
+            </option>
+        }
+    </select>
+</div>
+
+<div class="col-sm-3 form-group">
+    <label>Código</label>
+    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control required EditControl"
+           name="@Html.NameFor(x => x.CurrentItem.OccurrenceCode)" value="@Model.CurrentItem.OccurrenceCode" maxlength="50"
+           @(Model.IsEditable ? "" : "disabled")>
+</div>
+<div class="col-sm-3 form-group">
+    <label>Nome</label>
+    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control required EditControl"
+           name="@Html.NameFor(x => x.CurrentItem.Name)" value="@Model.CurrentItem.Name" maxlength="100"
+           @(Model.IsEditable ? "" : "disabled")>
+</div>
+
+<div class="col-sm-6 form-group">
+    <label>Descrição</label>
+    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control required EditControl"
+           name="@Html.NameFor(x => x.CurrentItem.Description)" value="@Model.CurrentItem.Description" maxlength="2048"
+           @(Model.IsEditable ? "" : "disabled")>
+</div>
+
+<div class="col-sm-3 form-group">
+    <label>Tipo</label>
+    <select class="form-control mat-input-element mat-form-field-autofill-control EditControl"
+            name="@Html.NameFor(x => x.CurrentItem.Type)"
+            @(Model.IsEditable ? "" : "disabled")>
+        <option value="">Selecione</option>
+        @foreach (var item in EnumExtensions.ToList<OccurrenceTypeEnum>()) {
+            <option value="@item.Key"
+                    selected="@(Model.CurrentItem.Type != null && (Convert.ToInt32(Model.CurrentItem.Type) == Convert.ToInt32(item.Key)))">
+                @item.Value
+            </option>
+        }
+    </select>
+</div>
+<div class="col-sm-3 form-group">
+    <label>Regra de validação</label>
+    <select class="form-control mat-input-element mat-form-field-autofill-control required EditControl"
+            name="@Html.NameFor(x => x.CurrentItem.ValidationRule)"
+            @(Model.IsEditable ? "" : "disabled")>
+        <option value="">Selecione</option>
+        @foreach (var item in EnumExtensions.ToList<ValidationRuleEnum>()) {
+            <option value="@item.Key"
+                    selected="@(Model.CurrentItem.ValidationRule != null && (Convert.ToInt32(Model.CurrentItem.ValidationRule) == Convert.ToInt32(item.Key)))">
+                @item.Value
+            </option>
+        }
+    </select>
+</div>
+
+<div class="col-sm-3 form-group">
+    <label>Bloqueia transmissão?</label>
+    <select class="form-control mat-input-element mat-form-field-autofill-control EditControl"
+            name="@Html.NameFor(x=> x.CurrentItem.IsTransmissionLocked)"
+            @(Model.IsEditable ? "" : "disabled")>
+        <option value="">Selecione</option>
+        <option value="true" selected="@(Model.CurrentItem.IsTransmissionLocked != null && Model.CurrentItem.IsTransmissionLocked == true)">Sim</option>
+        <option value="false" selected="@(Model.CurrentItem.IsTransmissionLocked != null && Model.CurrentItem.IsTransmissionLocked == false)">Não</option>
+    </select>
+</div>
+
+<div class="col-sm-3 form-group">
+    <label>Bloqueia emissão?</label>
+    <select class="form-control mat-input-element mat-form-field-autofill-control EditControl"
+            name="@Html.NameFor(x=> x.CurrentItem.IsIssuanceLocked)"
+            @(Model.IsEditable ? "" : "disabled")>
+        <option value="">Selecione</option>
+        <option value="true" selected="@(Model.CurrentItem.IsIssuanceLocked != null && Model.CurrentItem.IsIssuanceLocked == true)">Sim</option>
+        <option value="false" selected="@(Model.CurrentItem.IsIssuanceLocked != null && Model.CurrentItem.IsIssuanceLocked == false)">Não</option>
+    </select>
+</div>
+
+<div class="col-sm-3 form-group">
+    <label>Ação requerida</label>
+    <select class="form-control mat-input-element mat-form-field-autofill-control required EditControl"
+            name="@Html.NameFor(x => x.CurrentItem.RequiredAction)"
+            @(Model.IsEditable ? "" : "disabled")>
+        <option value="">Selecione</option>
+        @foreach (var item in EnumExtensions.ToList<RequiredActionEnum>()) {
+            <option value="@item.Key"
+                    selected="@(Model.CurrentItem.RequiredAction != null && (Convert.ToInt32(Model.CurrentItem.RequiredAction) == Convert.ToInt32(item.Key)))">
+                @item.Value
+            </option>
+        }
+    </select>
+</div>
+<div class="col-sm-3 form-group">
+    <label>Recusa automática?</label>
+    <select class="form-control mat-input-element mat-form-field-autofill-control EditControl"
+            name="@Html.NameFor(x=> x.CurrentItem.AutomaticRefusal)"
+            @(Model.IsEditable ? "" : "disabled")>
+        <option value="">Selecione</option>
+        <option value="true" selected="@(Model.CurrentItem.AutomaticRefusal != null && Model.CurrentItem.AutomaticRefusal == true)">Sim</option>
+        <option value="false" selected="@(Model.CurrentItem.AutomaticRefusal != null && Model.CurrentItem.AutomaticRefusal == false)">Não</option>
+    </select>
+</div>
+<div class="col-sm-12">
+    <hr />
+</div>
+
+<div class="col-sm-12 form-group">
+    <label>Documentos necessários</label>
+    <div id="OccurrenceDocumentContainer" class="container-fluid" style="border: 1px solid #dcdcdc; padding:10px; margin:0px;">
+        @{await Html.RenderPartialAsync("~/Views/Configuration/Occurrences/OccurrenceDocument.cshtml", Model);}
+    </div>
+</div>
+<div class="col-sm-12">
+    <hr />
+</div>
+
+<div class="col-sm-3 form-group">
+    <label>Perfil de liberação</label>
+    <select class="form-control mat-input-element mat-form-field-autofill-control required EditControl"
+            name="@Html.NameFor(x => x.CurrentItem.ProfileId)"
+            onchange="Occurrences.loadLiberationUsers(this.value);"
+            @(Model.IsEditable ? "" : "disabled")>
+        <option value="">Selecione</option>
+        @foreach (var item in Model.ProfileList) {
+            <option value="@item.ProfileId"
+                    selected="@(Model.CurrentItem.ProfileId != null && (Model.CurrentItem.ProfileId == item.ProfileId))">
+                @item.Name
+            </option>
+        }
+    </select>
+</div>
+<div class="col-sm-12 form-group">
+    <label>Usuários específicos</label>
+    <div id="OccurrenceLiberationUserContainer" class="container-fluid" style="border: 1px solid #dcdcdc; padding:10px; margin:0px;">
+        @{await Html.RenderPartialAsync("~/Views/Configuration/Occurrences/OccurrenceLiberationUser.cshtml", Model);}
+    </div>
+</div>
+<div class="col-sm-12">
+    <hr />
+</div>
+
+<div class="col-sm-12 no-gutters">
+    <label>Timeouts de sinalização</label>
+    <div class="col-12 form-group no-gutters">
+        <div class="row">
+            <div class="col-md-3 form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text">Normalidade até:</label>
+                    </div>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control mask-number required EditControl NormalSignalingTimeout"
+                           name="@Html.NameFor(x => x.CurrentItem.NormalSignalingTimeout)" value="@Model.CurrentItem.NormalSignalingTimeout" maxlength="2"
+                           @(Model.IsEditable ? "" : "disabled")>
+                    <div class="input-group-append">
+                        <label class="input-group-text"><i class="fa-fw fas fa-traffic-light color-green" onclick="$('#formData .NormalSignalingTimeout').focus();"></i>&nbsp;dias.</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text">Alerta a partir de:</label>
+                    </div>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control mask-number data-numbergreaterthan required EditControl WarningSignalingTimeout"
+                           name="@Html.NameFor(x => x.CurrentItem.WarningSignalingTimeout)" value="@Model.CurrentItem.WarningSignalingTimeout" maxlength="2"
+                           data-numbergreaterthan-selector=".NormalSignalingTimeout" data-numbergreaterthan-error="Timeout de alerta deve ser maior que o de normalidade."
+                           @(Model.IsEditable ? "" : "disabled")>
+                    <div class="input-group-append">
+                        <label class="input-group-text"><i class="fa-fw fas fa-traffic-light color-yellow" onclick="$('#formData .WarningSignalingTimeout').focus();"></i>&nbsp;dias.</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text">Crítico a partir de:</label>
+                    </div>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control mask-number numbergreaterthan required EditControl CriticalSignalingTimeout"
+                           name="@Html.NameFor(x => x.CurrentItem.CriticalSignalingTimeout)" value="@Model.CurrentItem.CriticalSignalingTimeout" maxlength="2"
+                           data-numbergreaterthan-selector=".WarningSignalingTimeout" data-numbergreaterthan-error="Timeout crítico deve ser maior que o de alerta."
+                           @(Model.IsEditable ? "" : "disabled")>
+                    <div class="input-group-append">
+                        <label class="input-group-text"><i class="fa-fw fas fa-traffic-light color-red" onclick="$('#formData .CriticalSignalingTimeout').focus();"></i>&nbsp;dias.</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-sm-12">
+    <hr />
+</div>
+<div class="col-12">
+    <button type="button" class="btn mat-focus-indicator button mat-raised-button mat-button-base" onclick="Occurrences.save()"
+            style="@(Model.IsEditable ? "": "display:none")">
+        SALVAR DADOS
+    </button>
+    <button type="button" class="btn mat-focus-indicator button__white mat-raised-button mat-button-base" onclick="Occurrences.openCopy()"
+            style="@(Model.IsEditable ? "": "display:none")">
+        COPIAR
+    </button>
+    <button type="button" class="btn mat-focus-indicator button__white mat-raised-button mat-button-base" onclick="Occurrences.back()">CANCELAR</button>
+</div>
+<script>
+    $(document).ready(function () {
+        format.initializeInputMasks('#formData');
+        validationrules.init('#formData');
+    });
+</script>

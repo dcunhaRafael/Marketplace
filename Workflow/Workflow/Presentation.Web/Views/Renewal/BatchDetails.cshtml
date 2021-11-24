@@ -1,0 +1,48 @@
+﻿@model Presentation.Web.Models.Renewal.RenewalViewModel
+@using Domain.Enumerators;
+@using Domain.Util.Extensions;
+@*<input type="hidden" name="@Html.NameFor(x=> x.BatchNumber)" value="@Model.BatchNumber" id="BatchNumber" autocomplete="off">*@
+<div class="col-12">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3 form-group">
+                    <label>Lote</label>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" value="@(Model.CurrentBatch.PolicyBatchId)" readonly />
+                </div>
+                <div class="col-md-3 form-group">
+                    <label>Tipo</label>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" value="@(Model.CurrentBatch.BatchType?.GetDescription())" readonly />
+                </div>
+                <div class="col-md-3 form-group">
+                    <label>Competência</label>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" value="@(Model.CurrentBatch.Competency)" readonly />
+                </div>
+                <div class="col-md-3 form-group">
+                    <label>Qtd. propostas</label>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" value="@(Model.CurrentBatch.PolicyCount)" readonly />
+                </div>
+                <div class="col-md-3 form-group">
+                    <label>Valor total</label>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" value="@(Model.CurrentBatch.PolicyTotal.FormatDecimal())" readonly />
+                </div>
+                <div class="col-md-3 form-group">
+                    <label>Situação</label>
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" value="@(Model.CurrentBatch.BatchStatus?.GetDescription())" readonly />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-12 header__title mb-3">
+    <p class="title__semibold__orange">Documentos do lote</p>
+    <p class="subtitle"></p>
+</div>
+<div class="col-12">
+    <div class="data__table" id="BatchDetailsGridContainer">
+        @{await Html.RenderPartialAsync("~/Views/Renewal/BatchDetailsGrid.cshtml", Model);}
+    </div>
+</div>
+<div class="col-12">
+    <button type="button" class="btn mat-focus-indicator button__white mat-raised-button mat-button-base" onclick="Renewal.backResults()">VOLTAR</button>
+</div>

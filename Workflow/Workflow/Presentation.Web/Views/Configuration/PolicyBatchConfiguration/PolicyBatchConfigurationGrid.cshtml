@@ -1,0 +1,56 @@
+﻿@model Presentation.Web.Models.Configuration.PolicyBatchConfigurationViewModel
+@using Domain.Enumerators;
+@using Domain.Util.Extensions;
+<table id="PolicyBatchConfigurationGrid" cellpadding="0" class="mat-table cdk-table mat-elevation-z8">
+    <thead>
+        <tr>
+            <th class="mat-header-cell cdk-header-cell mat-column-code ng-star-inserted">TIPO DE LOTE</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">AGRUPAR CORRETOR</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">AGRUPAR TOMADOR</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">AGRUPAR SEGURADO</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">DIAS A PROCESSAR</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">DIAS EMISSÃO COMPULSÓRIA</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">STATUS</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">AÇÕES</th>
+        </tr>
+    </thead>
+    @if (Model.Configurations != null) {
+        <tbody>
+            @foreach (var item in Model.Configurations) {
+            <tr class="mat-row cdk-row ng-star-inserted">
+                <td class="mat-cell cdk-cell">@(item.BatchType?.GetDescription())</td>
+                <td>@(item.GroupByBroker ? "Sim": "Não")</td>
+                <td>@(item.GroupByTaker ? "Sim": "Não")</td>
+                <td>@(item.GroupByInsured ? "Sim": "Não")</td>
+                <td>@item.ProcessDays</td>
+                <td>@item.CompulsoryIssueDays</td>
+                <td>@(item.Status.GetDescription())</td>
+                <td>
+                    <a title="Visualizar" onclick="event.preventDefault(); PolicyBatchConfiguration.view(@item.PolicyBatchConfigurationId)">
+                        <span class="fas fa-eye botaoTabela"></span>
+                    </a>&nbsp;
+                    @if (RecordStatusEnum.Active.Equals(@item.Status)) {
+                        <a title="Alterar" onclick="event.preventDefault(); PolicyBatchConfiguration.edit(@item.PolicyBatchConfigurationId)">
+                            <span class="fas fa-edit botaoTabela"></span>
+                        </a>@Html.Raw("&nbsp;")
+                        <a title="Excluir" onclick="event.preventDefault(); PolicyBatchConfiguration.delete(@item.PolicyBatchConfigurationId)">
+                            <span class="fas fa-trash-alt botaoTabela"></span>
+                        </a>@Html.Raw("&nbsp;")
+                    } else {
+                        <span title="Alterar" class='fas fa-edit botaoTabelaDesabilitado'></span>@Html.Raw("&nbsp;")
+                        <span title="Excluir" class='fas fa-trash-alt botaoTabelaDesabilitado'></span>@Html.Raw("&nbsp;")
+                    }
+                    <a title="E-mails de alerta" onclick="event.preventDefault(); PolicyBatchConfiguration.searchMail(@item.PolicyBatchConfigurationId)">
+                        <span class="fas fa-envelope botaoTabela"></span>
+                    </a>&nbsp;
+                </td>
+            </tr>
+            }
+        </tbody>
+    }
+</table>
+<script>
+    $(document).ready(function () {
+        controls.dataTableInit3("#PolicyBatchConfigurationGrid");
+    });
+</script>

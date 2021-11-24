@@ -1,0 +1,328 @@
+﻿@model Presentation.Web.Models.Renewal.RenewalViewModel
+@using Domain.Enumerators;
+@using Domain.Util.Extensions;
+@{
+    ViewBag.Title = "Index";
+}
+<div class="container-fluid screen-taker-appeal-table__query RenewalSearch">
+    <div class="row mb-4 header__title__with__buttom">
+        <div class="col-12 header__text">
+            <p class="title"><span>Renovação de Apólices/Endosso de Aumento de IS Automático</span></p>
+            <p class="subtitle PageBlock RenewalFilter">Use os filtros para guiar uma consulta avançada</p>
+        </div>
+    </div>
+    <form id="formFilters" autocomplete="off" AutoCompleteType="Disabled">
+        @Html.AntiForgeryToken()
+        <div class="row mb-4 PageBlock RenewalFilter container__form">
+
+            <div class="col-md-3 form-group">
+                <label>Lote</label>
+                <input type="text" class="form-control mat-input-element mat-form-field-autofill-control mask-number SearchFilter" maxlength="9"
+                       name="@Html.NameFor(x=> x.Filters.PolicyBatchId)">
+            </div>
+            <div class="col-md-3 form-group">
+                <label>Tipo</label>
+                <select name="@Html.NameFor(x=> x.Filters.BatchType)" class="form-control mat-input-element mat-form-field-autofill-control SearchFilter">
+                    <option value="">Todos</option>
+                    @foreach (var item in EnumExtensions.ToList<PolicyBatchRenovationEnum>()) {
+                        <option value="@item.Key">@item.Value</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3 form-group">
+                <label>Competência</label>
+                <input type="text" class="form-control mat-input-element mat-form-field-autofill-control mask-year-month SearchFilter" maxlength="9"
+                       name="@Html.NameFor(x=> x.Filters.Competency)">
+            </div>
+            <div class="col-md-3 form-group">
+                <label>Situação</label>
+                <select name="@Html.NameFor(x=> x.Filters.BatchStatus)" class="form-control mat-input-element mat-form-field-autofill-control SearchFilter">
+                    <option value="">Todas</option>
+                    @foreach (var item in EnumExtensions.ToList<PolicyBatchStatusEnum>()) {
+                        <option value="@item.Key">@item.Value</option>
+                    }
+                </select>
+            </div>
+
+            @*
+            <div class="col-md-3 form-group">
+                <label>Proposta</label>
+                <input type="text" class="form-control mat-input-element mat-form-field-autofill-control mask-number SearchFilter" maxlength="9"
+                       name="@Html.NameFor(x=> x.Filters.ProposalNumber)">
+            </div>
+            <div class="col-md-3 form-group">
+                <label>Apólice</label>
+                <input type="text" class="form-control mat-input-element mat-form-field-autofill-control mask-number SearchFilter" maxlength="13"
+                       name="@Html.NameFor(x=> x.Filters.PolicyNumber)">
+            </div>
+            *@
+            <div class="col-md-6 form-group">
+                <label>Corretor</label>
+                <div class="input-group">
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control SearchFilter BrokerFilter"
+                           placeholder="Informe o nome/razão social do corretor" name="BrokerName">
+                    <input type="hidden" class="BrokerData BrokerExternalId SearchFilter" value="" name="@Html.NameFor(x=> x.Filters.BrokerExternalId)" />
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 form-group">
+                <label>Empresa</label>
+                <div class="input-group">
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control SearchFilter TakerFilter"
+                           placeholder="Informe a razão social da empresa" name="TakerName">
+                    <input type="hidden" class="TakerData TakerExternalId SearchFilter" value="" name="@Html.NameFor(x=> x.Filters.TakerExternalId)" />
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 form-group">
+                <label>Segurado</label>
+                <div class="input-group">
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control SearchFilter InsuredFilter"
+                           placeholder="Informe o nome/razão social do segurado" name="InsuredName">
+                    <input type="hidden" class="InsuredData InsuredExternalId SearchFilter" value="" name="@Html.NameFor(x=> x.Filters.InsuredExternalId)" />
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <button type="button" class="btn mat-focus-indicator button mat-raised-button mat-button-base" onclick="Renewal.search()">PESQUISAR</button>
+                <button type="button" class="btn mat-focus-indicator button__white mat-raised-button mat-button-base" onclick="Renewal.clear()">LIMPAR BUSCA</button>
+            </div>
+        </div>
+    </form>
+    <form id="formBatches" autocomplete="off" AutoCompleteType="Disabled">
+        @Html.AntiForgeryToken()
+        <div class="row PageBlock RenewalResult" style="display: none;">
+            <div class="col-12 header__title mb-3">
+                <p class="title__semibold__orange">Resultado</p>
+                <p class="subtitle"></p>
+            </div>
+            <div class="col-12">
+                <div class="data__table" id="RenewalGridContainer">
+                    @{await Html.RenderPartialAsync("~/Views/Renewal/RenewalsGrid.cshtml", Model);}
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="row PageBlock RenewalDetails" style="display: none;">
+        <div class="col-12 header__title mb-3">
+            <p class="title__semibold__orange">Detalhes do Lote</p>
+            <p class="subtitle"></p>
+        </div>
+        <div class="col-12">
+            <div class="row" id="BatchDetailsContainer"></div>
+        </div>
+    </div>
+    <div class="row PageBlock ProposalData" style="display: none;">
+        <div class="col-12 header__title mb-3">
+            <p class="title__semibold__orange">Proposta de Endosso de Aumento de IS</p>
+            <p class="subtitle"></p>
+        </div>
+        <div class="col-12">
+            <div class="row" id="ProposalDataContainer"></div>
+        </div>
+    </div>
+</div>
+<script src="~/js/AutoCompleteFilters.js?version=@DateTime.Now.Ticks"></script>
+<script>
+    $(document).ready(function () {
+        format.initializeInputMasks('#formFilters');
+        validationrules.init('#formFilters');
+        Renewal.clear();
+
+        AutoCompleteFilters.brokerInit('.BrokerFilter', '#formFilters',
+            function (data) {
+                $('.BrokerData.BrokerExternalId').val(data.legacyCode);
+            },
+            function () {
+                $('.BrokerData').val('');
+            }
+        );
+
+        AutoCompleteFilters.takerInit('.TakerFilter', '#formFilters', '.BrokerId',
+            function (data) {
+                $('.TakerData.TakerExternalId').val(data.legacyCode);
+            },
+            function () {
+                $('.TakerData').val('');
+            }
+        );
+
+        AutoCompleteFilters.insuredInit('.InsuredFilter', '#formFilters',
+            function (data) {
+                $('.InsuredData.InsuredExternalId').val(data.legacyCode);
+            },
+            function () {
+                $('.InsuredData').val('');
+            }
+        );
+    });
+
+    var Renewal = {
+
+        search: function () {
+            commons.postAndCallback('#formFilters', true, function (formValues) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Renewal/RenewalsGrid',
+                    data: formValues,
+                    dataType: 'html',
+                    beforeSend: function () {
+                        loading.show("Processando... por favor, aguarde...");
+                    },
+                    success: function (data) {
+                        loading.hide();
+                        $('#RenewalGridContainer').html(data);
+                        $('.RenewalResult').show();
+                        commons.scrollToElement('#RenewalGridContainer');
+                    },
+                    error: function (xhr) {
+                        loading.hide();
+                        messages.ajaxError(xhr);
+                    }
+                });
+            });
+        },
+
+        clear: function () {
+            $('.SearchFilter').val('');
+            $('.RenewalResult').hide();
+        },
+
+        viewDetails: function (number) {
+            $.ajax({
+                type: 'POST',
+                url: '/Renewal/BatchDetails',
+                data: { 'batchNumber': number },
+                dataType: 'html',
+                beforeSend: function () {
+                    loading.show("Processando... por favor, aguarde...");
+                },
+                success: function (data) {
+                    loading.hide();
+                    $('#BatchDetailsContainer').html(data);
+                    $('.PageBlock').hide();
+                    $('.RenewalDetails').show();
+                    commons.scrollToElement('#BatchDetailsContainer');
+                },
+                error: function (xhr) {
+                    loading.hide();
+                    messages.ajaxError(xhr);
+                }
+            });
+        },
+
+        backResults: function () {
+            $('.PageBlock').hide();
+            $('.RenewalFilter').show();
+            $('.RenewalResult').show();
+            commons.scrollToElement('#RenewalGridContainer');
+        },
+
+        editProposal: function (number) {
+            $.ajax({
+                type: 'POST',
+                url: '/Renewal/ProposalData',
+                data: { 'id': number },
+                dataType: 'html',
+                beforeSend: function () {
+                    loading.show("Processando... por favor, aguarde...");
+                },
+                success: function (data) {
+                    loading.hide();
+                    $('#ProposalDataContainer').html(data);
+                    $('.PageBlock').hide();
+                    $('.ProposalData').show();
+                    commons.scrollToElement('#ProposalDataContainer');
+                },
+                error: function (xhr) {
+                    loading.hide();
+                    messages.ajaxError(xhr);
+                }
+            });
+        },
+
+        saveProposal: function () {
+            commons.postAndCallback('#formFilters', true, function (formValues) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Renewal/SaveProposal',
+                    data: formValues,
+                    dataType: 'json',
+                    beforeSend: function () {
+                        loading.show("Processando... por favor, aguarde...");
+                    },
+                    success: function (data) {
+                        loading.hide();
+
+                        messages.info('Sucesso', 'Proposta salva com sucesso.', function () { Renewal.backDetails(); });
+                    },
+                    error: function (xhr) {
+                        loading.hide();
+                        messages.ajaxError(xhr);
+                    }
+                });
+            });
+        },
+
+        transmitProposal: function () {
+            commons.postAndCallback('#formFilters', true, function (formValues) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Renewal/TransmitProposal',
+                    data: formValues,
+                    dataType: 'json',
+                    beforeSend: function () {
+                        loading.show("Processando... por favor, aguarde...");
+                    },
+                    success: function (data) {
+                        loading.hide();
+
+                        messages.info('Sucesso', 'Proposta transmitida com sucesso.', function () { Renewal.backDetails(); });
+                    },
+                    error: function (xhr) {
+                        loading.hide();
+                        messages.ajaxError(xhr);
+                    }
+                });
+            });
+        },
+
+        issueProposal: function () {
+            commons.postAndCallback('#formFilters', true, function (formValues) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Renewal/IssueProposal',
+                    data: formValues,
+                    dataType: 'json',
+                    beforeSend: function () {
+                        loading.show("Processando... por favor, aguarde...");
+                    },
+                    success: function (data) {
+                        loading.hide();
+
+                        messages.info('Sucesso', 'Apólice emitida com sucesso.', function () { Renewal.backDetails(); });
+                    },
+                    error: function (xhr) {
+                        loading.hide();
+                        messages.ajaxError(xhr);
+                    }
+                });
+            });
+        },
+
+        backDetails: function () {
+            $('.PageBlock').hide();
+            $('.RenewalDetails').show();
+            commons.scrollToElement('#BatchDetailsContainer');
+        },
+
+    };
+
+</script>

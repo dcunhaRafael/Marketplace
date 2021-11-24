@@ -1,0 +1,105 @@
+﻿@model Portal.Web.Models.ComissionStatement.ComissionStatementViewModel;
+@using Domain.Enumerators
+@using Domain.Util.Extensions;
+<div class="col-sm-12">
+    <h5 class="section-header-default"><i class="fas fa-asterisk"></i>&nbsp;Extrato</h5>
+</div>
+<div class="col-12">
+    <hr class="remove-top-margin">
+</div>
+<div class="col-12">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 mb-2 form-group">
+                    <label>Corretor:&nbsp;@(Model.Broker.Name)</label>
+                </div>
+                <div class="col-md-3 mb-2 form-group">
+                    <label>CNPJ:&nbsp;@(Model.Broker.CpfCnpjNumber.FormatCpfCnpj())</label>
+                </div>
+                <div class="col-md-3 mb-2 form-group">
+                    <label>SUSEP:&nbsp;@(Model.Broker.SusepCode)</label>
+                </div>
+                <div class="col-md-3 mb-2 form-group">
+                    <label>N° extrato:&nbsp;@(Model.CurrentStatement.StatementNumber)</label>
+                </div>
+                <div class="col-md-3 mb-2 form-group">
+                    <label>Competência:&nbsp;@(Model.CurrentStatement.Competency)</label>
+                </div>
+                <div class="col-md-3 mb-2 form-group">
+                    <label>Valor:&nbsp;@(Model.CurrentStatement.ComissionValue?.FormatCurrency())</label>
+                </div>
+                <div class="col-md-3 mb-2 form-group">
+                    <label>Lançamentos:&nbsp;@(Model.CurrentStatement.EntryCount)</label>
+                </div>
+                <div class="col-md-3 mb-2 form-group">
+                    <label>Abertura:&nbsp;@(Model.CurrentStatement.OpeningDate?.FormatDate())</label>
+                </div>
+                <div class="col-md-3 mb-2 form-group">
+                    <label>Fechamento:&nbsp;@(Model.CurrentStatement.ClosingDate?.FormatDate())</label>
+                </div>
+                <div class="col-md-3 mb-2 form-group">
+                    <label>Pagamento:&nbsp;@(Model.CurrentStatement.PayDay?.FormatDate())</label>
+                </div>
+                <div class="col-md-3 mb-2 form-group">
+                    <label>Situação:&nbsp;@(Model.CurrentStatement.StatusName)</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-12"><br /></div>
+
+<div class="col-12">
+    <h5 class="section-header-default"><i class="fas fa-list"></i>&nbsp;Lançamentos</h5>
+</div>
+<div class="col-12">
+    <hr class="remove-top-margin">
+</div>
+<div class="col-12 table-responsive">
+    <table class="mat-table cdk-table mat-elevation-z8" id="ComissionStatementEntriesTable">
+        <thead>
+            <tr>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted">#</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted">RAMO</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted">PROPOSTA</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted">APÓLICE</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted">ENDOSSO</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted">PARCELA</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted">SEGURADO</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted">PRÊMIO</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted">TIPO DE COMISSÃO</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted">% COMISSÃO</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted">VALOR COMISSÃO</th>
+                @*<th class="">Histórico</th>*@
+                @*<th class="text-right" style="width:150px">Débito</th>*@
+                @*<th class="text-right" style="width:150px">Crédito</th>*@
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.StatementEntries) {
+                <tr class="mat-row cdk-row ng-star-inserted">
+                    <td>@(item.EntryNumber)</td>
+                    <td>@(item.BusinessId) - @(item.BusinessName)</td>
+                    <td>@(item.ProposalNumber)</td>
+                    <td>@(item.PolicyNumber)</td>
+                    <td>@(item.EndorsementNumber)</td>
+                    <td class="text-right">@(item.InstallmentNumber)</td>
+                    <td>@(item.InsuredName)</td>
+                    <td class="text-right">@(item.TariffPremiumValue?.FormatCurrency())</td>
+                    <td>@(item.ComissionTypeName)</td>
+                    <td class="text-right">@(item.ComissionPercentage?.FormatDecimal())</td>
+                    <td class="text-right">@(item.ComissionValue?.FormatCurrency())</td>
+                    @*<td>TODO</td>*@
+                    @*<td class="text-right">TODO</td>*@
+                    @*<td class="text-right">TODO</td>*@
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script>
+    $(document).ready(function () {
+        controls.dataTableInit3('#ComissionStatementEntriesTable');
+    });
+</script>

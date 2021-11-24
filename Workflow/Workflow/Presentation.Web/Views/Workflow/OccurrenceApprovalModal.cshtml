@@ -1,0 +1,42 @@
+﻿@model Presentation.Web.Models.Workflow.WorkflowViewModel
+@using Domain.Enumerators;
+@using Domain.Util.Extensions;
+<div id="OccurrenceApprovalModal" class="modal fade in StandardModal" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg StandardModalDialog">
+        <div class="modal-content StandardModalContent">
+            <div class="modal-header modal-header-primary StandardModalHeader">
+                <div class="row header__title__with__buttom">
+                    <div class="col-12 header__text">
+                        <p class="title"><span>Aprovar Ocorrência</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body StandardModalBody">
+                <form id="formOccurrenceApproval" autocomplete="off">
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <label>Usuário</label>
+                            <input type="text" class="form-control mat-input-element mat-form-field-autofill-control"
+                                   name="@Html.NameFor(x=> x.LoggedUserName)" value="@(Model.LoggedUserName)" readonly>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <label>Justifique a aprovação</label>
+                            <textarea class="form-control mat-input-element mat-form-field-autofill-control" rows="10" name="@Html.NameFor(x => x.UserComments)"
+                                      required minlength="5" maxlength="8000"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer StandardModalFooter">
+                <button type="button" class="btn mat-focus-indicator button mat-raised-button mat-button-base"
+                        onclick="Workflow.approve()">
+                    APROVAR
+                </button>
+                <button type="button" class="btn mat-focus-indicator button__white mat-raised-button mat-button-base text-left"
+                        onclick="$('#OccurrenceApprovalModal').modal('hide');">
+                    FECHAR
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

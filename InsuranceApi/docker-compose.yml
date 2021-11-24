@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  InsuranceApi.web:
+    image: ${DOCKER_REGISTRY-}insuranceapiweb
+    build:
+      context: .
+      dockerfile: src/InsuranceApi.Web/Dockerfile

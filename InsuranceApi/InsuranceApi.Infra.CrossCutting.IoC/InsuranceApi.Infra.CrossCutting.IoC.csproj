@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Flurl" Version="2.8.2" />
+    <PackageReference Include="Flurl.Http" Version="2.4.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.3" />
+    <PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\InsuranceApi.Application\InsuranceApi.Application.csproj" />
+    <ProjectReference Include="..\InsuranceApi.Database.Dapper.Ebix\InsuranceApi.Database.Dapper.Ebix.csproj" />
+    <ProjectReference Include="..\InsuranceApi.Database.Dapper.Marketplace\InsuranceApi.Database.Dapper.Marketplace.csproj" />
+    <ProjectReference Include="..\InsuranceApi.Domain\InsuranceApi.Domain.csproj" />
+    <ProjectReference Include="..\InsuranceApi.Infra.CrossCutting.Identity\InsuranceApi.Infra.CrossCutting.Identity.csproj" />
+    <ProjectReference Include="..\InsuranceApi.Services.Rest\InsuranceApi.Services.Rest.csproj" />
+    <ProjectReference Include="..\InsuranceApi.Services.Soap\InsuranceApi.Services.Soap.csproj" />
+  </ItemGroup>
+
+</Project>

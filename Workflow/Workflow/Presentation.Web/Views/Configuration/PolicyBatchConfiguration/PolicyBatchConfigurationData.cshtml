@@ -1,0 +1,78 @@
+﻿@model Presentation.Web.Models.Configuration.PolicyBatchConfigurationViewModel
+@using Domain.Enumerators;
+@using Domain.Util.Extensions;
+<input type="hidden" name="@Html.NameFor(x=> x.CurrentItem.PolicyBatchConfigurationId)" value="@Model.CurrentItem.PolicyBatchConfigurationId" id="PolicyBatchConfigurationId" autocomplete="off">
+<div class="col-sm-3 form-group">
+    <label>Tipo de lote</label>
+    <select class="form-control mat-input-element mat-form-field-autofill-control required EditControl"
+            name="@Html.NameFor(x => x.CurrentItem.BatchType)"
+            @(Model.IsEditable ? "" : "disabled")>
+        <option value="">Selecione</option>
+        @foreach (var item in EnumExtensions.ToList<PolicyBatchRenovationEnum>()) {
+            <option value="@item.Key"
+                    selected="@(Model.CurrentItem.BatchType != null && (Convert.ToInt32(Model.CurrentItem.BatchType) == Convert.ToInt32(item.Key)))">
+                @item.Value
+            </option>
+        }
+    </select>
+</div>
+<div class="col-sm-3 form-group">
+    <label>Agrupar por corretor?</label>
+    <select class="form-control mat-input-element mat-form-field-autofill-control required EditControl"
+            name="@Html.NameFor(x=> x.CurrentItem.GroupByBroker)"
+            @(Model.IsEditable ? "" : "disabled")>
+        <option value="">Selecione</option>
+        <option value="true" selected="@(Model.CurrentItem.GroupByBroker == true)">Sim</option>
+        <option value="false" selected="@(Model.CurrentItem.GroupByBroker == false)">Não</option>
+    </select>
+</div>
+<div class="col-sm-3 form-group">
+    <label>Agrupar por empresa?</label>
+    <select class="form-control mat-input-element mat-form-field-autofill-control required EditControl"
+            name="@Html.NameFor(x=> x.CurrentItem.GroupByTaker)"
+            @(Model.IsEditable ? "" : "disabled")>
+        <option value="">Selecione</option>
+        <option value="true" selected="@(Model.CurrentItem.GroupByTaker == true)">Sim</option>
+        <option value="false" selected="@(Model.CurrentItem.GroupByTaker == false)">Não</option>
+    </select>
+</div>
+<div class="col-sm-3 form-group">
+    <label>Agrupa por segurado?</label>
+    <select class="form-control mat-input-element mat-form-field-autofill-control required EditControl"
+            name="@Html.NameFor(x=> x.CurrentItem.GroupByInsured)"
+            @(Model.IsEditable ? "" : "disabled")>
+        <option value="">Selecione</option>
+        <option value="true" selected="@(Model.CurrentItem.GroupByInsured == true)">Sim</option>
+        <option value="false" selected="@(Model.CurrentItem.GroupByInsured == false)">Não</option>
+    </select>
+</div>
+
+<div class="col-sm-3 form-group">
+    <label>Dias a processar</label>
+    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control mask-number required EditControl"
+           name="@Html.NameFor(x => x.CurrentItem.ProcessDays)" value="@Model.CurrentItem.ProcessDays" maxlength="3"
+           @(Model.IsEditable ? "" : "disabled")>
+</div>
+<div class="col-sm-3 form-group">
+    <label>Dias emissão compulsória</label>
+    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control mask-number required EditControl"
+           name="@Html.NameFor(x => x.CurrentItem.CompulsoryIssueDays)" value="@Model.CurrentItem.CompulsoryIssueDays" maxlength="3"
+           @(Model.IsEditable ? "" : "disabled")>
+</div>
+
+<div class="col-sm-12">
+    <hr />
+</div>
+<div class="col-12">
+    <button type="button" class="btn mat-focus-indicator button mat-raised-button mat-button-base" onclick="PolicyBatchConfiguration.save()"
+            style="@(Model.IsEditable ? "": "display:none")">
+        SALVAR DADOS
+    </button>
+    <button type="button" class="btn mat-focus-indicator button__white mat-raised-button mat-button-base" onclick="PolicyBatchConfiguration.back()">CANCELAR</button>
+</div>
+<script>
+    $(document).ready(function () {
+        format.initializeInputMasks('#formData');
+        validationrules.init('#formData');
+    });
+</script>

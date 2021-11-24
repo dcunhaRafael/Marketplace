@@ -1,0 +1,48 @@
+﻿@model Presentation.Web.Models.Workflow.WorkflowViewModel
+@using Domain.Enumerators;
+@using Domain.Util.Extensions;
+<div id="OccurrenceHistoriesModal" class="modal fade in StandardModal" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg StandardModalDialog">
+        <div class="modal-content StandardModalContent">
+            <div class="modal-header modal-header-primary StandardModalHeader">
+                <div class="row header__title__with__buttom">
+                    <div class="col-12 header__text">
+                        <p class="title"><span>Histórico da Ocorrência</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body StandardModalBody">
+                <div class="row">
+                    <div class="col-12">
+                        <table cellpadding="0" class="mat-table cdk-table mat-elevation-z8">
+                            <thead>
+                                <tr>
+                                    <th class="mat-header-cell cdk-header-cell ng-star-inserted">Data/hora</th>
+                                    <th class="mat-header-cell cdk-header-cell ng-star-inserted">Usuário</th>
+                                    <th class="mat-header-cell cdk-header-cell ng-star-inserted">Ação</th>
+                                    <th class="mat-header-cell cdk-header-cell ng-star-inserted">Detalhes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Histories) {
+                                    <tr>
+                                        <td>@(item.InclusionDate.FormatDateTime())</td>
+                                        <td>@(item.InclusionUser.Name)</td>
+                                        <td>@(item.ActionType.GetDescription())</td>
+                                        <td>@(item.Description)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer StandardModalFooter">
+                <button type="button" class="btn mat-focus-indicator button__white mat-raised-button mat-button-base text-left"
+                        onclick="$('#OccurrenceHistoriesModal').modal('hide');">
+                    FECHAR
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

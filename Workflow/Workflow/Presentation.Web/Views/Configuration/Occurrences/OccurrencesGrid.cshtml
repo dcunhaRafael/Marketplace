@@ -1,0 +1,51 @@
+﻿@model Presentation.Web.Models.Configuration.OccurrencesViewModel
+@using Domain.Enumerators;
+@using Domain.Util.Extensions;
+<table id="occurrencesGrid" cellpadding="0" class="mat-table cdk-table mat-elevation-z8">
+    <thead>
+        <tr>
+            <th class="mat-header-cell cdk-header-cell mat-column-code ng-star-inserted">PRODUTO</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">COBERTURA</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">CÓDIGO</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">NOME</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">TIPO</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">STATUS</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">AÇÕES</th>
+        </tr>
+    </thead>
+    @if (Model.Occurrences != null) {
+        <tbody>
+            @foreach (var item in Model.Occurrences) {
+            <tr class="mat-row cdk-row ng-star-inserted">
+                <td class="mat-cell cdk-cell">@(item.Product.Name)</td>
+                <td>@(item.Coverage.Name)</td>
+                <td>@item.OccurrenceCode</td>
+                <td>@item.Name</td>
+                <td>@(item.Type?.GetDescription())</td>
+                <td>@(item.Status.GetDescription())</td>
+                <td>
+                    <a title="Visualziar" onclick="event.preventDefault(); Occurrences.view(@item.OccurrenceTypeId)">
+                        <span class="fas fa-eye botaoTabela"></span>
+                    </a>&nbsp;
+                    @if (RecordStatusEnum.Active.Equals(@item.Status)) {
+                        <a title="Alterar" onclick="event.preventDefault(); Occurrences.edit(@item.OccurrenceTypeId)">
+                            <span class="fas fa-edit botaoTabela"></span>
+                        </a>@Html.Raw("&nbsp;")
+                        <a title="Excluir" onclick="event.preventDefault(); Occurrences.delete(@item.OccurrenceTypeId)">
+                            <span class="fas fa-trash-alt botaoTabela"></span>
+                        </a>
+                    } else {
+                        <span title="Alterar" class='fas fa-edit botaoTabelaDesabilitado'></span>@Html.Raw("&nbsp;")
+                        <span title="Excluir" class='fas fa-trash-alt botaoTabelaDesabilitado'></span>
+                    }
+                </td>
+            </tr>
+            }
+        </tbody>
+    }
+</table>
+<script>
+    $(document).ready(function () {
+        controls.dataTableInit3("#occurrencesGrid");
+    });
+</script>

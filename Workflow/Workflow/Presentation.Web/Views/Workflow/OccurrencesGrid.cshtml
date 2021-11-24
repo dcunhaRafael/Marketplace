@@ -1,0 +1,73 @@
+﻿@model Presentation.Web.Models.Workflow.WorkflowViewModel
+@using Domain.Enumerators;
+@using Domain.Util.Extensions;
+<table id="occurrencesGrid" cellpadding="0" class="mat-table cdk-table mat-elevation-z8">
+    <thead>
+        <tr>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted"></th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted"></th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">PROPOSTA</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">OCORRÊNCIA</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">CORRETOR</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">EMPRESA</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">SEGURADO</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">PRODUTO</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">DATA</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">STATUS</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">AÇÕES</th>
+        </tr>
+    </thead>
+    @if (Model.Occurrences != null) {
+        <tbody>
+            @for (int i = 0; i < Model.Occurrences.Count; i++) {
+                <tr class="mat-row cdk-row ng-star-inserted">
+                    <td style="padding: 0 0.5rem">
+                        <input type="hidden" name="@Html.NameFor(x => x.Occurrences[i].ProposalOccurrenceId)" value="@(Model.Occurrences[i].ProposalOccurrenceId)" />
+                        <input type="hidden" class="document-required-pending-@i" name="@Html.NameFor(x => x.Occurrences[i].DocumentTypePendingCount)" value="@(Model.Occurrences[i].DocumentTypePendingCount)" />
+                        @if (OccurrenceStatusEnum.Pending.Equals(@Model.Occurrences[i].OccurrenceStatus) && Model.Occurrences[i].DocumentTypePendingCount == 0) {
+                            <input type="checkbox" value="true" class="ProposalOccurrenceCheckbox check-@i"
+                                   id="check-@(Model.Occurrences[i].ProposalOccurrenceId)"
+                                   name="@Html.NameFor(x => Model.Occurrences[i].IsChecked)"
+                                   @(Model.Occurrences[i].IsChecked ? "checked" : "")
+                                   onchange="Workflow.occurrencesSelectionChanged();"/>
+                        }
+                    </td>
+                    <td style="padding: 0 0.5rem">
+                        <span class='fas fa-traffic-light @(Model.Occurrences[i].SignalingTimeout)'></span>@Html.Raw("&nbsp;")
+                    </td>
+                    <td class="mat-cell cdk-cell">@(Model.Occurrences[i].Proposal.ProposalNumber)</td>
+                    <td>@Model.Occurrences[i].OccurrenceType.Name</td>
+                    <td>@(Model.Occurrences[i].Proposal.Broker.Name)</td>
+                    <td>@(Model.Occurrences[i].Proposal.Taker.Name)</td>
+                    <td>@(Model.Occurrences[i].Proposal.Insured.Name)</td>
+                    <td>@(Model.Occurrences[i].Proposal.ProposalType.Name)</td>
+                    <td>@((Model.Occurrences[i].LastChangeDate ?? Model.Occurrences[i].InclusionDate)?.FormatDateTime())</td>
+                    <td>@(Model.Occurrences[i].OccurrenceStatus.GetDescription())</td>
+                    <td>
+                        @if (Model.Occurrences[i].DocumentTypeCount > 0) {
+                            <a title="Documentos" onclick="event.preventDefault(); Workflow.viewDocuments(@Model.Occurrences[i].ProposalOccurrenceId)">
+                                <span class="fas fa-file-alt"></span>
+                            </a>@Html.Raw("&nbsp;")
+                        }
+                        <a title="Usuários para liberação" onclick="event.preventDefault(); Workflow.viewLiberationUsers(@Model.Occurrences[i].ProposalOccurrenceId)">
+                            <span class="fas fa-users"></span>
+                        </a>@Html.Raw("&nbsp;")
+                        @if (OccurrenceStatusEnum.Pending.Equals(Model.Occurrences[i].OccurrenceStatus)) {
+                            <a title="Encaminhar" onclick="event.preventDefault(); Workflow.openForward('@(Model.Occurrences[i].Proposal.ProposalNumber)', '@(Model.Occurrences[i].ProposalOccurrenceId)')">
+                                <span class="fas fa-share"></span>
+                            </a>@Html.Raw("&nbsp;")
+                        }
+                        <a title="Histórico" onclick="event.preventDefault(); Workflow.viewHistories(@Model.Occurrences[i].ProposalOccurrenceId)">
+                            <span class="fas fa-history"></span>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    }
+</table>
+<script>
+    $(document).ready(function () {
+        controls.dataTableInit3("#occurrencesGrid");
+    });
+</script>

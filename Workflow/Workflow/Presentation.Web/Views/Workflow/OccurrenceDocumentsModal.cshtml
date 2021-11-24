@@ -1,0 +1,59 @@
+﻿@model Presentation.Web.Models.Workflow.WorkflowViewModel
+@using Domain.Enumerators;
+@using Domain.Util.Extensions;
+<div id="OccurrenceDocumentsModal" class="modal fade in StandardModal" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg StandardModalDialog">
+        <div class="modal-content StandardModalContent">
+            <div class="modal-header modal-header-primary StandardModalHeader">
+                <div class="row header__title__with__buttom">
+                    <div class="col-12 header__text">
+                        <p class="title"><span>Documentos da Ocorrência</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body StandardModalBody">
+                <input type="hidden" id="ProposalOccurrenceId" name="@Html.NameFor(x=> Model.ProposalOccurrenceId)" value="@(Model.ProposalOccurrenceId)" />
+                <input type="hidden" id="DocumentIndex" name="DocumentIndex" />
+                <input type="file" id="Document" style="display:none;" onchange="Workflow.uploadDocument(this)" />
+                <div class="row">
+                    @for (int i = 0; i < Model.Documents.Count; i++) {
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <input type="hidden" id="ProposalOccurrenceDocumentId-@i" name="@Html.NameFor(x=> Model.Documents[i].ProposalOccurrenceDocumentId)" value="@(Model.Documents[i].ProposalOccurrenceDocumentId)" />
+                                    <input type="hidden" id="DocumentType-@i" name="@Html.NameFor(x=> Model.Documents[i].DocumentTypeId)" value="@(Model.Documents[i].DocumentTypeId)" />
+                                    <div class="row">
+                                        <div class="col-11">
+                                            <label>@(Model.Documents[i].DocumentType.Name) <i class="fas fa-asterisk" style="@(Model.Documents[i].DocumentType.IsRequired ? "": "display:none")"></i></label><br />
+                                            <label id="FileName-@i">@(Model.Documents[i].ProposalOccurrenceDocumentId == null ? "Não anexado." :  Model.Documents[i].FileName)</label>
+                                        </div>
+                                        <div class="col-1">
+                                            <a title="Upload" id="Upload-@i" onclick="event.preventDefault(); Workflow.browseDocument(@i)"
+                                               style="@(Model.IsEditable && Model.Documents[i].ProposalOccurrenceDocumentId == null ? "": "display:none;")">
+                                                <span class="fas fa-upload"></span><br />
+                                            </a>
+                                            <a title="Download" id="Download-@i" onclick="event.preventDefault(); Workflow.downloadDocument(@i)"
+                                               style="@(Model.Documents[i].ProposalOccurrenceDocumentId != null ? "": "display:none;")">
+                                                <span class="fas fa-download"></span><br />
+                                            </a>
+                                            <a title="Excluir" id="Delete-@i" onclick="Workflow.deleteDocument(@i)"
+                                               style="@(Model.IsEditable && Model.Documents[i].ProposalOccurrenceDocumentId != null ? "": "display:none;")">
+                                                <span class="fas fa-trash-alt"></span><br />
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="modal-footer StandardModalFooter">
+                <button type="button" class="btn mat-focus-indicator button__white mat-raised-button mat-button-base text-left"
+                        onclick="$('#OccurrenceDocumentsModal').modal('hide'); Workflow.search();">
+                    FECHAR
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
