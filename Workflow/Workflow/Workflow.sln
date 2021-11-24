@@ -56,6 +56,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DatabaseScripts", "Database
 		DatabaseScripts\OccurrenceType.sql = DatabaseScripts\OccurrenceType.sql
 		DatabaseScripts\OccurrenceTypeDocument.sql = DatabaseScripts\OccurrenceTypeDocument.sql
 		DatabaseScripts\OccurrenceTypeLiberationUser.sql = DatabaseScripts\OccurrenceTypeLiberationUser.sql
+		DatabaseScripts\PolicyBatch.sql = DatabaseScripts\PolicyBatch.sql
 		DatabaseScripts\PolicyBatchConfiguration.sql = DatabaseScripts\PolicyBatchConfiguration.sql
 		DatabaseScripts\PolicyBatchConfigurationMail.sql = DatabaseScripts\PolicyBatchConfigurationMail.sql
 		DatabaseScripts\ProposalOccurrence.sql = DatabaseScripts\ProposalOccurrence.sql
