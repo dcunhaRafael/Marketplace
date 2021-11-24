@@ -44,7 +44,25 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.WindowsServi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.WindowsService.RenovationEmailSender", "Infrastructure.BackgroundService.RenovationEmailSender\Infrastructure.WindowsService.RenovationEmailSender.csproj", "{E349A2ED-50BC-4B2E-AF0D-FBC5A8AB155F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infratructure.WindowsService.SelicSync", "Infratructure.WindowsService.SelicSync\Infratructure.WindowsService.SelicSync.csproj", "{C6C743B2-D277-495C-93C1-9DE2A3804562}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infratructure.WindowsService.SelicSync", "Infratructure.WindowsService.SelicSync\Infratructure.WindowsService.SelicSync.csproj", "{C6C743B2-D277-495C-93C1-9DE2A3804562}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{3A7C70E4-08C3-4032-9C01-5ED2C48150BE}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\AppService.sql = ..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\AppService.sql
+		..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\AppServiceLog.sql = ..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\AppServiceLog.sql
+		..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\DocumentType.sql = ..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\DocumentType.sql
+		..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\OccurrenceType.sql = ..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\OccurrenceType.sql
+		..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\OccurrenceTypeDocument.sql = ..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\OccurrenceTypeDocument.sql
+		..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\OccurrenceTypeLiberationUser.sql = ..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\OccurrenceTypeLiberationUser.sql
+		..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\PolicyBatchConfiguration.sql = ..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\PolicyBatchConfiguration.sql
+		..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\PolicyBatchConfigurationMail.sql = ..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\PolicyBatchConfigurationMail.sql
+		..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\ProposalOccurrence.sql = ..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\ProposalOccurrence.sql
+		..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\ProposalOccurrenceDocument.sql = ..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\ProposalOccurrenceDocument.sql
+		..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\ProposalOccurrenceHistory.sql = ..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\ProposalOccurrenceHistory.sql
+		..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\RefusalReason.sql = ..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\RefusalReason.sql
+		..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\SelicDaily.sql = ..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\SelicDaily.sql
+		..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\SelicMonthly.sql = ..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\SelicMonthly.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
