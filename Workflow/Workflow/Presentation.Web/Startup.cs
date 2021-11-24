@@ -21,6 +21,9 @@ namespace Presentation.Web {
         public void ConfigureServices(IServiceCollection services) {
             services.AddControllersWithViews();
 
+            // Caching
+            services.AddLazyCache();
+
             services.AddScoped<IServiceFactory, ServiceFactory>();
             services.AddScoped<IComissionStatementService, ComissionStatementService>();
             services.AddScoped<ICommonService, CommonService>();

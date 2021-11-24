@@ -15,7 +15,7 @@ namespace Infrastructure.Dapper.MSSQL.Repositories {
         public async Task<IList<ComissionStatementStatus>> ListAsync() {
             var query = new StringBuilder()
                 .AppendLine("SELECT *")
-                .AppendLine("FROM ComissionStatementStatusRepository")
+                .AppendLine("FROM ComissionStatementStatus")
                 .AppendLine("ORDER BY Name");
 
             using var dbConn = base.GetMarketplaceDbConnection();

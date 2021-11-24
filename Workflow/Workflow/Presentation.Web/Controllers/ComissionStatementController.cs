@@ -1,7 +1,6 @@
 ﻿using Domain.Exceptions;
 using Domain.Payload;
 using LazyCache;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Portal.Web.Models.ComissionStatement;
@@ -13,7 +12,6 @@ using System.Linq;
 using System.Reflection;
 
 namespace Portal.Web.Controllers {
-    [Authorize]
     public class ComissionStatementController : BaseController {
         private readonly IComissionStatementService comissionStatementService;
         private readonly ICommonService commonService;

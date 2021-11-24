@@ -1,5 +1,5 @@
 ﻿@model Portal.Web.Models.ComissionStatement.ComissionStatementViewModel;
-@using Domain.Util.Extensions; 
+@using Domain.Util.Extensions;
 <div class="col-md-3" style="@(Model.Summary.Count == 0 ? "display:none": "")">
     <div class="card h-100">
         <div class="card-header">
@@ -66,24 +66,24 @@
                         </thead>
                         <tbody>
                             @foreach (var item in Model.Statements) {
-                            <tr class="mat-row cdk-row ng-star-inserted">
-                                <td>@(item.StatementNumber)</td>
-                                <td class="text-center">@(item.Competency?.FormatCompetency())</td>
-                                <td class="text-right">@(item.ComissionValue?.FormatCurrency())</td>
-                                <td class="text-right">@(item.EntryCount)</td>
-                                <td class="text-center">@(item.OpeningDate?.FormatDate())</td>
-                                <td class="text-center">@(item.ClosingDate?.FormatDate())</td>
-                                <td class="text-center">@(item.PayDay?.FormatDate())</td>
-                                <td>@(item.StatusName)</td>
-                                <td class="text-center">
-                                    <a title="Capa do extrato" href="#" onclick="event.preventDefault(); ComissionStatement.openStatementCover('@(item.StatementNumber)', '@(item.Competency)');">
-                                        <span class="fas fa-file-invoice-dollar" />
-                                    </a>
-                                    <a title="Lançamentos" href="#" onclick="event.preventDefault(); ComissionStatement.openStatementEntries('@(item.StatementNumber)', '@(item.Competency)');">
-                                        <span class="fas fa-clipboard-list" />
-                                    </a>
-                                </td>
-                            </tr>
+                                <tr class="mat-row cdk-row ng-star-inserted">
+                                    <td>@(item.StatementNumber)</td>
+                                    <td class="text-center">@(item.Competency?.FormatCompetency())</td>
+                                    <td class="text-right">@(item.ComissionValue?.FormatCurrency())</td>
+                                    <td class="text-right">@(item.EntryCount)</td>
+                                    <td class="text-center">@(item.OpeningDate?.FormatDate())</td>
+                                    <td class="text-center">@(item.ClosingDate?.FormatDate())</td>
+                                    <td class="text-center">@(item.PayDay?.FormatDate())</td>
+                                    <td>@(item.StatusName)</td>
+                                    <td class="text-center">
+                                        <a title="Capa do extrato" href="#" onclick="event.preventDefault(); ComissionStatement.openStatementCover('@(item.StatementNumber)', '@(item.Competency)');">
+                                            <span class="fas fa-file-invoice-dollar" />
+                                        </a>
+                                        <a title="Lançamentos" href="#" onclick="event.preventDefault(); ComissionStatement.openStatementEntries('@(item.StatementNumber)', '@(item.Competency)');">
+                                            <span class="fas fa-clipboard-list" />
+                                        </a>
+                                    </td>
+                                </tr>
                             }
                         </tbody>
                     </table>
@@ -91,6 +91,9 @@
             </div>
         </div>
     </div>
+</div>
+<div class="col-12 mt-4">
+    <button type="button" class="btn mat-focus-indicator button__white mat-raised-button mat-button-base" onclick="ComissionStatement.backResults()">VOLTAR</button>
 </div>
 <form id="formSelectedStatement" autocomplete="off">
     <input type="hidden" class="SelectedStatement BrokerName" name="@Html.NameFor(x=> x.Broker.Name)" value="@(Model.Broker.Name)" />

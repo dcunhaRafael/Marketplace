@@ -76,11 +76,11 @@
         </thead>
         <tbody>
             @foreach (var item in Model.StatementBusiness) {
-            <tr class="mat-row cdk-row ng-star-inserted">
-                <td>@(item.BusinessId) - @(item.BusinessName)</td>
-                <td>@(item.ComissionTypeName)</td>
-                <td class="text-right">@(item.ComissionValue?.FormatCurrency())</td>
-            </tr>
+                <tr class="mat-row cdk-row ng-star-inserted">
+                    <td>@(item.BusinessId) - @(item.BusinessName)</td>
+                    <td>@(item.ComissionTypeName)</td>
+                    <td class="text-right">@(item.ComissionValue?.FormatCurrency())</td>
+                </tr>
             }
         </tbody>
     </table>
@@ -103,10 +103,10 @@
         </thead>
         <tbody>
             @foreach (var item in Model.StatementTypes) {
-            <tr class="mat-row cdk-row ng-star-inserted">
-                <td>@(item.ComissionTypeName)</td>
-                <td class="text-right">@(item.ComissionValue?.FormatCurrency())</td>
-            </tr>
+                <tr class="mat-row cdk-row ng-star-inserted">
+                    <td>@(item.ComissionTypeName)</td>
+                    <td class="text-right">@(item.ComissionValue?.FormatCurrency())</td>
+                </tr>
             }
         </tbody>
     </table>
@@ -141,7 +141,9 @@
         </tbody>
     </table>
 </div>
-
+<div class="col-12 mt-4">
+    <button type="button" class="btn mat-focus-indicator button__white mat-raised-button mat-button-base" onclick="ComissionStatement.backResults()">VOLTAR</button>
+</div>
 <script>
     $(document).ready(function () {
         controls.dataTableInit3('#ComissionStatementBusinessTable');

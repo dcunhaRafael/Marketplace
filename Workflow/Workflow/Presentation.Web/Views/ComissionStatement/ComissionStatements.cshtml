@@ -4,7 +4,7 @@
     ViewBag.Title = "Extrato de Comissão";
 }
 <div class="container-fluid screen-taker-appeal-table__query ComissionStatementSearch">
-    <div class="row mb-4 header__title__with__buttom">
+    <div class="row mb-4 PageBlock ComissionStatementFilter header__title__with__buttom">
         <div class="col-12 header__text">
             <p class="title"><span>Extrato de Comissão</span></p>
             <p class="subtitle PageBlock ComissionStatementFilter">Use os filtros para guiar uma consulta avançada</p>
@@ -20,7 +20,7 @@
                            placeholder="Informe o nome/razão social do corretor" name="BrokerName">
                     <input type="hidden" class="BrokerData BrokerName search-input" value="" name="@Html.NameFor(x=> x.Broker.Name)" />
                     <input type="hidden" class="BrokerData BrokerCpfCnpjNumber search-input" value="" name="@Html.NameFor(x=> x.Broker.CpfCnpjNumber)" />
-                    <input type="hidden" class="BrokerData BrokerLegacyCode search-input" value="" name="@Html.NameFor(x=> x.Broker.LegacyCode)" />
+                    <input type="hidden" class="BrokerData BrokerLegacyCode search-input" required value="" name="@Html.NameFor(x=> x.Broker.LegacyCode)" />
                     <input type="hidden" class="BrokerData BrokerUserId search-input" value="" name="@Html.NameFor(x=> x.Broker.LegacyUserId)" />
                     <input type="hidden" class="BrokerData BrokerSusepCode search-input" value="" name="@Html.NameFor(x=> x.Broker.SusepCode)" />
                     <div class="input-group-append">
@@ -39,7 +39,7 @@
                 <label>A partir de</label>
                 <div class="input-group">
                     <input type="text" class="form-control mat-input-element mat-form-field-autofill-control mask-date search-input FromDate"
-                           name="@Html.NameFor(x=> x.FromDate)">
+                           name="@Html.NameFor(x=> x.FromDate)" required>
                     <div class="input-group-append">
                         <span class="input-group-text"><i class="fas fa-calendar-alt" onclick="$('.FromDate').focus();"></i></span>
                     </div>
@@ -50,7 +50,7 @@
                 <label>Até</label>
                 <div class="input-group">
                     <input type="text" class="form-control mat-input-element mat-form-field-autofill-control mask-date search-input ToDate"
-                           name="@Html.NameFor(x=> x.ToDate)">
+                           name="@Html.NameFor(x=> x.ToDate)" required>
                     <div class="input-group-append">
                         <span class="input-group-text"><i class="fas fa-calendar-alt" onclick="$('.ToDate').focus();"></i></span>
                     </div>
@@ -80,7 +80,7 @@
             <p class="subtitle"></p>
         </div>
         <div class="col-12">
-            <div class="data__table" id="ComissionStatementGridContainer">
+            <div class="row" id="ComissionStatementGridContainer">
                 @{await Html.RenderPartialAsync("~/Views/ComissionStatement/ComissionStatementGrid.cshtml", Model);}
             </div>
         </div>
@@ -115,8 +115,8 @@
 
         AutoCompleteFilters.brokerInit('.BrokerFilter', '#formComissionStatement',
             function (data) {
-                $('.BrokerData.BrokerName').val(data.person.name);
-                $('.BrokerData.BrokerCpfCnpjNumber').val(data.person.cpfCnpjNumber);
+                $('.BrokerData.BrokerName').val(data.name);
+                $('.BrokerData.BrokerCpfCnpjNumber').val(data.cpfCnpjNumber);
                 $('.BrokerData.BrokerLegacyCode').val(data.legacyCode);
                 $('.BrokerData.BrokerUserId').val(data.legacyUserId);
                 $('.BrokerData.BrokerSusepCode').val(data.susepCode);
@@ -219,7 +219,9 @@
 
         backResults: function () {
             $('.PageBlock').hide();
+            $('.ComissionStatementFilter').show();
             $('.ComissionStatementResult').show();
+            commons.scrollToElement('#ComissionStatementGridContainer');
         },
 
     };
