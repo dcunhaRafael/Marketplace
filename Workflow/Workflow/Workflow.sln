@@ -46,22 +46,23 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.WindowsServi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infratructure.WindowsService.SelicSync", "Infratructure.WindowsService.SelicSync\Infratructure.WindowsService.SelicSync.csproj", "{C6C743B2-D277-495C-93C1-9DE2A3804562}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{3A7C70E4-08C3-4032-9C01-5ED2C48150BE}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DatabaseScripts", "DatabaseScripts", "{A86DEAC2-D74D-4038-9E7A-DC90B0118C6B}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\AppService.sql = ..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\AppService.sql
-		..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\AppServiceLog.sql = ..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\AppServiceLog.sql
-		..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\DocumentType.sql = ..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\DocumentType.sql
-		..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\OccurrenceType.sql = ..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\OccurrenceType.sql
-		..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\OccurrenceTypeDocument.sql = ..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\OccurrenceTypeDocument.sql
-		..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\OccurrenceTypeLiberationUser.sql = ..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\OccurrenceTypeLiberationUser.sql
-		..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\PolicyBatchConfiguration.sql = ..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\PolicyBatchConfiguration.sql
-		..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\PolicyBatchConfigurationMail.sql = ..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\PolicyBatchConfigurationMail.sql
-		..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\ProposalOccurrence.sql = ..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\ProposalOccurrence.sql
-		..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\ProposalOccurrenceDocument.sql = ..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\ProposalOccurrenceDocument.sql
-		..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\ProposalOccurrenceHistory.sql = ..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\ProposalOccurrenceHistory.sql
-		..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\RefusalReason.sql = ..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\RefusalReason.sql
-		..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\SelicDaily.sql = ..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\SelicDaily.sql
-		..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\SelicMonthly.sql = ..\..\..\..\..\OneDrive\Área de Trabalho\Demandas\Workflow\SelicMonthly.sql
+		DatabaseScripts\AppService.sql = DatabaseScripts\AppService.sql
+		DatabaseScripts\AppServiceLog.sql = DatabaseScripts\AppServiceLog.sql
+		DatabaseScripts\DocumentType.sql = DatabaseScripts\DocumentType.sql
+		DatabaseScripts\OccurrenceType.sql = DatabaseScripts\OccurrenceType.sql
+		DatabaseScripts\OccurrenceTypeDocument.sql = DatabaseScripts\OccurrenceTypeDocument.sql
+		DatabaseScripts\OccurrenceTypeLiberationUser.sql = DatabaseScripts\OccurrenceTypeLiberationUser.sql
+		DatabaseScripts\PolicyBatchConfiguration.sql = DatabaseScripts\PolicyBatchConfiguration.sql
+		DatabaseScripts\PolicyBatchConfigurationMail.sql = DatabaseScripts\PolicyBatchConfigurationMail.sql
+		DatabaseScripts\ProposalOccurrence.sql = DatabaseScripts\ProposalOccurrence.sql
+		DatabaseScripts\ProposalOccurrenceDocument.sql = DatabaseScripts\ProposalOccurrenceDocument.sql
+		DatabaseScripts\ProposalOccurrenceHistory.sql = DatabaseScripts\ProposalOccurrenceHistory.sql
+		DatabaseScripts\Queries auxiliares.sql = DatabaseScripts\Queries auxiliares.sql
+		DatabaseScripts\RefusalReason.sql = DatabaseScripts\RefusalReason.sql
+		DatabaseScripts\SelicDaily.sql = DatabaseScripts\SelicDaily.sql
+		DatabaseScripts\SelicMonthly.sql = DatabaseScripts\SelicMonthly.sql
 	EndProjectSection
 EndProject
 Global
