@@ -16,12 +16,15 @@ namespace Integration.Workflow.WebAPI.Controllers.v1 {
         private readonly IPolicyBatchService policyBatchService;
         private readonly IPolicyRenovationService policyRenovationService;
         private readonly IRenewalApiService renewalApiService;
+        private readonly ISelicService selicService;
 
         public RenewalController(ILogger<RenewalController> logger,
-            IPolicyBatchService policyBatchService, IPolicyRenovationService policyRenovationService, IRenewalApiService renewalApiService) : base(logger) {
+            IPolicyBatchService policyBatchService, IPolicyRenovationService policyRenovationService, IRenewalApiService renewalApiService,
+            ISelicService selicService) : base(logger) {
             this.policyBatchService = policyBatchService;
             this.policyRenovationService = policyRenovationService;
             this.renewalApiService = renewalApiService;
+            this.selicService = selicService;
         }
 
         [HttpPost("ListBatches")]
@@ -128,6 +131,18 @@ namespace Integration.Workflow.WebAPI.Controllers.v1 {
                 });
 
                 return base.ReturnSuccess(data: items);
+
+            } catch (Exception e) {
+                return base.ReturnError(MethodBase.GetCurrentMethod(), e);
+            }
+        }
+
+        [HttpPost("ApplySelicCorrection")]
+        public IActionResult ApplySelicCorrection(ApplySelicCorrectionRequest request) {
+            try {
+
+                var item = selicService.ApplyCorrectionAsync(request.InsuredAmount, request.StartOfTerm, request.EndOfTerm);
+                return base.ReturnSuccess(data: item);
 
             } catch (Exception e) {
                 return base.ReturnError(MethodBase.GetCurrentMethod(), e);

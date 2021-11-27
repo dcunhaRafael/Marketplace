@@ -1,0 +1,154 @@
+﻿@model Presentation.Web.Models.UpdateIS.UpdateISViewModel
+@using Domain.Enumerators;
+@using Domain.Util.Extensions;
+@{
+    ViewBag.Title = "Index";
+}
+<div class="container-fluid screen-taker-appeal-table__query RenewalSearch">
+    <div class="row mb-4 header__title__with__buttom">
+        <div class="col-12 header__text">
+            <p class="title"><span>Atualização de IS pela SELIC</span></p>
+            <p class="subtitle PageBlock UpdateIsFilter">Carregue o arquivo para realizar a atualização</p>
+        </div>
+    </div>
+    <div class="row mb-4 PageBlock UpdateIsFilter container__form">
+        <div class="col-md-6 form-group">
+            <label>Arquivo Excel</label><br />
+            <input type='file' id="fileUpload" accept="*.*" onclick="event.stopPropagation();" />
+        </div>
+        <div class="col-12">
+            <button type="button" class="btn mat-focus-indicator button mat-raised-button mat-button-base" onclick="UpdateIS.uploadFile()">VISUALIZAR ATUALIZAÇÕES</button>
+            <button type="button" class="btn mat-focus-indicator button mat-raised-button mat-button-base" onclick="UpdateIS.downloadFile()">GERAR EXCEL ATUALIZADO</button>
+        </div>
+    </div>
+    <form id="formBatches" autocomplete="off" AutoCompleteType="Disabled">
+        @Html.AntiForgeryToken()
+        <div class="row PageBlock UpdateIsResult" style="display: none;">
+            <div class="col-12 header__title mb-3">
+                <p class="title__semibold__orange">Resultado</p>
+                <p class="subtitle"></p>
+            </div>
+            <div class="col-12">
+                <div class="data__table" id="UpdateIsGridContainer">
+                    @{await Html.RenderPartialAsync("~/Views/UpdateIS/UpdateIsGrid.cshtml", Model);}
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    $(document).ready(function () {
+        UpdateIS.clear();
+    });
+
+    var UpdateIS = {
+
+        uploadFile: function () {
+            var myFormData = new FormData();
+            myFormData.append('file', ($('#fileUpload'))[0].files[0]);
+            $.ajax({
+                type: 'POST',
+                url: '/UpdateIs/UploadFile',
+                processData: false, // important
+                contentType: false, // important
+                dataType: 'html',
+                data: myFormData,
+                beforeSend: function () {
+                    loading.show("Processando... por favor, aguarde...");
+                },
+                success: function (data) {
+                    loading.hide();
+                    loading.hide();
+                    $('#UpdateIsGridContainer').html(data);
+                    $('.UpdateIsResult').show();
+                    commons.scrollToElement('#UpdateIsGridContainer');
+                },
+                error: function (xhr) {
+                    loading.hide();
+                    messages.ajaxError(xhr);
+                }
+            });
+            $('#fileUpload').val('');
+            return false;
+        },
+
+        downloadFile: function (file, physicalFile) {
+            var myFormData = new FormData();
+            myFormData.append('file', ($('#fileUpload'))[0].files[0]);
+            $.ajax({
+                type: 'POST',
+                url: '/UpdateIs/DownloadExcel',
+                data: myFormData,
+                processData: false, // important
+                contentType: false, // important
+                beforeSend: function () {
+                    loading.show("Processando... por favor, aguarde...");
+                },
+                xhr: function () {// Seems like the only way to get access to the xhr object
+                    var xhr = new XMLHttpRequest();
+                    xhr.responseType = 'blob'
+                    return xhr;
+                },
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                success: function (response, status, xhr) {
+                    loading.hide();
+
+                    // check for a filename
+                    var filename = "";
+                    var disposition = xhr.getResponseHeader('Content-Disposition');
+                    if (disposition && disposition.indexOf('attachment') !== -1) {
+                        var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                        var matches = filenameRegex.exec(disposition);
+                        if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
+                    }
+
+                    var blob = new Blob([response], { type: 'application/octet-stream' });
+
+                    if (typeof window.navigator.msSaveBlob !== 'undefined') {
+                        // IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
+                        window.navigator.msSaveBlob(blob, filename);
+                    } else {
+                        var URL = window.URL || window.webkitURL;
+                        var downloadUrl = URL.createObjectURL(blob);
+                        if (filename) {
+                            // use HTML5 a[download] attribute to specify filename
+                            var a = document.createElement("a");
+                            // safari doesn't support this yet
+                            if (typeof a.download === 'undefined') {
+                                window.location = downloadUrl;
+                            } else {
+                                a.href = downloadUrl;
+                                a.download = filename;
+                                document.body.appendChild(a);
+                                a.click();
+                            }
+                        } else {
+                            window.location = downloadUrl;
+                        }
+                        setTimeout(function () { URL.revokeObjectURL(downloadUrl); }, 100); // cleanup
+                    }
+                },
+                error: function (xhr) {
+                    loading.hide();
+                    messages.ajaxError(xhr);
+                }
+            });
+        },
+
+        clear: function () {
+            $('.UpdateIsFilter').val('');
+            $('.UpdateIsResult').hide();
+        },
+
+        backResults: function () {
+            $('.PageBlock').hide();
+            $('.UpdateIsFilter').show();
+            $('.UpdateIsResult').show();
+            commons.scrollToElement('#UpdateIsGridContainer');
+        },
+
+    };
+
+</script>

@@ -150,5 +150,37 @@ namespace Presentation.Web.Services.Proxy {
             }
         }
 
+        public decimal? ApplySelicCorrection(decimal insuredAmount, DateTime startOfTerm, DateTime endOfTerm) {
+            var serviceMethodName = "ApplySelicCorrection";
+            var methodParameters = new { insuredAmount, startOfTerm, endOfTerm };
+            LogTrace(MethodBase.GetCurrentMethod(), "Init", methodParameters, new LoggerComplement());
+
+            RawRequest rawRequest = new RawRequest();
+            try {
+
+                rawRequest.RequestUri = string.Format("{0}{1}", SERVICE_NAME, serviceMethodName);
+                LogDebug(MethodBase.GetCurrentMethod(), $"URI: {rawRequest.RequestUri}", new LoggerComplement());
+                rawRequest.BodyObject = new { insuredAmount, startOfTerm, endOfTerm };
+                LogDebug(MethodBase.GetCurrentMethod(), "Body", rawRequest.BodyObject, new LoggerComplement());
+                RawResponse rawResponse = serviceFactory.ServiceClient.Post<RawRequest, RawResponse>(rawRequest.RequestUri, rawRequest);
+                LogDebug(MethodBase.GetCurrentMethod(), "RawResponse", rawResponse, new LoggerComplement());
+
+                var serviceResponse = JsonConvert.DeserializeObject<ServiceReturn>(rawResponse.Conteudo);
+                if (!serviceResponse.Success) {
+                    throw new LegacyServiceException(serviceResponse.Message);
+                }
+                var item = JsonConvert.DeserializeObject<decimal?>(serviceResponse.Data);
+                return item;
+
+            } catch (Exception e) {
+                if (!(e is LegacyServiceException)) {
+                    LogError(MethodBase.GetCurrentMethod(), methodParameters, e, new LoggerComplement());
+                }
+                throw new IntegrationException($"Erro na chamada do serviço '{serviceMethodName}': {e.Message}", e);
+            } finally {
+                LogTrace(MethodBase.GetCurrentMethod(), "End", new LoggerComplement());
+            }
+        }
+
     }
 }

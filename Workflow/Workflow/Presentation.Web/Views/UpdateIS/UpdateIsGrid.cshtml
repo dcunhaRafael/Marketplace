@@ -1,0 +1,38 @@
+﻿@model Presentation.Web.Models.UpdateIS.UpdateISViewModel
+@using Domain.Enumerators;
+@using Domain.Util.Extensions;
+<table id="UpdateIsGrid" cellpadding="0" class="mat-table cdk-table mat-elevation-z8">
+    <thead>
+        <tr>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">ABA</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">TOMADOR</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">SEGURADO</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted text-center">APÓLICE</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted text-right">INÍCIO VIGÊNCIA</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted text-right">FIM VIGÊNCIA</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">IS</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted">IS ATUALIZADA</th>
+        </tr>
+    </thead>
+    @if (Model.Results != null) {
+        <tbody>
+            @for (int i = 0; i < Model.Results.Count; i++) {
+            <tr class="mat-row cdk-row ng-star-inserted">
+                <td class="">@(Model.Results[i].SheetName)</td>
+                <td class="">@(Model.Results[i].TakerName)</td>
+                <td class="">@(Model.Results[i].InsuredName)</td>
+                <td class="">@(Model.Results[i].PolicyNumber)</td>
+                <td class="">@(Model.Results[i].StartOfTerm.FormatDate())</td>
+                <td class="">@(Model.Results[i].EndOfTerm.FormatDate())</td>
+                <td class="text-right">@Model.Results[i].InsuredAmount.FormatDecimal()</td>
+                <td class="text-right">@Model.Results[i].UpdatedInsuredAmount?.FormatDecimal()</td>
+            </tr>
+            }
+        </tbody>
+    }
+</table>
+<script>
+    $(document).ready(function () {
+        controls.dataTableInit3("#UpdateIsGrid");
+    });
+</script>
