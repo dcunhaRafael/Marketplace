@@ -7,11 +7,12 @@
             <th class="mat-header-cell cdk-header-cell ng-star-inserted">ABA</th>
             <th class="mat-header-cell cdk-header-cell ng-star-inserted">TOMADOR</th>
             <th class="mat-header-cell cdk-header-cell ng-star-inserted">SEGURADO</th>
-            <th class="mat-header-cell cdk-header-cell ng-star-inserted text-center">APÓLICE</th>
-            <th class="mat-header-cell cdk-header-cell ng-star-inserted text-right">INÍCIO VIGÊNCIA</th>
-            <th class="mat-header-cell cdk-header-cell ng-star-inserted text-right">FIM VIGÊNCIA</th>
-            <th class="mat-header-cell cdk-header-cell ng-star-inserted">IS</th>
-            <th class="mat-header-cell cdk-header-cell ng-star-inserted">IS ATUALIZADA</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted text-right">APÓLICE</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted text-center">INÍCIO VIGÊNCIA</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted text-center">FIM VIGÊNCIA</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted text-right">IS</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted text-right">IS ATUALIZADA</th>
+            <th class="mat-header-cell cdk-header-cell ng-star-inserted text-right">DIFERENÇA</th>
         </tr>
     </thead>
     @if (Model.Results != null) {
@@ -21,11 +22,12 @@
                 <td class="">@(Model.Results[i].SheetName)</td>
                 <td class="">@(Model.Results[i].TakerName)</td>
                 <td class="">@(Model.Results[i].InsuredName)</td>
-                <td class="">@(Model.Results[i].PolicyNumber)</td>
-                <td class="">@(Model.Results[i].StartOfTerm.FormatDate())</td>
-                <td class="">@(Model.Results[i].EndOfTerm.FormatDate())</td>
+                <td class="text-right">@(Model.Results[i].PolicyNumber)</td>
+                <td class="text-center">@(Model.Results[i].StartOfTerm.FormatDate())</td>
+                <td class="text-center">@(Model.Results[i].EndOfTerm.FormatDate())</td>
                 <td class="text-right">@Model.Results[i].InsuredAmount.FormatDecimal()</td>
                 <td class="text-right">@Model.Results[i].UpdatedInsuredAmount?.FormatDecimal()</td>
+                <td class="text-right">@(((Model.Results[i].UpdatedInsuredAmount ?? 0) - Model.Results[i].InsuredAmount).FormatDecimal())</td>
             </tr>
             }
         </tbody>

@@ -138,10 +138,10 @@ namespace Integration.Workflow.WebAPI.Controllers.v1 {
         }
 
         [HttpPost("ApplySelicCorrection")]
-        public IActionResult ApplySelicCorrection(ApplySelicCorrectionRequest request) {
+        public async Task<IActionResult> ApplySelicCorrection(ApplySelicCorrectionRequest request) {
             try {
 
-                var item = selicService.ApplyCorrectionAsync(request.InsuredAmount, request.StartOfTerm, request.EndOfTerm);
+                var item = await selicService.ApplyCorrectionAsync(request.InsuredAmount, request.StartOfTerm, request.EndOfTerm);
                 return base.ReturnSuccess(data: item);
 
             } catch (Exception e) {

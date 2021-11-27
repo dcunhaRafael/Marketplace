@@ -63,8 +63,8 @@ namespace Presentation.Web.Controllers {
                         InsuredAmount = (decimal)sheet.GetRow(row).GetCell(5).NumericCellValue,
                         UpdatedInsuredAmount = null,
                     };
-                    //item.UpdatedInsuredAmount = renewalService.ApplySelicCorrection(item.InsuredAmount, item.StartOfTerm, item.EndOfTerm);
-                    item.UpdatedInsuredAmount = item.InsuredAmount * new decimal(1.1);
+                    item.UpdatedInsuredAmount = renewalService.ApplySelicCorrection(item.InsuredAmount, item.StartOfTerm, item.EndOfTerm);
+                    //item.UpdatedInsuredAmount = item.InsuredAmount * new decimal(1.1);
                     items.Add(item);
                 }
             }
@@ -83,32 +83,8 @@ namespace Presentation.Web.Controllers {
                     return base.ReturnError("Arquivo excede o tamanho máximo permitido.");
                 }
 
-                var items = ProcessItems(file.OpenReadStream());
-
-                //XSSFWorkbook hssfwb;
-                //var stream = file.OpenReadStream();
-                //hssfwb = new XSSFWorkbook(stream);
-
-                //for (int i = 0; i < hssfwb.NumberOfSheets; i++) {
-                //    ISheet sheet = hssfwb.GetSheetAt(i);
-                //    for (int row = 1; row <= sheet.LastRowNum; row++) {
-                //        var item = new ExcelItem() {
-                //            SheetName = sheet.SheetName,
-                //            TakerName = sheet.GetRow(row).GetCell(0).StringCellValue,
-                //            InsuredName = sheet.GetRow(row).GetCell(1).StringCellValue,
-                //            PolicyNumber = (long)sheet.GetRow(row).GetCell(2).NumericCellValue,
-                //            StartOfTerm = sheet.GetRow(row).GetCell(3).DateCellValue,
-                //            EndOfTerm = sheet.GetRow(row).GetCell(4).DateCellValue,
-                //            InsuredAmount = (decimal)sheet.GetRow(row).GetCell(5).NumericCellValue,
-                //            UpdatedInsuredAmount = null,
-                //        };
-                //        item.UpdatedInsuredAmount = renewalService.ApplySelicCorrection(item.InsuredAmount, item.StartOfTerm, item.EndOfTerm);
-                //        items.Add(item);
-                //    }
-                //}
-
                 var model = new UpdateISViewModel() {
-                    Results = items
+                    Results = ProcessItems(file.OpenReadStream())
                 };
                 return PartialView("~/Views/UpdateIS/UpdateIsGrid.cshtml", model);
 
@@ -132,28 +108,7 @@ namespace Presentation.Web.Controllers {
 
                 var items = ProcessItems(file.OpenReadStream());
 
-                //var stream = file.OpenReadStream();
-                //var existentWorkbook = new XSSFWorkbook(stream);
-                //for (int i = 0; i < existentWorkbook.NumberOfSheets; i++) {
-                //    ISheet sheet = existentWorkbook.GetSheetAt(i);
-                //    for (int row = 1; row <= sheet.LastRowNum; row++) {
-                //        var item = new ExcelItem() {
-                //            SheetName = sheet.SheetName,
-                //            TakerName = sheet.GetRow(row).GetCell(0).StringCellValue,
-                //            InsuredName = sheet.GetRow(row).GetCell(1).StringCellValue,
-                //            PolicyNumber = (long)sheet.GetRow(row).GetCell(2).NumericCellValue,
-                //            StartOfTerm = sheet.GetRow(row).GetCell(3).DateCellValue,
-                //            EndOfTerm = sheet.GetRow(row).GetCell(4).DateCellValue,
-                //            InsuredAmount = (decimal)sheet.GetRow(row).GetCell(5).NumericCellValue,
-                //            UpdatedInsuredAmount = null,
-                //        };
-                //        //item.UpdatedInsuredAmount = renewalService.ApplySelicCorrection(item.InsuredAmount, item.StartOfTerm, item.EndOfTerm);
-                //        items.Add(item);
-                //    }
-                //}
-
                 var newWorkbook = new XSSFWorkbook();
-
                 var format = newWorkbook.CreateDataFormat();
                 var styleDate = newWorkbook.CreateCellStyle();
                 styleDate.DataFormat = format.GetFormat("dd/mm/yyyy");
@@ -201,11 +156,9 @@ namespace Presentation.Web.Controllers {
                     }
                 }
 
-                using (var exportData = new MemoryStream()) {
-                    newWorkbook.Write(exportData);
-                    byte[] bytes = exportData.ToArray();
-                    return File(bytes, "application/octet-stream", $"ATUALIZADO-{file.FileName}");
-                }
+                using var exportData = new MemoryStream(); 
+                newWorkbook.Write(exportData);
+                return File(exportData.ToArray(), "application/octet-stream", $"ATUALIZADO-{file.FileName}");
 
             } catch (ApplicationException e) {
                 return base.ReturnError(e.Message);
