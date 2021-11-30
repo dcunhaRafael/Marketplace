@@ -1,11 +1,9 @@
-﻿using Application.Interfaces.Services;
-using Domain.Exceptions;
+﻿using Domain.Exceptions;
 using Domain.Util.Extensions;
 using LazyCache;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using Presentation.Web.Models.UpdateIS;
@@ -16,7 +14,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Presentation.Web.Controllers {
     public class UpdateIsController : BaseController {
@@ -63,8 +60,7 @@ namespace Presentation.Web.Controllers {
                         InsuredAmount = (decimal)sheet.GetRow(row).GetCell(5).NumericCellValue,
                         UpdatedInsuredAmount = null,
                     };
-                    item.UpdatedInsuredAmount = renewalService.ApplySelicCorrection(item.InsuredAmount, item.StartOfTerm, DateTime.Now.Date);// item.EndOfTerm);
-                    //item.UpdatedInsuredAmount = item.InsuredAmount * new decimal(1.1);
+                    item.UpdatedInsuredAmount = renewalService.ApplySelicCorrection(item.InsuredAmount, item.StartOfTerm, DateTime.Now.Date);
                     items.Add(item);
                 }
             }

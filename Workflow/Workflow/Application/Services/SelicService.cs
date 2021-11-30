@@ -1,5 +1,4 @@
 ﻿using Application.Interfaces.Services;
-using Domain.Enumerators;
 using Domain.Exceptions;
 using Domain.Payload;
 using Domain.Util.Log;
@@ -7,8 +6,6 @@ using Infrastructure.Interfaces.Repositories;
 using Integration.Interfaces.Legacy;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -57,10 +54,8 @@ namespace Application.Services {
             try {
 
                 var newValue = initialValue;
-                //var corrections = await selicMonthlyRepository.ListCorrectionAsync(fromDate, toDate);
                 var corrections = await selicDailyRepository.ListAsync(fromDate, toDate.AddDays(-1));
                 foreach (var correction in corrections) {
-                    //newValue = newValue + (newValue * (correction.ValueCorrection / 100M));
                     newValue = newValue + (newValue * (correction.Value / 100M));
                 }
                 return newValue;
