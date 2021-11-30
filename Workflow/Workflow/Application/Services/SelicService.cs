@@ -57,9 +57,11 @@ namespace Application.Services {
             try {
 
                 var newValue = initialValue;
-                var corrections = await selicMonthlyRepository.ListCorrectionAsync(fromDate, toDate);
+                //var corrections = await selicMonthlyRepository.ListCorrectionAsync(fromDate, toDate);
+                var corrections = await selicDailyRepository.ListAsync(fromDate, toDate.AddDays(-1));
                 foreach (var correction in corrections) {
-                    newValue = newValue + (newValue * (correction.ValueCorrection / 100M));
+                    //newValue = newValue + (newValue * (correction.ValueCorrection / 100M));
+                    newValue = newValue + (newValue * (correction.Value / 100M));
                 }
                 return newValue;
 

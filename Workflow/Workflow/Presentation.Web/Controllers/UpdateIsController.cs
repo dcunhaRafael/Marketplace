@@ -63,7 +63,7 @@ namespace Presentation.Web.Controllers {
                         InsuredAmount = (decimal)sheet.GetRow(row).GetCell(5).NumericCellValue,
                         UpdatedInsuredAmount = null,
                     };
-                    item.UpdatedInsuredAmount = renewalService.ApplySelicCorrection(item.InsuredAmount, item.StartOfTerm, item.EndOfTerm);
+                    item.UpdatedInsuredAmount = renewalService.ApplySelicCorrection(item.InsuredAmount, item.StartOfTerm, DateTime.Now.Date);// item.EndOfTerm);
                     //item.UpdatedInsuredAmount = item.InsuredAmount * new decimal(1.1);
                     items.Add(item);
                 }
