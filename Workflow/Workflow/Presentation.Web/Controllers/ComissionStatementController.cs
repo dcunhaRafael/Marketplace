@@ -44,8 +44,7 @@ namespace Portal.Web.Controllers {
         public IActionResult ComissionStatementGrid(ComissionStatementViewModel model) {
             try {
 
-                model.Statements = comissionStatementService.ListComissionStatement(model.StatementNumber, model.FromDate, model.ToDate, model.StatusId, 
-                                                                                    model.Broker, base.LoggedUserId);
+                model.Statements = comissionStatementService.ListComissionStatement(model.StatementNumber, model.FromDate, model.ToDate, model.StatusId, model.Broker, base.LoggedUserId);
                 model.Status = base.GetCached<IList<ComissionStatementStatus>>("ComissionStatementStatus", () => commonService.ListComissionStatementStatus());
 
                 var totalValue = model.Statements.Where(x => model.Status.Any(y => y.Name.Equals(x.StatusName))).Sum(x => x.ComissionValue) ?? 1.0M;
@@ -62,6 +61,12 @@ namespace Portal.Web.Controllers {
                             Percentage = Math.Round((value / totalValue) * 100M, 0)
                         });
                     }
+                }
+
+                for (int i = 0; i < model.Statements.Count; i++) {
+                    var status = model.Status.FirstOrDefault(x => x.Name.Equals(model.Statements[i].StatusName));
+                    model.Statements[i].StatusBackgroundColor = status.BackgroundColor;
+                    model.Statements[i].StatusTextColor = status.TextColor;
                 }
 
                 return PartialView("~/Views/ComissionStatement/ComissionStatementGrid.cshtml", model);

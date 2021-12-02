@@ -43,16 +43,6 @@
                 <div class="col-md-6 mb-2 form-group">
                     <label>Situação:&nbsp;@(Model.CurrentStatement.StatusName)</label>
                 </div>
-
-                <div class="col-md-3 mb-2 form-group">
-                    <label>Solicitação de pagamento:&nbsp;TODO</label>
-                </div>
-                <div class="col-md-3 mb-2 form-group">
-                    <label>Pagamento:&nbsp;@(Model.CurrentStatement.PayDay?.FormatDate())</label>
-                </div>
-                <div class="col-md-3 mb-2 form-group">
-                    <label>N° recibo:&nbsp;TODO</label>
-                </div>
             </div>
         </div>
     </div>
@@ -71,7 +61,7 @@
             <tr>
                 <th class="mat-header-cell cdk-header-cell ng-star-inserted">RAMO</th>
                 <th class="mat-header-cell cdk-header-cell ng-star-inserted">TIPO DE COMISSÃO</th>
-                <th class="mat-header-cell cdk-header-cell ng-star-inserted">VALOR COMISSÃO</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted text-right">VALOR COMISSÃO</th>
             </tr>
         </thead>
         <tbody>
@@ -98,7 +88,7 @@
         <thead>
             <tr>
                 <th class="mat-header-cell cdk-header-cell ng-star-inserted">TIPO DE COMISSÃO</th>
-                <th class="mat-header-cell cdk-header-cell ng-star-inserted">VALOR COMISSÃO</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted text-right">VALOR COMISSÃO</th>
             </tr>
         </thead>
         <tbody>
@@ -123,24 +113,52 @@
     <table class="mat-table cdk-table mat-elevation-z8">
         <thead>
             <tr>
-                <th class="mat-header-cell cdk-header-cell ng-star-inserted">$ COMISSÃO</th>
-                <th class="mat-header-cell cdk-header-cell ng-star-inserted">$ Líquido</th>
-                <th class="mat-header-cell cdk-header-cell ng-star-inserted">$ Impostos</th>
-                <th class="mat-header-cell cdk-header-cell ng-star-inserted">$ Tributado</th>
-                <th class="mat-header-cell cdk-header-cell ng-star-inserted">$ Não tributado</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted text-right">$ COMISSÃO</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted text-right">$ LÍQUIDO</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted text-right">$ IMPOSTOS</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted text-right">$ TRIBUTADO</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted text-right">$ NÃO TRIBUTADO</th>
             </tr>
         </thead>
         <tbody>
             <tr class="mat-row cdk-row ng-star-inserted">
-                <td class="text-right">@(Model.CurrentStatement.ComissionValue?.FormatCurrency())</td>
-                <td class="text-right">TODO</td>
-                <td class="text-right">TODO</td>
-                <td class="text-right">TODO</td>
-                <td class="text-right">TODO</td>
+                <td class="text-right">@(Model.StatementDetails.FirstOrDefault()?.ComissionValue?.FormatCurrency())</td>
+                <td class="text-right">@(Model.StatementDetails.FirstOrDefault()?.ComissionNetValue?.FormatCurrency())</td>
+                <td class="text-right">@(Model.StatementDetails.FirstOrDefault()?.TaxValue?.FormatCurrency())</td>
+                <td class="text-right">@(Model.StatementDetails.FirstOrDefault()?.TaxableComissionValue?.FormatCurrency())</td>
+                <td class="text-right">@(Model.StatementDetails.FirstOrDefault()?.NotTaxableComissionValue?.FormatCurrency())</td>
             </tr>
         </tbody>
     </table>
 </div>
+<div class="col-12"><br /></div>
+
+<div class="col-12">
+    <h5 class="section-header-default"><i class="fas fa-hand-holding-usd"></i>&nbsp;Pagamento</h5>
+</div>
+<div class="col-12">
+    <hr class="remove-top-margin">
+</div>
+<div class="col-12 table-responsive">
+    <table class="mat-table cdk-table mat-elevation-z8">
+        <thead>
+            <tr>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted text-center">$ SOLICITAÇÃO DE PAGAMENTO</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted text-center">$ PAGAMENTO</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted text-right">$ RECIBO</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="mat-row cdk-row ng-star-inserted">
+                <td class="text-center">@(Model.StatementDetails.FirstOrDefault()?.PaymentRequestDate?.FormatDate())</td>
+                <td class="text-center">@(Model.CurrentStatement.PayDay?.FormatDate())</td>
+                <td class="text-right">@(Model.StatementDetails.FirstOrDefault()?.ReceiptNumber)</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
 <div class="col-12 mt-4">
     <button type="button" class="btn mat-focus-indicator button__white mat-raised-button mat-button-base" onclick="ComissionStatement.backResults()">VOLTAR</button>
 </div>

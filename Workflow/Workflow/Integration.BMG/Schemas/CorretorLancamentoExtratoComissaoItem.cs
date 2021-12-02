@@ -17,6 +17,7 @@
         public string nm_tp_comissao { get; set; }
         public decimal Pe_comissao { get; set; }
         public decimal vl_premio_base { get; set; }
+        public decimal vl_comissao { get; set; }
         public int cd_ramo { get; set; }
         public string nm_ramo { get; set; }
     }

@@ -9,8 +9,11 @@
         public string dt_pagto { get; set; }
         public string dt_solicitacao_pagamento { get; set; }
         public string nm_situacao_extrado { get; set; }
+        public decimal vl_imposto { get; set; }
+        public decimal vl_comissao_tributavel { get; set; }
         public decimal vl_comissao_nao_tributavel { get; set; }
-        public int ColunaSemNome13 { get; set; }
+        public int nr_recibo { get; set; }
+        public int cd_usuario_autenticacao { get; set; }
         public CorretorDetalheExtratoComissaoImpostos Imposto { get; set; }
         public CorretorDetalheExtratoComissaoItens Itens { get; set; }
     }

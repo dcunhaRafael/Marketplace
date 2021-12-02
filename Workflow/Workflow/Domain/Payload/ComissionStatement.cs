@@ -22,5 +22,7 @@ namespace Domain.Payload {
         public decimal? ComissionValue { get; set; }
         public DateTime? PayDay { get; set; }
         public string StatusName { get; set; }
+        public string StatusBackgroundColor { get; set; }
+        public string StatusTextColor { get; set; }
     }
 }

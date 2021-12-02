@@ -147,7 +147,8 @@ namespace Presentation.Web.Controllers {
                         newCell = newRow.CreateCell(7); newCell.SetCellValue((double)(item.UpdatedInsuredAmount - item.InsuredAmount)); newCell.CellStyle = styleCurrency;
                         newCell = newRow.CreateCell(8); newCell.SetCellValue("");
                         newCell = newRow.CreateCell(9); newCell.SetCellValue("");
-                        newCell = newRow.CreateCell(10); newCell.SetCellValue(string.Format(insuredObjectText.ToString(), item.PolicyNumber, item.InsuredAmount.FormatCurrency(), item.InsuredAmount.FormatCurrency()));
+                        newCell = newRow.CreateCell(10); newCell.SetCellValue(string.Format(insuredObjectText.ToString(), 
+                               item.PolicyNumber, item.InsuredAmount.FormatCurrency(), item.UpdatedInsuredAmount?.FormatCurrency()));
                         rowIndex++;
                     }
                 }

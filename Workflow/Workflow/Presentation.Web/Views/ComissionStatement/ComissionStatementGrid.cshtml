@@ -29,7 +29,7 @@
                     <div class="col-12 mb-2 form-group">
                         <label>@(item.Status.Name):&nbsp;@(item.Value.FormatCurrency())</label>
                         <div class="progress" style="height: 2em;">
-                            <div class="progress-bar" role="progressbar" style="width: @(item.Percentage)%; background-color: @(item.Status.BackgroundColor);"
+                            <div class="progress-bar" role="progressbar" style="width: @(item.Percentage)%; color: @(item.Status.TextColor); background-color: @(item.Status.BackgroundColor);"
                                  aria-valuenow="@(item.Percentage)" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
@@ -74,7 +74,7 @@
                                     <td class="text-center">@(item.OpeningDate?.FormatDate())</td>
                                     <td class="text-center">@(item.ClosingDate?.FormatDate())</td>
                                     <td class="text-center">@(item.PayDay?.FormatDate())</td>
-                                    <td>@(item.StatusName)</td>
+                                    <td style="color: @(item.StatusTextColor); background-color: @(item.StatusBackgroundColor);">@(item.StatusName)</td>
                                     <td class="text-center">
                                         <a title="Capa do extrato" href="#" onclick="event.preventDefault(); ComissionStatement.openStatementCover('@(item.StatementNumber)', '@(item.Competency)');">
                                             <span class="fas fa-file-invoice-dollar" />
@@ -93,7 +93,7 @@
     </div>
 </div>
 <div class="col-12 mt-4">
-    <button type="button" class="btn mat-focus-indicator button__white mat-raised-button mat-button-base" onclick="ComissionStatement.backResults()">VOLTAR</button>
+    <button type="button" class="btn mat-focus-indicator button__white mat-raised-button mat-button-base" onclick="ComissionStatement.back()">VOLTAR</button>
 </div>
 <form id="formSelectedStatement" autocomplete="off">
     <input type="hidden" class="SelectedStatement BrokerName" name="@Html.NameFor(x=> x.Broker.Name)" value="@(Model.Broker.Name)" />

@@ -44,7 +44,7 @@ namespace Integration.BMG.Mappers {
                     mappedList.Add(new ComissionStatementDetail() {
                         Broker = new Broker() {
                             LegacyCode = item.id_pessoa_corretor,
-                            LegacyUserId = item.ColunaSemNome13,
+                            LegacyUserId = item.cd_usuario_autenticacao,
                             Name = item.nm_corretor,
                         },
                         StatementNumber = item.cd_extrato,
@@ -54,7 +54,10 @@ namespace Integration.BMG.Mappers {
                         PayDay = item.dt_pagto?.ToDateTime(),
                         PaymentRequestDate = item.dt_solicitacao_pagamento?.ToDateTime(),
                         StatusName = item.nm_situacao_extrado,
+                        TaxValue = item.vl_imposto,
+                        TaxableComissionValue = item.vl_comissao_tributavel,
                         NotTaxableComissionValue = item.vl_comissao_nao_tributavel,
+                        ReceiptNumber = item.nr_recibo
                     });
                 }
                 return mappedList;
@@ -70,7 +73,7 @@ namespace Integration.BMG.Mappers {
                     mappedList.Add(new ComissionStatementType() {
                         Broker = new Broker() {
                             LegacyCode = item.id_pessoa_corretor,
-                            LegacyUserId = item.ColunaSemNome4
+                            LegacyUserId = item.cd_usuario_autenticacao
                         },
                         ComissionTypeId = item.codigoTipoComissao,
                         ComissionTypeName = item.descricaoTipoComissao,
@@ -90,7 +93,7 @@ namespace Integration.BMG.Mappers {
                     mappedList.Add(new ComissionStatementBusiness() {
                         Broker = new Broker() {
                             LegacyCode = item.id_pessoa_corretor,
-                            LegacyUserId = item.ColunaSemNome6
+                            LegacyUserId = item.cd_usuario_autenticacao
                         },
                         BusinessId = item.CodigoRamo,
                         BusinessName = item.DescricaoRamo,
@@ -124,7 +127,7 @@ namespace Integration.BMG.Mappers {
                         InsuredName = item.nm_segurado,
                         ComissionPercentage = item.Pe_comissao,
                         TariffPremiumValue = item.vl_premio_base,
-                        //ComissionValue = item.vl_comissao
+                        ComissionValue = item.vl_comissao
                     });
                 }
                 return mappedList;

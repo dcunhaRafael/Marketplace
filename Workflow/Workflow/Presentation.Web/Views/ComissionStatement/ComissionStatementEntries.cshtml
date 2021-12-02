@@ -68,31 +68,25 @@
                 <th class="mat-header-cell cdk-header-cell ng-star-inserted">PARCELA</th>
                 <th class="mat-header-cell cdk-header-cell ng-star-inserted">SEGURADO</th>
                 <th class="mat-header-cell cdk-header-cell ng-star-inserted">PRÊMIO</th>
-                <th class="mat-header-cell cdk-header-cell ng-star-inserted">TIPO DE COMISSÃO</th>
-                <th class="mat-header-cell cdk-header-cell ng-star-inserted">% COMISSÃO</th>
-                <th class="mat-header-cell cdk-header-cell ng-star-inserted">VALOR COMISSÃO</th>
-                @*<th class="">Histórico</th>*@
-                @*<th class="text-right" style="width:150px">Débito</th>*@
-                @*<th class="text-right" style="width:150px">Crédito</th>*@
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted text-nowrap">TIPO DE COMISSÃO</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted text-nowrap">% COMISSÃO</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted text-nowrap">VALOR COMISSÃO</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model.StatementEntries) {
                 <tr class="mat-row cdk-row ng-star-inserted">
-                    <td>@(item.EntryNumber)</td>
-                    <td>@(item.BusinessId) - @(item.BusinessName)</td>
-                    <td>@(item.ProposalNumber)</td>
-                    <td>@(item.PolicyNumber)</td>
-                    <td>@(item.EndorsementNumber)</td>
-                    <td class="text-right">@(item.InstallmentNumber)</td>
-                    <td>@(item.InsuredName)</td>
-                    <td class="text-right">@(item.TariffPremiumValue?.FormatCurrency())</td>
-                    <td>@(item.ComissionTypeName)</td>
-                    <td class="text-right">@(item.ComissionPercentage?.FormatDecimal())</td>
-                    <td class="text-right">@(item.ComissionValue?.FormatCurrency())</td>
-                    @*<td>TODO</td>*@
-                    @*<td class="text-right">TODO</td>*@
-                    @*<td class="text-right">TODO</td>*@
+                    <td class="text-nowrap">@(item.EntryNumber)</td>
+                    <td class="text-nowrap">@(item.BusinessId) - @(item.BusinessName)</td>
+                    <td class="text-nowrap">@(item.ProposalNumber)</td>
+                    <td class="text-nowrap">@(item.PolicyNumber)</td>
+                    <td class="text-nowrap">@(item.EndorsementNumber)</td>
+                    <td class="text-nowrap text-right">@(item.InstallmentNumber)</td>
+                    <td class="text-nowrap">@(item.InsuredName)</td>
+                    <td class="text-nowrap text-right">@(item.TariffPremiumValue?.FormatCurrency())</td>
+                    <td class="text-nowrap">@(item.ComissionTypeName)</td>
+                    <td class="text-nowrap text-right">@(item.ComissionPercentage?.FormatDecimal())</td>
+                    <td class="text-nowrap text-right">@(item.ComissionValue?.FormatCurrency())</td>
                 </tr>
             }
         </tbody>

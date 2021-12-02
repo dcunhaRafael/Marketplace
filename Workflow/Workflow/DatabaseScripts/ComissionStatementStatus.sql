@@ -9,6 +9,8 @@ CREATE TABLE [dbo].[ComissionStatementStatus](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Name] [varchar](200) NOT NULL,
 	[LegacyCode] [varchar](100) NULL,
+	[BackgroundColor] [varchar](100) NULL,
+	[TextColor] [varchar](100) NULL,
 	[Status] [int] NOT NULL,
 	[InclusionUserId] [int] NOT NULL,
 	[InclusionDate] [datetime] NOT NULL,

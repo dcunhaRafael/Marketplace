@@ -6,7 +6,7 @@
         public int CodigoTipoComissao { get; set; }
         public string DescricaoTipoComissao { get; set; }
         public decimal ValorComissao { get; set; }
-        public int ColunaSemNome6 { get; set; }
+        public int cd_usuario_autenticacao { get; set; }
     }
 }
 

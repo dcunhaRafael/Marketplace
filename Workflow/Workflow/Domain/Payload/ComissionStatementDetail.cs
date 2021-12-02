@@ -15,17 +15,20 @@ namespace Domain.Payload {
         public DateTime? PayDay { get; set; }
         public DateTime? PaymentRequestDate { get; set; }
         public string StatusName { get; set; }
+        public decimal? TaxValue { get; set; }
+        public decimal? TaxableComissionValue { get; set; }
         public decimal? NotTaxableComissionValue { get; set; }
+        public int ReceiptNumber { get; set; }
 
-
-        // Novos
-        //public DateTime? dataAbertura { get; set; }
-        //public DateTime? dataFechamento { get; set; }
-        //public decimal? valorImposto { get; set; }
-        //public decimal? valorComissaoTributavel { get; set; }
-        //public string NumeroReciboPagamento { get; set; }
-        //public DateTime? DataRetornoPagamento { get; set; }
-        //public string codigoSucursal { get; set; }
-        //public string nomeSucursaal { get; set; }
+        public decimal? ComissionNetValue {
+            get {
+                if (this.ComissionValue != null) {
+                    var netValue = this.ComissionValue.Value;
+                    netValue = (netValue - (this.TaxValue ?? 0));
+                    return netValue;
+                }
+                return null;
+            }
+        }
     }
 }
