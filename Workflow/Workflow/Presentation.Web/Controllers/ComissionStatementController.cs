@@ -1,5 +1,7 @@
-﻿using Domain.Exceptions;
+﻿using Domain.Enumerators;
+using Domain.Exceptions;
 using Domain.Payload;
+using Domain.Util.Extensions;
 using LazyCache;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -43,6 +45,33 @@ namespace Portal.Web.Controllers {
         [HttpPost]
         public IActionResult ComissionStatementGrid(ComissionStatementViewModel model) {
             try {
+
+                switch (model.SearchPeriodId) {
+                    case SearchRangeEnum.Last30Days:
+                        model.FromDate = DateTime.Now.Date.AddDays(-30);
+                        model.ToDate = DateTime.Now.Date;
+                        break;
+                    case SearchRangeEnum.Last60Days:
+                        model.FromDate = DateTime.Now.Date.AddDays(-60);
+                        model.ToDate = DateTime.Now.Date;
+                        break;
+                    case SearchRangeEnum.Last90Days:
+                        model.FromDate = DateTime.Now.Date.AddDays(-90);
+                        model.ToDate = DateTime.Now.Date;
+                        break;
+                    case SearchRangeEnum.SpecificYearMonth:
+                        if (model.MonthNumber == null) {
+                            model.FromDate = new DateTime(model.YearNumber.Value, 1, 1);
+                            model.ToDate = new DateTime(model.YearNumber.Value, 12, 31);
+                        } else {
+                            model.FromDate = new DateTime(model.YearNumber.Value, model.MonthNumber.Value, 1);
+                            model.ToDate = (new DateTime(model.MonthNumber.Value, model.MonthNumber.Value, 1)).ToLastDayOfMonth();
+                        }
+                        break;
+                    case SearchRangeEnum.SpecificPeriod:
+                    default:
+                        break;
+                }
 
                 model.Statements = comissionStatementService.ListComissionStatement(model.StatementNumber, model.FromDate, model.ToDate, model.StatusId, model.Broker, base.LoggedUserId);
                 model.Status = base.GetCached<IList<ComissionStatementStatus>>("ComissionStatementStatus", () => commonService.ListComissionStatementStatus());

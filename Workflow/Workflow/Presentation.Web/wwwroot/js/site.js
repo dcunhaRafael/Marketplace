@@ -27,7 +27,7 @@ var commons = {
         return ('' + input).replace(/\D/g, '');
     },
 
-   isUndefined: function (pobj) {
+    isUndefined: function (pobj) {
         return (pobj == undefined);
     },
 
@@ -477,6 +477,21 @@ var validationrules = {
         $(selector).each(function () {
             $(this).rules('remove');
             $(this).removeClass("error");
+        });
+    },
+
+    removeRule: function (selector, rule) {
+        $(selector).each(function () {
+            $(this).rules('remove', rule);
+            $(this).removeClass(rule);
+            $(this).removeClass("error");
+        });
+    },
+
+    addRule: function (selector, rule) {
+        $(selector).each(function () {
+            $(this).rules('add', rule);
+            $(this).addClass(rule);
         });
     },
 

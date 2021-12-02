@@ -1,5 +1,6 @@
 ﻿@model Portal.Web.Models.ComissionStatement.ComissionStatementViewModel;
 @using Domain.Util.Extensions;
+@using Domain.Enumerators;
 @{
     ViewBag.Title = "Extrato de Comissão";
 }
@@ -36,33 +37,64 @@
             </div>
 
             <div class="col-md-3 form-group">
+                <label>Situação</label>
+                <select name="@Html.NameFor(x=> x.StatusId)" class="form-control mat-input-element mat-form-field-autofill-control search-input">
+                    <option value="">Todas</option>
+                    @foreach (var item in Model.Status) {
+                        <option value="@item.LegacyCode">@item.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-3 form-group">
+                <label class="label-default">Período de busca</label>
+                <select class="form-control mat-input-element mat-form-field-autofill-control search-input required"
+                        name="@Html.NameFor(x=> x.SearchPeriodId)" id="SearchPeriodId"
+                        onchange="ComissionStatement.searchPeriodChange(this.value);">
+                    @foreach (var item in EnumExtensions.ToList<SearchRangeEnum>()) {
+                        <option value="@item.Key">@item.Value</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-3 form-group SearchPeriodId SpecificPeriod" style="display: none">
                 <label>A partir de</label>
                 <div class="input-group">
                     <input type="text" class="form-control mat-input-element mat-form-field-autofill-control mask-date search-input FromDate"
-                           name="@Html.NameFor(x=> x.FromDate)" required>
+                           name="@Html.NameFor(x=> x.FromDate)" id="FromDate">
                     <div class="input-group-append">
                         <span class="input-group-text"><i class="fas fa-calendar-alt" onclick="$('.FromDate').focus();"></i></span>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-3 form-group">
+            <div class="col-md-3 form-group SearchPeriodId SpecificPeriod" style="display: none">
                 <label>Até</label>
                 <div class="input-group">
                     <input type="text" class="form-control mat-input-element mat-form-field-autofill-control mask-date search-input ToDate"
-                           name="@Html.NameFor(x=> x.ToDate)" required>
+                           name="@Html.NameFor(x=> x.ToDate)" id="ToDate">
                     <div class="input-group-append">
                         <span class="input-group-text"><i class="fas fa-calendar-alt" onclick="$('.ToDate').focus();"></i></span>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-3 form-group">
-                <label>Situação</label>
-                <select name="@Html.NameFor(x=> x.StatusId)" class="form-control mat-input-element mat-form-field-autofill-control search-input">
-                    <option value="">Todas</option>
-                    @foreach (var item in Model.Status) {
-                        <option value="@item.LegacyCode">@item.Name</option>
+            <div class="col-xl-3 col-md-3 form-group SearchPeriodId SpecificYearMonth" style="display: none">
+                <label class="label-default">Ano</label>
+                <select class="form-control mat-input-element mat-form-field-autofill-control search-input" name="@Html.NameFor(x=> x.YearNumber)" id="YearNumber">
+                    <option value="">Selecione</option>
+                    @foreach (var item in Model.Years) {
+                        <option value="@item.Key">@item.Value</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-3 form-group SearchPeriodId SpecificYearMonth" style="display: none">
+                <label class="label-default">Mês</label>
+                <select class="form-control mat-input-element mat-form-field-autofill-control search-input" name="@Html.NameFor(x=> x.MonthNumber)" id="MonthNumber">
+                    <option value="">Todos</option>
+                    @foreach (var item in Model.Months) {
+                        <option value="@item.Key">@item.Value</option>
                     }
                 </select>
             </div>
@@ -129,6 +161,25 @@
 
     var ComissionStatement = {
 
+        searchPeriodChange: function (value) {
+            $('.SearchPeriodId').hide();
+
+            validationrules.removeRule('#FromDate', 'required')
+            validationrules.removeRule('#ToDate', 'required')
+            validationrules.removeRule('#YearNumber', 'required')
+            //validationrules.removeRule('#MonthNumber', 'required')
+
+            if (value == '@((int)SearchRangeEnum.SpecificPeriod)') {
+                $('.SpecificPeriod').show();
+                validationrules.addRule('#FromDate', 'required')
+                validationrules.addRule('#ToDate', 'required')
+            }
+            if (value == '@((int)SearchRangeEnum.SpecificYearMonth)') {
+                $('.SpecificYearMonth').show();
+                validationrules.addRule('#YearNumber', 'required')
+            }
+        },
+
         search: function () {
             commons.postAndCallback('#formComissionStatement', true, function (formValues) {
                 $.ajax({
@@ -155,6 +206,9 @@
 
         clear: function () {
             $('.search-input').val('');
+            $('#SearchPeriodId').val('@((int)SearchRangeEnum.Last30Days)');
+            $('#YearNumber').val('@(DateTime.Now.Year)');
+            ComissionStatement.searchPeriodChange('@((int)SearchRangeEnum.Last30Days)');
         },
 
         back: function () {
