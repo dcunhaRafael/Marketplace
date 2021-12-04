@@ -16,7 +16,8 @@ namespace Portal.Web.Models.ComissionStatement {
             this.StatementEntries = new List<ComissionStatementEntry>();
             this.StatementTypes = new List<ComissionStatementType>();
             this.StatementBusiness = new List<ComissionStatementBusiness>();
-            this.StatementDetails = new List<ComissionStatementDetail>();
+            this.StatementDetail = new ComissionStatementDetail();
+            this.StatementPayments = new List<ComissionStatementPayment>();
 
             this.SearchPeriodId = SearchRangeEnum.Last30Days;
             this.YearNumber = DateTime.Now.Year;
@@ -63,6 +64,7 @@ namespace Portal.Web.Models.ComissionStatement {
         public IList<ComissionStatementEntry> StatementEntries { get; set; }
         public IList<ComissionStatementType> StatementTypes { get; set; }
         public IList<ComissionStatementBusiness> StatementBusiness { get; set; }
-        public IList<ComissionStatementDetail> StatementDetails { get; set; }
+        public ComissionStatementDetail StatementDetail { get; set; }
+        public IList<ComissionStatementPayment> StatementPayments { get; set; }
     }
 }

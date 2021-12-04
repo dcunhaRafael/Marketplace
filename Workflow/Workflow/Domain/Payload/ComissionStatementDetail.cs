@@ -1,10 +1,12 @@
 ﻿using Domain.Entities;
 using System;
+using System.Collections.Generic;
 
 namespace Domain.Payload {
     public class ComissionStatementDetail {
         public ComissionStatementDetail() {
             this.Broker = new Broker();
+            this.Taxes = new List<ComissionStatementDetailTax>();
         }
 
         public Broker Broker { get; set; }
@@ -19,6 +21,7 @@ namespace Domain.Payload {
         public decimal? TaxableComissionValue { get; set; }
         public decimal? NotTaxableComissionValue { get; set; }
         public int ReceiptNumber { get; set; }
+        public IList<ComissionStatementDetailTax> Taxes { get; set; }
 
         public decimal? ComissionNetValue {
             get {
@@ -30,5 +33,10 @@ namespace Domain.Payload {
                 return null;
             }
         }
+
+        public string ImportantWarningText { get; set; }
+        public string PaymentBank { get; set; }
+        public string PaymentBranch { get; set; }
+        public string PaymentAccount { get; set; }
     }
 }

@@ -115,9 +115,24 @@ namespace Portal.Web.Controllers {
 
                 model.CurrentStatement = comissionStatementService.ListComissionStatement(model.StatementNumber, null, null, null, model.Broker, 
                                                                                           base.LoggedUserId).FirstOrDefault(x => x.Competency.Equals(model.Competency));
-                model.StatementDetails = comissionStatementService.ListComissionStatementDetais(model.StatementNumber.Value, model.Competency, model.Broker, base.LoggedUserId);
+                model.StatementDetail = comissionStatementService.GetComissionStatementDetail(model.StatementNumber.Value, model.Competency, model.Broker, base.LoggedUserId);
                 model.StatementTypes = comissionStatementService.ListComissionStatementTypes(model.StatementNumber.Value, model.Competency, model.Broker, base.LoggedUserId);
                 model.StatementBusiness = comissionStatementService.ListComissionStatementBusiness(model.StatementNumber.Value, model.Competency, model.Broker, base.LoggedUserId);
+
+                foreach (var item in model.StatementTypes) {
+                    model.StatementPayments.Add(new ComissionStatementPayment() {
+                        Name = item.ComissionTypeName,
+                        DebitValue = (item.ComissionValue.Value < 0M ? item.ComissionValue.Value * -1M : 0M),
+                        CreditValue = (item.ComissionValue.Value > 0M ? item.ComissionValue.Value : 0M)
+                    });
+                }
+                foreach (var item in model.StatementDetail.Taxes) {
+                    model.StatementPayments.Add(new ComissionStatementPayment() {
+                        Name = item.Name,
+                        DebitValue = item.Value.Value,
+                        CreditValue = 0M
+                    });
+                }
 
                 return PartialView("~/Views/ComissionStatement/ComissionStatementCover.cshtml", model);
 

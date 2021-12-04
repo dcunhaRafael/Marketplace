@@ -122,11 +122,11 @@
         </thead>
         <tbody>
             <tr class="mat-row cdk-row ng-star-inserted">
-                <td class="text-right">@(Model.StatementDetails.FirstOrDefault()?.ComissionValue?.FormatCurrency())</td>
-                <td class="text-right">@(Model.StatementDetails.FirstOrDefault()?.ComissionNetValue?.FormatCurrency())</td>
-                <td class="text-right">@(Model.StatementDetails.FirstOrDefault()?.TaxValue?.FormatCurrency())</td>
-                <td class="text-right">@(Model.StatementDetails.FirstOrDefault()?.TaxableComissionValue?.FormatCurrency())</td>
-                <td class="text-right">@(Model.StatementDetails.FirstOrDefault()?.NotTaxableComissionValue?.FormatCurrency())</td>
+                <td class="text-right">@(Model.StatementDetail?.ComissionValue?.FormatCurrency())</td>
+                <td class="text-right">@(Model.StatementDetail?.ComissionNetValue?.FormatCurrency())</td>
+                <td class="text-right">@(Model.StatementDetail?.TaxValue?.FormatCurrency())</td>
+                <td class="text-right">@(Model.StatementDetail?.TaxableComissionValue?.FormatCurrency())</td>
+                <td class="text-right">@(Model.StatementDetail?.NotTaxableComissionValue?.FormatCurrency())</td>
             </tr>
         </tbody>
     </table>
@@ -150,14 +150,59 @@
         </thead>
         <tbody>
             <tr class="mat-row cdk-row ng-star-inserted">
-                <td class="text-center">@(Model.StatementDetails.FirstOrDefault()?.PaymentRequestDate?.FormatDate())</td>
+                <td class="text-center">@(Model.StatementDetail?.PaymentRequestDate?.FormatDate())</td>
                 <td class="text-center">@(Model.CurrentStatement.PayDay?.FormatDate())</td>
-                <td class="text-right">@(Model.StatementDetails.FirstOrDefault()?.ReceiptNumber)</td>
+                <td class="text-right">@(Model.StatementDetail?.ReceiptNumber)</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="col-12"><br /></div>
+
+<div class="col-12">
+    <h5 class="section-header-default"><i class="fas fa-file-invoice-dollar"></i>&nbsp;Demonstrativo de saldo</h5>
+</div>
+<div class="col-12">
+    <hr class="remove-top-margin">
+</div>
+<div class="col-12 table-responsive">
+    <table class="mat-table cdk-table mat-elevation-z8">
+        <thead>
+            <tr>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted">DESCRIÇÃO</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted text-right">VALOR DÉBITO</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted text-right">VALOR CRÉDITO</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.StatementPayments) {
+                <tr class="mat-row cdk-row ng-star-inserted">
+                    <td class="">@(item.Name)</td>
+                    <td class="text-right">@(item.DebitValue.FormatCurrency())</td>
+                    <td class="text-right">@(item.CreditValue.FormatCurrency())</td>
+                </tr>
+            }
+            <tr class="mat-row cdk-row ng-star-inserted">
+                <td class="font-weight-bold">Pagamentos</td>
+                <td class="text-right font-weight-bold">@(Model.StatementPayments.Sum(x=> x.DebitValue).FormatCurrency())</td>
+                <td class="text-right font-weight-bold">@(Model.StatementPayments.Sum(x => x.CreditValue).FormatCurrency())</td>
             </tr>
         </tbody>
     </table>
 </div>
 
+@if (!string.IsNullOrWhiteSpace(Model.StatementDetail.ImportantWarningText)) {
+    <div class="col-12"><br /></div>
+    <div class="col-12">
+        <h5 class="section-header-default"><i class="fas fa-exclamation-circle"></i>&nbsp;Aviso importante</h5>
+    </div>
+    <div class="col-12">
+        <hr class="remove-top-margin">
+    </div>
+    <div class="col-12 table-responsive">
+        <textarea class="form-control form-control-sm required" rows="4" readonly>@(Model.StatementDetail.ImportantWarningText)</textarea>
+    </div>
+}
 
 <div class="col-12 mt-4">
     <button type="button" class="btn mat-focus-indicator button__white mat-raised-button mat-button-base" onclick="ComissionStatement.backResults()">VOLTAR</button>

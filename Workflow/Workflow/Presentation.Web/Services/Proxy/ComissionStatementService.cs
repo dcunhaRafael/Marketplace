@@ -63,8 +63,8 @@ namespace Presentation.Web.Services.Proxy {
             }
         }
 
-        public IList<ComissionStatementDetail> ListComissionStatementDetais(int statementNumber, string competency, Broker broker, int loggedUserId) {
-            var serviceMethodName = "ListComissionStatementDetais";
+        public ComissionStatementDetail GetComissionStatementDetail(int statementNumber, string competency, Broker broker, int loggedUserId) {
+            var serviceMethodName = "GetComissionStatementDetail";
             var methodParameters = new { statementNumber, competency, broker };
             LogTrace(MethodBase.GetCurrentMethod(), "Init", methodParameters, new LoggerComplement());
 
@@ -89,9 +89,8 @@ namespace Presentation.Web.Services.Proxy {
                 if (!serviceResponse.Success) {
                     throw new LegacyServiceException(serviceResponse.Message);
                 }
-                var items = JsonConvert.DeserializeObject<IList<ComissionStatementDetail>>(serviceResponse.Data);
-                return items;
-
+                var item = JsonConvert.DeserializeObject<ComissionStatementDetail>(serviceResponse.Data);
+                return item;
             } catch (Exception e) {
                 if (!(e is LegacyServiceException)) {
                     LogError(MethodBase.GetCurrentMethod(), methodParameters, e, new LoggerComplement());

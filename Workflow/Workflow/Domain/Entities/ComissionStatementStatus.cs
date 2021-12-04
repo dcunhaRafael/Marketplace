@@ -12,6 +12,6 @@ namespace Domain.Entities {
         public string LegacyCode { get; set; }
         public string BackgroundColor { get; set; }
         public string TextColor { get; set; }
-
+        public string ImportantWarningText { get; set; }
     }
 }

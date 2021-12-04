@@ -5,5 +5,6 @@ using System.Threading.Tasks;
 namespace Infrastructure.Interfaces.Repositories {
     public interface IComissionStatementStatusRepository {
         Task<IList<ComissionStatementStatus>> ListAsync();
+        Task<ComissionStatementStatus> GetAsync(string name);
     }
 }

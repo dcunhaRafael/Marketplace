@@ -11,6 +11,7 @@ CREATE TABLE [dbo].[ComissionStatementStatus](
 	[LegacyCode] [varchar](100) NULL,
 	[BackgroundColor] [varchar](100) NULL,
 	[TextColor] [varchar](100) NULL,
+	[ImportantWarningText][varchar](MAX) NULL,
 	[Status] [int] NOT NULL,
 	[InclusionUserId] [int] NOT NULL,
 	[InclusionDate] [datetime] NOT NULL,

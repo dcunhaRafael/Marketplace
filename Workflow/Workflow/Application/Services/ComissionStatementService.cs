@@ -2,6 +2,7 @@
 using Domain.Exceptions;
 using Domain.Payload;
 using Domain.Util.Log;
+using Domain.Util.Extensions;
 using Infrastructure.Interfaces.Repositories;
 using Integration.Interfaces.Legacy;
 using Microsoft.Extensions.Logging;
@@ -60,13 +61,20 @@ namespace Application.Services {
             }
         }
 
-        public IList<ComissionStatementDetail> ListComissionStatementDetais(int statementNumber, string competency, string brokerLegacyCode, string brokerSusepCode, int brokerUserId, int loggedUserId) {
+        public async Task<ComissionStatementDetail> GetComissionStatementDetail(int statementNumber, string competency, string brokerLegacyCode, string brokerSusepCode, int brokerUserId, int loggedUserId) {
             var methodParameters = new { statementNumber, competency, brokerLegacyCode, brokerSusepCode, brokerUserId, loggedUserId };
             LogTrace(MethodBase.GetCurrentMethod(), "Init", methodParameters);
             try {
 
-                var items = legacyBrokerService.ListComissionStatementDetais(statementNumber, competency, brokerLegacyCode, brokerSusepCode, brokerUserId, new LoggerComplement() { UserId = loggedUserId });
-                return items;
+                var items = legacyBrokerService.ListComissionStatementDetails(statementNumber, competency, brokerLegacyCode, brokerSusepCode, brokerUserId, new LoggerComplement() { UserId = loggedUserId });
+                var detail = items.FirstOrDefault(); ;
+
+                var status = await comissionStatementStatusRepository.GetAsync(detail.StatusName);
+                if (!string.IsNullOrWhiteSpace(status?.ImportantWarningText)) {
+                    detail.ImportantWarningText = FillText(status.ImportantWarningText, detail);
+
+                }
+                return detail;
 
             } catch (Exception e) {
                 if (!(e is ServiceException || e is IntegrationException)) {
@@ -77,6 +85,19 @@ namespace Application.Services {
                 LogTrace(MethodBase.GetCurrentMethod(), "End");
             }
         }
+
+        private string FillText(string bodyText, ComissionStatementDetail detail) {
+            bodyText = bodyText.Replace("@{NUMERO_EXTRATO}", detail.StatementNumber.ToString());
+            bodyText = bodyText.Replace("@{NOME_CORRETOR}", detail.Broker.Name);
+            bodyText = bodyText.Replace("@{COMPETENCIA}", detail.Competency);
+            bodyText = bodyText.Replace("@{NUMERO_RECIBO}", detail.ReceiptNumber.ToString());
+            bodyText = bodyText.Replace("@{VALOR_PAGAMENTO}", detail.ComissionNetValue?.FormatCurrency());
+            bodyText = bodyText.Replace("@{BANCO_PAGAMENTO}", detail.PaymentBank);
+            bodyText = bodyText.Replace("@{AGENCIA_PAGAMENTO}", detail.PaymentBranch);
+            bodyText = bodyText.Replace("@{CONTA_PAGAMENTO}", detail.PaymentAccount);
+            return bodyText.ToString();
+        }
+
 
         public IList<ComissionStatementType> ListComissionStatementTypes(int statementNumber, string competency, string brokerLegacyCode, string brokerSusepCode, int brokerUserId, int loggedUserId) {
             var methodParameters = new { statementNumber, competency, brokerLegacyCode, brokerSusepCode, brokerUserId, loggedUserId };

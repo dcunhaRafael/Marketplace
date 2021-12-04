@@ -23,5 +23,17 @@ namespace Infrastructure.Dapper.MSSQL.Repositories {
 
             return entity.ToList();
         }
+
+        public async Task<ComissionStatementStatus> GetAsync(string name) {
+            var query = new StringBuilder()
+                .AppendLine("SELECT *")
+                .AppendLine("FROM ComissionStatementStatus")
+                .AppendLine("WHERE Name = @Name");
+
+            using var dbConn = base.GetMarketplaceDbConnection();
+            var entity = await dbConn.QueryAsync<ComissionStatementStatus>(query.ToString(), new { Name  = name });
+
+            return entity.FirstOrDefault();
+        }
     }
 }

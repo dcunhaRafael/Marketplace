@@ -1,8 +1,5 @@
 ﻿using Application.Interfaces.Services;
-using Domain.Enumerators;
-using Domain.Payload;
 using Integration.Workflow.WebAPI.Models.ComissionStatement;
-using Integration.Workflow.WebAPI.Models.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -34,14 +31,14 @@ namespace Integration.Workflow.WebAPI.Controllers.v1 {
             }
         }
 
-        [HttpPost("ListComissionStatementDetais")]
-        public IActionResult ListComissionStatementDetais(ListComissionStatementDetaisRequest request) {
+        [HttpPost("GetComissionStatementDetail")]
+        public async Task<IActionResult> GetComissionStatementDetail(ListComissionStatementDetaisRequest request) {
             try {
 
-                var items = comissionStatementService.ListComissionStatementDetais(request.StatementNumber, request.Competency,
+                var item = await comissionStatementService.GetComissionStatementDetail(request.StatementNumber, request.Competency,
                     request.BrokerLegacyCode, request.BrokerSusepCode, request.BrokerUserId, request.LoggedUserId);
 
-                return base.ReturnSuccess(data: items);
+                return base.ReturnSuccess(data: item);
 
             } catch (Exception e) {
                 return base.ReturnError(MethodBase.GetCurrentMethod(), e);

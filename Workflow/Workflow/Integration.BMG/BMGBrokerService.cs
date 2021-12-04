@@ -75,7 +75,7 @@ namespace Integration.BMG {
             }
         }
 
-        public List<ComissionStatementDetail> ListComissionStatementDetais(int statementNumber, string competency, string brokerLegacyCode, string brokerSusepCode, int brokerUserId, LoggerComplement loggerComplement) {
+        public List<ComissionStatementDetail> ListComissionStatementDetails(int statementNumber, string competency, string brokerLegacyCode, string brokerSusepCode, int brokerUserId, LoggerComplement loggerComplement) {
             var serviceName = "Corretor_Detalhe_Extrato_Comissao";
             var methodParameters = new { statementNumber, competency, brokerLegacyCode, brokerSusepCode, brokerUserId };
             LogTrace(MethodBase.GetCurrentMethod(), "Init", methodParameters, loggerComplement);

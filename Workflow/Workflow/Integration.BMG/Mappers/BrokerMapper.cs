@@ -41,7 +41,7 @@ namespace Integration.BMG.Mappers {
             try {
                 var mappedList = new List<ComissionStatementDetail>();
                 foreach (var item in response.Corretor_Detalhe_Extrato_Comissao_table_1) {
-                    mappedList.Add(new ComissionStatementDetail() {
+                    var detail = new ComissionStatementDetail() {
                         Broker = new Broker() {
                             LegacyCode = item.id_pessoa_corretor,
                             LegacyUserId = item.cd_usuario_autenticacao,
@@ -57,8 +57,18 @@ namespace Integration.BMG.Mappers {
                         TaxValue = item.vl_imposto,
                         TaxableComissionValue = item.vl_comissao_tributavel,
                         NotTaxableComissionValue = item.vl_comissao_nao_tributavel,
-                        ReceiptNumber = item.nr_recibo
-                    });
+                        ReceiptNumber = item.nr_recibo,
+                        PaymentBank = "",       //TODO PENDÊNCIA DE IMPLEMENTAÇÃO DO LADO DA I4PRO
+                        PaymentBranch = "",     //TODO PENDÊNCIA DE IMPLEMENTAÇÃO DO LADO DA I4PRO
+                        PaymentAccount = "",    //TODO PENDÊNCIA DE IMPLEMENTAÇÃO DO LADO DA I4PRO
+                    };
+                    foreach (var tax in item.Imposto.imposto) {
+                        detail.Taxes.Add(new ComissionStatementDetailTax() {
+                            Name = tax.nm_imposto,
+                            Value = tax.vl_imposto
+                        });
+                    }
+                    mappedList.Add(detail);
                 }
                 return mappedList;
             } catch (Exception e) {
