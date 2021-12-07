@@ -811,3 +811,151 @@ var file = {
     }
 
 };
+
+var rangeUtil = {
+
+    initializeTermDate: function (startTermSelector, daysOfTermSelector, endTermSelector) {
+
+        $(startTermSelector).change(function () {
+            if (!($(daysOfTermSelector).val() == "" && $(endTermSelector).val() == "" || $(startTermSelector).val() == "")) {
+                if ($(daysOfTermSelector).val() != "" && $(endTermSelector).val() == "") {
+                    var startTerm = moment($(startTermSelector).val(), 'DD/MM/YYYY');
+                    var daysOfTerm = Number($(daysOfTermSelector).val());
+                    var newDate = startTerm.add(daysOfTerm, "days").format('DD/MM/YYYY');
+                    $(endTermSelector).datepicker('setDate', newDate);
+                } else {
+                    var startTerm = moment($(startTermSelector).val(), 'DD/MM/YYYY');
+                    var endTerm = moment($(endTermSelector).val(), 'DD/MM/YYYY');
+                    var differenceDays = endTerm.diff(startTerm, 'days');
+                    if (differenceDays < 0) {
+                        $(endTermSelector).val($(startTermSelector).val());
+                        differenceDays = 0;
+                    }
+                    $(daysOfTermSelector).val(differenceDays);
+                }
+            }
+        });
+
+        $(daysOfTermSelector).change(function () {
+            var tomorrow = moment().add(1, "days").format('DD/MM/YYYY');
+            if (!($(startTermSelector).val() == "" && $(endTermSelector).val() == "" || $(startTermSelector).val() == "")) {
+                if ($(startTermSelector).val() == "" && $(endTermSelector).val() != "") {
+                    var endTerm = moment($(endTermSelector).val(), 'DD/MM/YYYY');
+                    var daysOfTerm = Number($(daysOfTermSelector).val());
+                    var newDate = endTerm.subtract(daysOfTerm, "days").format('DD/MM/YYYY');
+
+                    if (moment(newDate, 'DD/MM/YYYY').isSameOrAfter(moment(tomorrow, 'DD/MM/YYYY')))
+                        $(startTermSelector).datepicker('setDate', newDate);
+                    else {
+                        var endData = moment($(endTermSelector).val(), 'DD/MM/YYYY');
+                        var startDate = moment(tomorrow, 'DD/MM/YYYY');
+                        var Diferenca = endData.diff(startDate, "days");
+                        $(daysOfTermSelector).val(Diferenca);
+                        $(startTermSelector).datepicker('setDate', tomorrow);
+                    }
+                } else {
+                    var startTerm = moment($(startTermSelector).val(), 'DD/MM/YYYY');
+                    var daysOfTerm = Number($(daysOfTermSelector).val());
+                    var newDate = startTerm.add(daysOfTerm, "days").format('DD/MM/YYYY');
+                    $(endTermSelector).datepicker('setDate', newDate);
+                }
+            }
+        });
+
+        $(endTermSelector).change(function () {
+            var tomorrow = moment().add(1, "days").format('DD/MM/YYYY');
+            if (!($(startTermSelector).val() == "" && $(daysOfTermSelector).val() == "" || $(endTermSelector).val() == "")) {
+                if ($(startTermSelector).val() == "" && $(daysOfTermSelector).val() != "") {
+                    var endTerm = moment($(endTermSelector).val(), 'DD/MM/YYYY');
+                    var daysOfTerm = Number($(daysOfTermSelector).val());
+                    var newDate = endTerm.subtract(daysOfTerm, "days").format('DD/MM/YYYY');
+
+                    if (moment(newDate, 'DD/MM/YYYY').isSameOrAfter(moment(tomorrow, 'DD/MM/YYYY')))
+                        $(startTermSelector).datepicker('setDate', newDate);
+                    else {
+                        var endData = moment($(endTermSelector).val(), 'DD/MM/YYYY');
+                        var startDate = moment(tomorrow, 'DD/MM/YYYY');
+                        var differenceDays = endData.diff(startDate, "days");
+                        $(daysOfTermSelector).val(differenceDays);
+                        $(startTermSelector).datepicker('setDate', tomorrow);
+                    }
+                }
+                else {
+                    var startTerm = moment($(startTermSelector).val(), 'DD/MM/YYYY');
+                    var endTerm = moment($(endTermSelector).val(), 'DD/MM/YYYY');
+                    var differenceDays = endTerm.diff(startTerm, 'days');
+                    if (differenceDays < 0) {
+                        $(startTermSelector).val($(endTermSelector).val());
+                        differenceDays = 0;
+                    }
+                    $(daysOfTermSelector).val(differenceDays);
+                }
+            }
+        });
+
+    },
+
+    initializeDate: function (beginSelector, endSelector) {
+
+        $(beginSelector).change(function () {
+            if ($(beginSelector).val() != '' && $(endSelector).val() != '') {
+                var beginDate = moment($(beginSelector).val(), 'DD/MM/YYYY');
+                var endDate = moment($(endSelector).val(), 'DD/MM/YYYY');
+                var differenceDays = endDate.diff(beginDate, 'days');
+                if (differenceDays < 0) {
+                    $(endSelector).val($(beginSelector).val());
+                }
+            } else if ($(endSelector).val() == '') {
+                $(endSelector).val($(beginSelector).val());
+            }
+        });
+
+        $(endSelector).change(function () {
+            if ($(beginSelector).val() != '' && $(endSelector).val() != '') {
+                var beginDate = moment($(beginSelector).val(), 'DD/MM/YYYY');
+                var endDate = moment($(endSelector).val(), 'DD/MM/YYYY');
+                var differenceDays = endDate.diff(beginDate, 'days');
+                if (differenceDays < 0) {
+                    $(beginSelector).val($(endSelector).val());
+                }
+            } else if ($(beginSelector).val() == '') {
+                $(beginSelector).val($(endSelector).val());
+            }
+        });
+
+    },
+
+    initializeDecimal: function (beginSelector, endSelector) {
+
+        $(beginSelector).change(function () {
+            if ($(beginSelector).val() != '' && $(endSelector).val() != '') {
+                var beginValue = convert.getDecimal($(beginSelector).val(), 0);
+                var endValue = convert.getDecimal($(endSelector).val(), 0);
+                if (beginValue > endValue) {
+                    $(endSelector).val($(beginSelector).val());
+                }
+            } else if ($(endSelector).val() == '') {
+                $(endSelector).val($(beginSelector).val());
+            }
+        });
+
+        $(endSelector).change(function () {
+            if ($(beginSelector).val() != '' && $(endSelector).val() != '') {
+                var beginValue = convert.getDecimal($(beginSelector).val(), 0);
+                var endValue = convert.getDecimal($(endSelector).val(), 0);
+                if (endValue < beginValue) {
+                    $(beginSelector).val($(endSelector).val());
+                }
+            } else if ($(beginSelector).val() == '') {
+                $(beginSelector).val($(endSelector).val());
+            }
+        });
+
+    },
+
+    terminateDecimal: function (beginSelector, endSelector) {
+        $(beginSelector).off('change');
+        $(endSelector).off('change');
+    },
+
+};

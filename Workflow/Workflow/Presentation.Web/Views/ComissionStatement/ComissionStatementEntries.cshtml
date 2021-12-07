@@ -62,15 +62,15 @@
             <tr>
                 <th class="mat-header-cell cdk-header-cell ng-star-inserted">#</th>
                 <th class="mat-header-cell cdk-header-cell ng-star-inserted">RAMO</th>
-                <th class="mat-header-cell cdk-header-cell ng-star-inserted">PROPOSTA</th>
-                <th class="mat-header-cell cdk-header-cell ng-star-inserted">APÓLICE</th>
-                <th class="mat-header-cell cdk-header-cell ng-star-inserted">ENDOSSO</th>
-                <th class="mat-header-cell cdk-header-cell ng-star-inserted">PARCELA</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted text-right">PROPOSTA</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted text-right">APÓLICE</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted text-right">ENDOSSO</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted text-right">PARCELA</th>
                 <th class="mat-header-cell cdk-header-cell ng-star-inserted">SEGURADO</th>
-                <th class="mat-header-cell cdk-header-cell ng-star-inserted">PRÊMIO</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted text-right">PRÊMIO</th>
                 <th class="mat-header-cell cdk-header-cell ng-star-inserted text-nowrap">TIPO DE COMISSÃO</th>
-                <th class="mat-header-cell cdk-header-cell ng-star-inserted text-nowrap">% COMISSÃO</th>
-                <th class="mat-header-cell cdk-header-cell ng-star-inserted text-nowrap">VALOR COMISSÃO</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted text-nowrap text-right">% COMISSÃO</th>
+                <th class="mat-header-cell cdk-header-cell ng-star-inserted text-nowrap text-right">VALOR COMISSÃO</th>
             </tr>
         </thead>
         <tbody>
@@ -78,9 +78,9 @@
                 <tr class="mat-row cdk-row ng-star-inserted">
                     <td class="text-nowrap">@(item.EntryNumber)</td>
                     <td class="text-nowrap">@(item.BusinessId) - @(item.BusinessName)</td>
-                    <td class="text-nowrap">@(item.ProposalNumber)</td>
-                    <td class="text-nowrap">@(item.PolicyNumber)</td>
-                    <td class="text-nowrap">@(item.EndorsementNumber)</td>
+                    <td class="text-nowrap text-right">@(item.ProposalNumber)</td>
+                    <td class="text-nowrap text-right">@(item.PolicyNumber)</td>
+                    <td class="text-nowrap text-right">@(item.EndorsementNumber)</td>
                     <td class="text-nowrap text-right">@(item.InstallmentNumber)</td>
                     <td class="text-nowrap">@(item.InsuredName)</td>
                     <td class="text-nowrap text-right">@(item.TariffPremiumValue?.FormatCurrency())</td>

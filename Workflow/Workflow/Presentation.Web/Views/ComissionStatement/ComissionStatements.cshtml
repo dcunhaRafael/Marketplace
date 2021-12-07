@@ -142,6 +142,7 @@
 <script>
     $(document).ready(function () {
         format.initializeInputMasks('#formComissionStatement');
+        rangeUtil.initializeDate('#FromDate', '#ToDate');
         validationrules.init('#formComissionStatement');
         ComissionStatement.clear();
 
@@ -209,6 +210,8 @@
             $('#SearchPeriodId').val('@((int)SearchRangeEnum.Last30Days)');
             $('#YearNumber').val('@(DateTime.Now.Year)');
             ComissionStatement.searchPeriodChange('@((int)SearchRangeEnum.Last30Days)');
+            $('.ComissionStatementResult').hide();
+            commons.scrollToElement('.ComissionStatementSearch');
         },
 
         back: function () {
