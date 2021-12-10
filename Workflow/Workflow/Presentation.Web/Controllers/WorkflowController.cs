@@ -1,5 +1,6 @@
 ﻿using Domain.Exceptions;
 using LazyCache;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -15,7 +16,7 @@ namespace Presentation.Web.Controllers {
         private readonly ICommonService commonService;
         private readonly IProposalService proposalService;
 
-        public WorkflowController(IAppCache memoryCache, ILogger<WorkflowController> logger,
+        public WorkflowController(IAppCache memoryCache, ILogger<WorkflowController> logger, 
             ICommonService commonService, IProposalService proposalService) : base(memoryCache, logger, commonService) {
             this.commonService = commonService;
             this.proposalService = proposalService;

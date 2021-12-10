@@ -205,7 +205,10 @@
 }
 
 <div class="col-12 mt-4">
-    <button type="button" class="btn mat-focus-indicator button__white mat-raised-button mat-button-base" onclick="ComissionStatement.backResults()">VOLTAR</button>
+    <button type="button" class="btn mat-focus-indicator button mat-raised-button mat-button-base" 
+            onclick="ComissionStatement.exportStatement('@(Model.CurrentStatement.StatementNumber)', '@(Model.CurrentStatement.Competency)');">EXPORTAR EXCEL</button>
+    <button type="button" class="btn mat-focus-indicator button__white mat-raised-button mat-button-base" 
+            onclick="ComissionStatement.backResults()">VOLTAR</button>
 </div>
 <script>
     $(document).ready(function () {

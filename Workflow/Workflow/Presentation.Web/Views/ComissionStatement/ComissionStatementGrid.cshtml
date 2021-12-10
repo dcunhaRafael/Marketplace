@@ -82,6 +82,9 @@
                                         <a title="Lançamentos" href="#" onclick="event.preventDefault(); ComissionStatement.openStatementEntries('@(item.StatementNumber)', '@(item.Competency)');">
                                             <span class="fas fa-clipboard-list" />
                                         </a>
+                                        <a title="Exportar Excel" href="#" onclick="event.preventDefault(); ComissionStatement.exportStatement('@(item.StatementNumber)', '@(item.Competency)');">
+                                            <span class="fas fa-file-excel" />
+                                        </a>
                                     </td>
                                 </tr>
                             }

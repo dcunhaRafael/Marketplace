@@ -3,6 +3,7 @@ using Domain.Exceptions;
 using Domain.Payload;
 using Domain.Util.Extensions;
 using LazyCache;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Portal.Web.Models.ComissionStatement;
@@ -10,17 +11,20 @@ using Presentation.Web.Controllers;
 using Presentation.Web.Services.Proxy;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 
 namespace Portal.Web.Controllers {
     public class ComissionStatementController : BaseController {
+        private readonly IWebHostEnvironment webHostingEnvironment;
         private readonly IComissionStatementService comissionStatementService;
         private readonly ICommonService commonService;
 
         public ComissionStatementController(
-            IAppCache memoryCache, ILogger<ComissionStatementController> logger,
+            IAppCache memoryCache, ILogger<ComissionStatementController> logger, IWebHostEnvironment webHostingEnvironment,
             IComissionStatementService comissionStatementService, ICommonService commonService) : base(memoryCache, logger, commonService) {
+            this.webHostingEnvironment = webHostingEnvironment;
             this.comissionStatementService = comissionStatementService;
             this.commonService = commonService;
         }
@@ -113,26 +117,12 @@ namespace Portal.Web.Controllers {
         public IActionResult ComissionStatementCover(ComissionStatementViewModel model) {
             try {
 
-                model.CurrentStatement = comissionStatementService.ListComissionStatement(model.StatementNumber, null, null, null, model.Broker, 
-                                                                                          base.LoggedUserId).FirstOrDefault(x => x.Competency.Equals(model.Competency));
-                model.StatementDetail = comissionStatementService.GetComissionStatementDetail(model.StatementNumber.Value, model.Competency, model.Broker, base.LoggedUserId);
-                model.StatementTypes = comissionStatementService.ListComissionStatementTypes(model.StatementNumber.Value, model.Competency, model.Broker, base.LoggedUserId);
-                model.StatementBusiness = comissionStatementService.ListComissionStatementBusiness(model.StatementNumber.Value, model.Competency, model.Broker, base.LoggedUserId);
-
-                foreach (var item in model.StatementTypes) {
-                    model.StatementPayments.Add(new ComissionStatementPayment() {
-                        Name = item.ComissionTypeName,
-                        DebitValue = (item.ComissionValue.Value < 0M ? item.ComissionValue.Value * -1M : 0M),
-                        CreditValue = (item.ComissionValue.Value > 0M ? item.ComissionValue.Value : 0M)
-                    });
-                }
-                foreach (var item in model.StatementDetail.Taxes) {
-                    model.StatementPayments.Add(new ComissionStatementPayment() {
-                        Name = item.Name,
-                        DebitValue = item.Value.Value,
-                        CreditValue = 0M
-                    });
-                }
+                var cover = comissionStatementService.GetComissionStatementCover(model.StatementNumber.Value, model.Competency, model.Broker, base.LoggedUserId);
+                model.CurrentStatement = cover.Statement;
+                model.StatementDetail = cover.Details;
+                model.StatementTypes = cover.Types;
+                model.StatementBusiness = cover.Business;
+                model.StatementPayments = cover.Payments;
 
                 return PartialView("~/Views/ComissionStatement/ComissionStatementCover.cshtml", model);
 
@@ -163,5 +153,23 @@ namespace Portal.Web.Controllers {
                 return base.ReturnException(MethodBase.GetCurrentMethod(), new { model }, e);
             }
         }
+
+        [HttpPost]
+        public IActionResult ComissionStatementExport(ComissionStatementViewModel model) {
+            try {
+
+                var excel = comissionStatementService.ExportComissionStatement(
+                                Path.Combine(webHostingEnvironment.WebRootPath, "templates", "TEMPLATE_EXTRATO_COMISSAO.xlsx"), 
+                                model.StatementNumber.Value, model.Competency, model.Broker, base.LoggedUserId);
+
+                return File(Convert.FromBase64String(excel.Base64), "application/octet-stream", excel.Filename);
+
+            } catch (ApplicationException e) {
+                return base.ReturnError(e.Message);
+            } catch (Exception e) {
+                return base.ReturnException(MethodBase.GetCurrentMethod(), model, e, e.Message);
+            }
+        }
+
     }
 }

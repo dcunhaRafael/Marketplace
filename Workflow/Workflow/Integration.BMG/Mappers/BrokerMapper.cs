@@ -40,7 +40,7 @@ namespace Integration.BMG.Mappers {
         public static List<ComissionStatementDetail> Map(CorretorDetalheExtratoComissaoResponse response) {
             try {
                 var mappedList = new List<ComissionStatementDetail>();
-                foreach (var item in response.Corretor_Detalhe_Extrato_Comissao_table_1) {
+                foreach (var item in response.Corretor_Detalhe_Extrato_Comissao) {
                     var detail = new ComissionStatementDetail() {
                         Broker = new Broker() {
                             LegacyCode = item.id_pessoa_corretor,
@@ -53,7 +53,7 @@ namespace Integration.BMG.Mappers {
                         ComissionValue = item.vl_comissao,
                         PayDay = item.dt_pagto?.ToDateTime(),
                         PaymentRequestDate = item.dt_solicitacao_pagamento?.ToDateTime(),
-                        StatusName = item.nm_situacao_extrado,
+                        StatusName = item.nm_situacao_extrato,
                         TaxValue = item.vl_imposto,
                         TaxableComissionValue = item.vl_comissao_tributavel,
                         NotTaxableComissionValue = item.vl_comissao_nao_tributavel,
@@ -62,12 +62,17 @@ namespace Integration.BMG.Mappers {
                         PaymentBranch = "",     //TODO PENDÊNCIA DE IMPLEMENTAÇÃO DO LADO DA I4PRO
                         PaymentAccount = "",    //TODO PENDÊNCIA DE IMPLEMENTAÇÃO DO LADO DA I4PRO
                     };
-                    foreach (var tax in item.Imposto.imposto) {
+                    foreach (var tax in item.imposto) {
                         detail.Taxes.Add(new ComissionStatementDetailTax() {
                             Name = tax.nm_imposto,
-                            Value = tax.vl_imposto
+                            Value = tax.valorImposto
                         });
                     }
+                    //foreach (var item in item.itens) {
+                    //    detail.Items.Add(new ComissionStatementDetailTax() {
+
+                    //    });
+                    //}
                     mappedList.Add(detail);
                 }
                 return mappedList;

@@ -1,7 +1,7 @@
 ﻿namespace Integration.BMG.Schemas {
-    public class CorretorDetalheExtratoComissaoImpostoItem : CodigoRetornoResponse {
+    public class CorretorDetalheExtratoComissaoImpostoItem {
         public string nm_imposto { get; set; }
-        public decimal vl_imposto { get; set; }
+        public decimal valorImposto { get; set; }
     }
 }
 

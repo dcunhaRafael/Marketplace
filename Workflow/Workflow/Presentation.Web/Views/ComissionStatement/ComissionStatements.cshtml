@@ -274,6 +274,88 @@
             });
         },
 
+        exportStatement: function (statementNumber, competency) {
+            $('.SelectedStatement.StatementNumber').val(statementNumber);
+            $('.SelectedStatement.Competency').val(competency);
+            commons.postAndCallback('#formSelectedStatement', false, function (formData) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/ComissionStatement/ComissionStatementExport',
+                    data: formData,
+                    //processData: false, // important
+                    //contentType: false, // important
+                    beforeSend: function () {
+                        loading.show("Processando... por favor, aguarde...");
+                    },
+                    xhr: function () {// Seems like the only way to get access to the xhr object
+                        var xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = function () {
+                            if (xhr.readyState == 4) {
+                            //    if (xhr.status != 200) {
+                            //        console.log(typeof xhr.response); // should be a blob
+                            //    } else if (xhr.responseText != "") {
+                            //        console.log(xhr.responseText);
+                            //    }
+                            } else if (xhr.readyState == 2) {
+                                if (xhr.status == 200) {
+                                    xhr.responseType = "blob";
+                                } else {
+                                    xhr.responseType = "text";
+                                }
+                            }
+                        };
+                        //xhr.responseType = 'blob'
+                        return xhr;
+                    },
+                    xhrFields: {
+                        responseType: 'blob'
+                    },
+                    success: function (response, status, xhr) {
+                        loading.hide();
+
+                        // check for a filename
+                        var filename = "";
+                        var disposition = xhr.getResponseHeader('Content-Disposition');
+                        if (disposition && disposition.indexOf('attachment') !== -1) {
+                            var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                            var matches = filenameRegex.exec(disposition);
+                            if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
+                        }
+
+                        var blob = new Blob([response], { type: 'application/octet-stream' });
+
+                        if (typeof window.navigator.msSaveBlob !== 'undefined') {
+                            // IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
+                            window.navigator.msSaveBlob(blob, filename);
+                        } else {
+                            var URL = window.URL || window.webkitURL;
+                            var downloadUrl = URL.createObjectURL(blob);
+                            if (filename) {
+                                // use HTML5 a[download] attribute to specify filename
+                                var a = document.createElement("a");
+                                // safari doesn't support this yet
+                                if (typeof a.download === 'undefined') {
+                                    window.location = downloadUrl;
+                                } else {
+                                    a.href = downloadUrl;
+                                    a.download = filename;
+                                    document.body.appendChild(a);
+                                    a.click();
+                                }
+                            } else {
+                                window.location = downloadUrl;
+                            }
+                            setTimeout(function () { URL.revokeObjectURL(downloadUrl); }, 100); // cleanup
+                        }
+                    },
+                    error: function (xhr) {
+                        loading.hide();
+                        messages.ajaxError(xhr);
+                    }
+                });
+            });
+        },
+
         backResults: function () {
             $('.PageBlock').hide();
             $('.ComissionStatementFilter').show();

@@ -37,6 +37,8 @@ namespace Presentation.Web.Services.Proxy {
                     FromDate = fromDate,
                     ToDate = toDate,
                     Status = status,
+                    BrokerName = broker.Name,
+                    BrokerCnpjNumber = broker.CpfCnpjNumber,
                     BrokerLegacyCode = broker.LegacyCode,
                     BrokerSusepCode = broker.SusepCode,
                     BrokerUserId = broker.LegacyUserId,
@@ -63,8 +65,8 @@ namespace Presentation.Web.Services.Proxy {
             }
         }
 
-        public ComissionStatementDetail GetComissionStatementDetail(int statementNumber, string competency, Broker broker, int loggedUserId) {
-            var serviceMethodName = "GetComissionStatementDetail";
+        public ComissionStatementCover GetComissionStatementCover(int statementNumber, string competency, Broker broker, int loggedUserId) {
+            var serviceMethodName = "GetComissionStatementCover";
             var methodParameters = new { statementNumber, competency, broker };
             LogTrace(MethodBase.GetCurrentMethod(), "Init", methodParameters, new LoggerComplement());
 
@@ -89,7 +91,7 @@ namespace Presentation.Web.Services.Proxy {
                 if (!serviceResponse.Success) {
                     throw new LegacyServiceException(serviceResponse.Message);
                 }
-                var item = JsonConvert.DeserializeObject<ComissionStatementDetail>(serviceResponse.Data);
+                var item = JsonConvert.DeserializeObject<ComissionStatementCover>(serviceResponse.Data);
                 return item;
             } catch (Exception e) {
                 if (!(e is LegacyServiceException)) {
@@ -101,83 +103,83 @@ namespace Presentation.Web.Services.Proxy {
             }
         }
 
-        public IList<ComissionStatementType> ListComissionStatementTypes(int statementNumber, string competency, Broker broker, int loggedUserId) {
-            var serviceMethodName = "ListComissionStatementTypes";
-            var methodParameters = new { statementNumber, competency, broker };
-            LogTrace(MethodBase.GetCurrentMethod(), "Init", methodParameters, new LoggerComplement());
+        //public IList<ComissionStatementType> ListComissionStatementTypes(int statementNumber, string competency, Broker broker, int loggedUserId) {
+        //    var serviceMethodName = "ListComissionStatementTypes";
+        //    var methodParameters = new { statementNumber, competency, broker };
+        //    LogTrace(MethodBase.GetCurrentMethod(), "Init", methodParameters, new LoggerComplement());
 
-            RawRequest rawRequest = new RawRequest();
-            try {
+        //    RawRequest rawRequest = new RawRequest();
+        //    try {
 
-                rawRequest.RequestUri = string.Format("{0}{1}", SERVICE_NAME, serviceMethodName);
-                LogDebug(MethodBase.GetCurrentMethod(), $"URI: {rawRequest.RequestUri}", new LoggerComplement());
-                rawRequest.BodyObject = new {
-                    StatementNumber = statementNumber,
-                    Competency = competency,
-                    BrokerLegacyCode = broker.LegacyCode,
-                    BrokerSusepCode = broker.SusepCode,
-                    BrokerUserId = broker.LegacyUserId,
-                    LoggedUserId = loggedUserId
-                };
-                LogDebug(MethodBase.GetCurrentMethod(), "Body", rawRequest.BodyObject, new LoggerComplement());
-                RawResponse rawResponse = serviceFactory.ServiceClient.Post<RawRequest, RawResponse>(rawRequest.RequestUri, rawRequest);
-                LogDebug(MethodBase.GetCurrentMethod(), "RawResponse", rawResponse, new LoggerComplement());
+        //        rawRequest.RequestUri = string.Format("{0}{1}", SERVICE_NAME, serviceMethodName);
+        //        LogDebug(MethodBase.GetCurrentMethod(), $"URI: {rawRequest.RequestUri}", new LoggerComplement());
+        //        rawRequest.BodyObject = new {
+        //            StatementNumber = statementNumber,
+        //            Competency = competency,
+        //            BrokerLegacyCode = broker.LegacyCode,
+        //            BrokerSusepCode = broker.SusepCode,
+        //            BrokerUserId = broker.LegacyUserId,
+        //            LoggedUserId = loggedUserId
+        //        };
+        //        LogDebug(MethodBase.GetCurrentMethod(), "Body", rawRequest.BodyObject, new LoggerComplement());
+        //        RawResponse rawResponse = serviceFactory.ServiceClient.Post<RawRequest, RawResponse>(rawRequest.RequestUri, rawRequest);
+        //        LogDebug(MethodBase.GetCurrentMethod(), "RawResponse", rawResponse, new LoggerComplement());
 
-                var serviceResponse = JsonConvert.DeserializeObject<ServiceReturn>(rawResponse.Conteudo);
-                if (!serviceResponse.Success) {
-                    throw new LegacyServiceException(serviceResponse.Message);
-                }
-                var items = JsonConvert.DeserializeObject<IList<ComissionStatementType>>(serviceResponse.Data);
-                return items;
+        //        var serviceResponse = JsonConvert.DeserializeObject<ServiceReturn>(rawResponse.Conteudo);
+        //        if (!serviceResponse.Success) {
+        //            throw new LegacyServiceException(serviceResponse.Message);
+        //        }
+        //        var items = JsonConvert.DeserializeObject<IList<ComissionStatementType>>(serviceResponse.Data);
+        //        return items;
 
-            } catch (Exception e) {
-                if (!(e is LegacyServiceException)) {
-                    LogError(MethodBase.GetCurrentMethod(), methodParameters, e, new LoggerComplement());
-                }
-                throw new IntegrationException($"Erro na chamada do serviço '{serviceMethodName}': {e.Message}", e);
-            } finally {
-                LogTrace(MethodBase.GetCurrentMethod(), "End", new LoggerComplement());
-            }
-        }
+        //    } catch (Exception e) {
+        //        if (!(e is LegacyServiceException)) {
+        //            LogError(MethodBase.GetCurrentMethod(), methodParameters, e, new LoggerComplement());
+        //        }
+        //        throw new IntegrationException($"Erro na chamada do serviço '{serviceMethodName}': {e.Message}", e);
+        //    } finally {
+        //        LogTrace(MethodBase.GetCurrentMethod(), "End", new LoggerComplement());
+        //    }
+        //}
 
-        public IList<ComissionStatementBusiness> ListComissionStatementBusiness(int statementNumber, string competency, Broker broker, int loggedUserId) {
-            var serviceMethodName = "ListComissionStatementBusiness";
-            var methodParameters = new { statementNumber, competency, broker };
-            LogTrace(MethodBase.GetCurrentMethod(), "Init", methodParameters, new LoggerComplement());
+        //public IList<ComissionStatementBusiness> ListComissionStatementBusiness(int statementNumber, string competency, Broker broker, int loggedUserId) {
+        //    var serviceMethodName = "ListComissionStatementBusiness";
+        //    var methodParameters = new { statementNumber, competency, broker };
+        //    LogTrace(MethodBase.GetCurrentMethod(), "Init", methodParameters, new LoggerComplement());
 
-            RawRequest rawRequest = new RawRequest();
-            try {
+        //    RawRequest rawRequest = new RawRequest();
+        //    try {
 
-                rawRequest.RequestUri = string.Format("{0}{1}", SERVICE_NAME, serviceMethodName);
-                LogDebug(MethodBase.GetCurrentMethod(), $"URI: {rawRequest.RequestUri}", new LoggerComplement());
-                rawRequest.BodyObject = new {
-                    StatementNumber = statementNumber,
-                    Competency = competency,
-                    BrokerLegacyCode = broker.LegacyCode,
-                    BrokerSusepCode = broker.SusepCode,
-                    BrokerUserId = broker.LegacyUserId,
-                    LoggedUserId = loggedUserId
-                };
-                LogDebug(MethodBase.GetCurrentMethod(), "Body", rawRequest.BodyObject, new LoggerComplement());
-                RawResponse rawResponse = serviceFactory.ServiceClient.Post<RawRequest, RawResponse>(rawRequest.RequestUri, rawRequest);
-                LogDebug(MethodBase.GetCurrentMethod(), "RawResponse", rawResponse, new LoggerComplement());
+        //        rawRequest.RequestUri = string.Format("{0}{1}", SERVICE_NAME, serviceMethodName);
+        //        LogDebug(MethodBase.GetCurrentMethod(), $"URI: {rawRequest.RequestUri}", new LoggerComplement());
+        //        rawRequest.BodyObject = new {
+        //            StatementNumber = statementNumber,
+        //            Competency = competency,
+        //            BrokerLegacyCode = broker.LegacyCode,
+        //            BrokerSusepCode = broker.SusepCode,
+        //            BrokerUserId = broker.LegacyUserId,
+        //            LoggedUserId = loggedUserId
+        //        };
+        //        LogDebug(MethodBase.GetCurrentMethod(), "Body", rawRequest.BodyObject, new LoggerComplement());
+        //        RawResponse rawResponse = serviceFactory.ServiceClient.Post<RawRequest, RawResponse>(rawRequest.RequestUri, rawRequest);
+        //        LogDebug(MethodBase.GetCurrentMethod(), "RawResponse", rawResponse, new LoggerComplement());
 
-                var serviceResponse = JsonConvert.DeserializeObject<ServiceReturn>(rawResponse.Conteudo);
-                if (!serviceResponse.Success) {
-                    throw new LegacyServiceException(serviceResponse.Message);
-                }
-                var items = JsonConvert.DeserializeObject<IList<ComissionStatementBusiness>>(serviceResponse.Data);
-                return items;
+        //        var serviceResponse = JsonConvert.DeserializeObject<ServiceReturn>(rawResponse.Conteudo);
+        //        if (!serviceResponse.Success) {
+        //            throw new LegacyServiceException(serviceResponse.Message);
+        //        }
+        //        var items = JsonConvert.DeserializeObject<IList<ComissionStatementBusiness>>(serviceResponse.Data);
+        //        return items;
 
-            } catch (Exception e) {
-                if (!(e is LegacyServiceException)) {
-                    LogError(MethodBase.GetCurrentMethod(), methodParameters, e, new LoggerComplement());
-                }
-                throw new IntegrationException($"Erro na chamada do serviço '{serviceMethodName}': {e.Message}", e);
-            } finally {
-                LogTrace(MethodBase.GetCurrentMethod(), "End", new LoggerComplement());
-            }
-        }
+        //    } catch (Exception e) {
+        //        if (!(e is LegacyServiceException)) {
+        //            LogError(MethodBase.GetCurrentMethod(), methodParameters, e, new LoggerComplement());
+        //        }
+        //        throw new IntegrationException($"Erro na chamada do serviço '{serviceMethodName}': {e.Message}", e);
+        //    } finally {
+        //        LogTrace(MethodBase.GetCurrentMethod(), "End", new LoggerComplement());
+        //    }
+        //}
 
         public IList<ComissionStatementEntry> ListComissionStatementEntries(int statementNumber, string competency, Broker broker, int loggedUserId) {
             var serviceMethodName = "ListComissionStatementEntries";
@@ -206,6 +208,48 @@ namespace Presentation.Web.Services.Proxy {
                     throw new LegacyServiceException(serviceResponse.Message);
                 }
                 var items = JsonConvert.DeserializeObject<IList<ComissionStatementEntry>>(serviceResponse.Data);
+                return items;
+
+            } catch (Exception e) {
+                if (!(e is LegacyServiceException)) {
+                    LogError(MethodBase.GetCurrentMethod(), methodParameters, e, new LoggerComplement());
+                }
+                throw new IntegrationException($"Erro na chamada do serviço '{serviceMethodName}': {e.Message}", e);
+            } finally {
+                LogTrace(MethodBase.GetCurrentMethod(), "End", new LoggerComplement());
+            }
+        }
+
+        public ExportedFile ExportComissionStatement(string templateFile, int statementNumber, string competency, Broker broker, int loggedUserId) {
+            var serviceMethodName = "ExportComissionStatement";
+            var methodParameters = new { statementNumber, competency, broker };
+            LogTrace(MethodBase.GetCurrentMethod(), "Init", methodParameters, new LoggerComplement());
+
+            RawRequest rawRequest = new RawRequest();
+            try {
+
+                rawRequest.RequestUri = string.Format("{0}{1}", SERVICE_NAME, serviceMethodName);
+                LogDebug(MethodBase.GetCurrentMethod(), $"URI: {rawRequest.RequestUri}", new LoggerComplement());
+                rawRequest.BodyObject = new {
+                    TemplateFile = templateFile,
+                    StatementNumber = statementNumber,
+                    Competency = competency,
+                    BrokerName = broker.Name,
+                    BrokerCnpjNumber = broker.CpfCnpjNumber,
+                    BrokerLegacyCode = broker.LegacyCode,
+                    BrokerSusepCode = broker.SusepCode,
+                    BrokerUserId = broker.LegacyUserId,
+                    LoggedUserId = loggedUserId
+                };
+                LogDebug(MethodBase.GetCurrentMethod(), "Body", rawRequest.BodyObject, new LoggerComplement());
+                RawResponse rawResponse = serviceFactory.ServiceClient.Post<RawRequest, RawResponse>(rawRequest.RequestUri, rawRequest);
+                LogDebug(MethodBase.GetCurrentMethod(), "RawResponse", rawResponse, new LoggerComplement());
+
+                var serviceResponse = JsonConvert.DeserializeObject<ServiceReturn>(rawResponse.Conteudo);
+                if (!serviceResponse.Success) {
+                    throw new LegacyServiceException(serviceResponse.Message);
+                }
+                var items = JsonConvert.DeserializeObject<ExportedFile>(serviceResponse.Data);
                 return items;
 
             } catch (Exception e) {

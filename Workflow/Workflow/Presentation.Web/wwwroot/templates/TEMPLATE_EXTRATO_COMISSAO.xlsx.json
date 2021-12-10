@@ -1,0 +1,164 @@
+{
+    "Cover": {
+        "SheetIndex": 0,
+        "StatementNumber": {
+            "Row": 1,
+            "Col": 2
+        },
+        "BrokerCnpjNumber": {
+            "Row": 4,
+            "Col": 1
+        },
+        "BrokerName": {
+            "Row": 4,
+            "Col": 2
+        },
+        "BrokerSusepCode": {
+            "Row": 4,
+            "Col": 15
+        },
+        "Competency": {
+            "Row": 6,
+            "Col": 1
+        },
+        "OpeningDate": {
+            "Row": 6,
+            "Col": 2
+        },
+        "ClosingDate": {
+            "Row": 6,
+            "Col": 1
+        },
+        "EntryCount": {
+            "Row": 6,
+            "Col": 8
+        },
+        "ComissionValue": {
+            "Row": 6,
+            "Col": 11
+        },
+        "StatusName": {
+            "Row": 6,
+            "Col": 15
+        },
+        "Totals": {
+            "ComissionValue": {
+                "Row": 10,
+                "Col": 1
+            },
+            "ComissionNetValue": {
+                "Row": 10,
+                "Col": 3
+            },
+            "TaxValue": {
+                "Row": 10,
+                "Col": 7
+            },
+            "TaxableComissionValue": {
+                "Row": 10,
+                "Col": 11
+            },
+            "NotTaxableComissionValue": {
+                "Row": 10,
+                "Col": 15
+            }
+        },
+        "Payment": {
+            "PaymentRequestDate": {
+                "Row": 14,
+                "Col": 1
+            },
+            "PayDay": {
+                "Row": 14,
+                "Col": 6
+            },
+            "ReceiptNumber": {
+                "Row": 14,
+                "Col": 13
+            }
+        },
+        "Balance": {
+            "Name": {
+                "Row": 18,
+                "Col": 1
+            },
+            "DebitValue": {
+                "Row": 18,
+                "Col": 6
+            },
+            "CreditValue": {
+                "Row": 18,
+                "Col": 13
+            }
+        }
+    },
+    "Business": {
+        "SheetIndex": 1,
+        "BusinessName": {
+            "Row": 3,
+            "Col": 1
+        },
+        "ComissionTypeName": {
+            "Row": 3,
+            "Col": 6
+        },
+        "ComissionValue": {
+            "Row": 3,
+            "Col": 13
+        }
+    },
+    "Types": {
+        "SheetIndex": 2,
+        "ComissionTypeName": {
+            "Row": 3,
+            "Col": 1
+        },
+        "ComissionValue": {
+            "Row": 3,
+            "Col": 13
+        }
+    },
+    "Entries": {
+        "SheetIndex": 3,
+        "BusinessName": {
+            "Row": 3,
+            "Col": 1
+        },
+        "ProposalNumber": {
+            "Row": 3,
+            "Col": 5
+        },
+        "PolicyNumber": {
+            "Row": 3,
+            "Col": 7
+        },
+        "EndorsementNumber": {
+            "Row": 3,
+            "Col": 10
+        },
+        "InstallmentNumber": {
+            "Row": 3,
+            "Col": 11
+        },
+        "InsuredName": {
+            "Row": 3,
+            "Col": 12
+        },
+        "TariffPremiumValue": {
+            "Row": 3,
+            "Col": 17
+        },
+        "ComissionTypeName": {
+            "Row": 3,
+            "Col": 19
+        },
+        "ComissionPercentage": {
+            "Row": 3,
+            "Col": 21
+        },
+        "ComissionValue": {
+            "Row": 3,
+            "Col": 23
+        }
+    }
+}

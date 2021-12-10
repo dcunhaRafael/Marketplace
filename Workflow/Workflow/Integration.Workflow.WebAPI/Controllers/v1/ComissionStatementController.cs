@@ -31,42 +31,14 @@ namespace Integration.Workflow.WebAPI.Controllers.v1 {
             }
         }
 
-        [HttpPost("GetComissionStatementDetail")]
-        public async Task<IActionResult> GetComissionStatementDetail(ListComissionStatementDetaisRequest request) {
+        [HttpPost("GetComissionStatementCover")]
+        public async Task<IActionResult> GetComissionStatementCover(ListComissionStatementDetaisRequest request) {
             try {
 
-                var item = await comissionStatementService.GetComissionStatementDetail(request.StatementNumber, request.Competency,
+                var item = await comissionStatementService.GetComissionStatementCover(request.StatementNumber, request.Competency,
                     request.BrokerLegacyCode, request.BrokerSusepCode, request.BrokerUserId, request.LoggedUserId);
 
                 return base.ReturnSuccess(data: item);
-
-            } catch (Exception e) {
-                return base.ReturnError(MethodBase.GetCurrentMethod(), e);
-            }
-        }
-
-        [HttpPost("ListComissionStatementTypes")]
-        public IActionResult ListComissionStatementTypes(ListComissionStatementTypesRequest request) {
-            try {
-
-                var items = comissionStatementService.ListComissionStatementTypes(request.StatementNumber, request.Competency,
-                    request.BrokerLegacyCode, request.BrokerSusepCode, request.BrokerUserId, request.LoggedUserId);
-
-                return base.ReturnSuccess(data: items);
-
-            } catch (Exception e) {
-                return base.ReturnError(MethodBase.GetCurrentMethod(), e);
-            }
-        }
-
-        [HttpPost("ListComissionStatementBusiness")]
-        public IActionResult ListComissionStatementBusiness(ListComissionStatementBusinessRequest request) {
-            try {
-
-                var items = comissionStatementService.ListComissionStatementBusiness(request.StatementNumber, request.Competency,
-                    request.BrokerLegacyCode, request.BrokerSusepCode, request.BrokerUserId, request.LoggedUserId);
-
-                return base.ReturnSuccess(data: items);
 
             } catch (Exception e) {
                 return base.ReturnError(MethodBase.GetCurrentMethod(), e);
@@ -87,5 +59,18 @@ namespace Integration.Workflow.WebAPI.Controllers.v1 {
             }
         }
 
+        [HttpPost("ExportComissionStatement")]
+        public async Task<IActionResult> ExportComissionStatement(ExportComissionStatementRequest request) {
+            try {
+
+                var item = await comissionStatementService.ExportComissionStatement(request.TemplateFile, request.StatementNumber, request.Competency,
+                                        request.BrokerName, request.BrokerCnpjNumber, request.BrokerLegacyCode, request.BrokerSusepCode, request.BrokerUserId, request.LoggedUserId);
+
+                return base.ReturnSuccess(data: item);
+
+            } catch (Exception e) {
+                return base.ReturnError(MethodBase.GetCurrentMethod(), e);
+            }
+        }
     }
 }
