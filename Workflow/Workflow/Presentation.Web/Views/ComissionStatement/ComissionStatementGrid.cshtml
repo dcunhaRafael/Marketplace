@@ -26,13 +26,14 @@
                     <label>Totais por situação:</label>
                 </div>
                 @foreach (var item in Model.Summary) {
-                    <div class="col-12 mb-2 form-group">
-                        <label>@(item.Status.Name):&nbsp;@(item.Value.FormatCurrency())</label>
-                        <div class="progress" style="height: 2em;">
-                            <div class="progress-bar" role="progressbar" style="width: @(item.Percentage)%; color: @(item.Status.TextColor); background-color: @(item.Status.BackgroundColor);"
-                                 aria-valuenow="@(item.Percentage)" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
+            <div class="col-12 mb-2 form-group">
+                <span id="Status-@(item.Status.Id)" style="display: none">@(item.Status.Description)</span>
+                <span class="fas fa-question-circle pointer" onclick="messages.info('@(item.Status.Name)', $('#Status-@(item.Status.Id)').text());" />&nbsp;<label>@(item.Status.Name):&nbsp;@(item.Value.FormatCurrency())</label>
+                <div class="progress" style="height: 2em;">
+                    <div class="progress-bar" role="progressbar" style="width: @(item.Percentage)%; color: @(item.Status.TextColor); background-color: @(item.Status.BackgroundColor);"
+                         aria-valuenow="@(item.Percentage)" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
                 }
             </div>
         </div>

@@ -8,6 +8,7 @@ GO
 CREATE TABLE [dbo].[ComissionStatementStatus](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Name] [varchar](200) NOT NULL,
+	[Description] [varchar](1000) NULL,
 	[LegacyCode] [varchar](100) NULL,
 	[BackgroundColor] [varchar](100) NULL,
 	[TextColor] [varchar](100) NULL,

@@ -34,7 +34,14 @@ namespace Application.Services {
             try {
 
                 var items = await comissionStatementStatusRepository.ListAsync();
-                var payloads = from a in items select new ComissionStatementStatus() { Id = a.Id, Name = a.Name, LegacyCode = a.LegacyCode, BackgroundColor = a.BackgroundColor, TextColor = a.TextColor };
+                var payloads = from a in items select new ComissionStatementStatus() { 
+                                                            Id = a.Id, 
+                                                            Name = a.Name, 
+                                                            Description = a.Description,
+                                                            LegacyCode = a.LegacyCode, 
+                                                            BackgroundColor = a.BackgroundColor, 
+                                                            TextColor = a.TextColor 
+                                                        };
                 return payloads.ToList();
 
             } catch (Exception e) {

@@ -61,6 +61,11 @@ namespace Domain.Util.Extensions {
             return newValue;
         }
 
+        public static string FormatPercent(this decimal value) {
+            string newValue = string.Format(CultureInfo.GetCultureInfo("pt-BR"), "{0:##0.00}%", (value * 100M));
+            return newValue;
+        }
+
         public static string FormatCurrency(this decimal value) {
             return value.ToString("C", CultureInfo.GetCultureInfo("pt-BR"));
         }
