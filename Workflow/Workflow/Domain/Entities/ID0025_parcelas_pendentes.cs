@@ -1,0 +1,83 @@
+﻿using System;
+
+namespace Domain.Entities {
+
+    public class ID0025_parcelas_pendentes {
+        public int id_parcela_pendente { get; set; }
+        public DateTime? data_relatorio { get; set; }
+        public string filial { get; set; }
+        public string cd_susep_re { get; set; }
+        public int? id_pessoa_corretor { get; set; }
+        public string nm_pessoa_corretor { get; set; }
+        public long? nr_cnpj_cpf_corretor { get; set; }
+        public string tel_corretor { get; set; }
+        public string end_corretor { get; set; }
+        public string nr_rua_endereco { get; set; }
+        public string nm_complemento { get; set; }
+        public string nm_bairro { get; set; }
+        public string nm_cep { get; set; }
+        public string nm_cidade { get; set; }
+        public string nm_estado { get; set; }
+        public int? id_pessoa_tomador { get; set; }
+        public string nm_pessoa_tomador { get; set; }
+        public long? nr_cnpj_cpf_tomador { get; set; }
+        public string dv_ativo { get; set; }
+        public DateTime? dt_validade_cadastro_ress { get; set; }
+        public DateTime? dt_validade_compliance { get; set; }
+        public string contato_tomador { get; set; }
+        public string end_tomador { get; set; }
+        public string nr_rua_endereco_1 { get; set; }
+        public string nm_complemento_1 { get; set; }
+        public string nm_bairro_1 { get; set; }
+        public string nm_cep_1 { get; set; }
+        public string nm_cidade_1 { get; set; }
+        public string nm_estado_1 { get; set; }
+        public string nm_forma_pagamento { get; set; }
+        public string nm_pessoa_sub { get; set; }
+        public long? nr_cnpj_cpf_segurado { get; set; }
+        public string contato_segurado { get; set; }
+        public string end_segurado { get; set; }
+        public string nr_rua_endereco_2 { get; set; }
+        public string nm_complemento_2 { get; set; }
+        public string nm_bairro_2 { get; set; }
+        public string nm_cep_2 { get; set; }
+        public string nm_cidade_2 { get; set; }
+        public string nm_estado_2 { get; set; }
+        public int? id_ramo { get; set; }
+        public string nm_ramo { get; set; }
+        public long? cd_apolice { get; set; }
+        public int? cd_proposta { get; set; }
+        public int? id_endosso { get; set; }
+        public int? nr_endosso { get; set; }
+        public decimal? vl_tarifario { get; set; }
+        public decimal? vl_iof { get; set; }
+        public decimal? vl_custo { get; set; }
+        public decimal? Qt_tarifario { get; set; }
+        public decimal? Qt_iof { get; set; }
+        public decimal? Qt_custo { get; set; }
+        public decimal? qt_juros { get; set; }
+        public decimal? Qt_adicional { get; set; }
+        public decimal? Qt_desconto { get; set; }
+        public int? Id_parcela { get; set; }
+        public int? nr_parcela { get; set; }
+        public int? qt_parcela { get; set; }
+        public string dt_inicio_vigencia { get; set; }
+        public string dt_fim_vigencia { get; set; }
+        public decimal? vl_total { get; set; }
+        public string dt_vencimento { get; set; }
+        public int? nr_dias_atraso { get; set; }
+        public string nm_moeda { get; set; }
+        public int? cd_produto { get; set; }
+        public string nr_produto { get; set; }
+        public string nm_produto { get; set; }
+        public string nr_filial { get; set; }
+        public string nm_filial { get; set; }
+        public int? cd_centro_custo { get; set; }
+        public int? id_tp_segmentacao { get; set; }
+        public string nm_tp_segmentacao { get; set; }
+        public int? atraso { get; set; }
+        public string nr_nosso_numero { get; set; }
+        public string nr_numero_codigo_barra { get; set; }
+        public string nm_linha_digitavel { get; set; }
+    }
+}

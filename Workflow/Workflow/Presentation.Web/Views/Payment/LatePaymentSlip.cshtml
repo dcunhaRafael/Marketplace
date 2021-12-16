@@ -1,0 +1,265 @@
+﻿@model Portal.Web.Models.Payment.LatePaymentSlipViewModel;
+@using Domain.Util.Extensions;
+@using Domain.Enumerators;
+@{
+    ViewBag.Title = "Consultar Boletos Atrasados";
+}
+<div class="container-fluid screen-taker-appeal-table__query LatePaymentSlipSearch">
+    <div class="row mb-4 PageBlock LatePaymentSlipFilter header__title__with__buttom">
+        <div class="col-12 header__text">
+            <p class="title"><span>Consultar Boletos Atrasados</span></p>
+            <p class="subtitle PageBlock LatePaymentSlipFilter">Use os filtros para guiar uma consulta avançada</p>
+        </div>
+    </div>
+    <form id="formLatePaymentSlip" autocomplete="off" AutoCompleteType="Disabled">
+        @Html.AntiForgeryToken()
+        <div class="row mb-4 PageBlock LatePaymentSlipFilter container__form">
+            <div class="col-md-6 form-group">
+                <label>Corretor</label>
+                <div class="input-group">
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control SearchFilter BrokerFilter"
+                           placeholder="Informe o nome/razão social do corretor" name="BrokerName" />
+                    <input type="hidden" class="BrokerData BrokerId SearchFilter" required value="" name="BrokerId" />
+                    <input type="hidden" class="BrokerData BrokerLegacyCode SearchFilter" required value="" name="@Html.NameFor(x=> x.BrokerLegacyCode)" />
+                    <input type="hidden" class="BrokerData BrokerUserId SearchFilter" value="" name="@Html.NameFor(x=> x.BrokerUserId)" />
+                    <input type="hidden" class="BrokerData BrokerSusepCode SearchFilter" value="" name="@Html.NameFor(x=> x.BrokerSusepCode)" />
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 form-group">
+                <label>Empresa</label>
+                <div class="input-group">
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control SearchFilter TakerFilter"
+                           placeholder="Informe a razão social da empresa" name="TakerName" />
+                    <input type="hidden" class="TakerData TakerLegacyCode SearchFilter" value="" name="@Html.NameFor(x=> x.TakerLegacyCode)" />
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 form-group">
+                <label>Segurado</label>
+                <div class="input-group">
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control SearchFilter InsuredFilter"
+                           placeholder="Informe o nome/razão social do segurado" name="InsuredName" />
+                    <input type="hidden" class="InsuredData InsuredLegacyCode SearchFilter" value="" name="@Html.NameFor(x=> x.InsuredLegacyCode)" />
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 form-group">
+                <label>Produto</label>
+                <select name="@Html.NameFor(x=> x.ProductLegacyCode)" class="form-control mat-input-element mat-form-field-autofill-control SearchFilter">
+                    <option value="">Todos</option>
+                    @foreach (var item in Model.Products) {
+                        <option value="@item.LegacyCode">@item.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-3 form-group">
+                <label>Apólice</label>
+                <input type="text" class="form-control mat-input-element mat-form-field-autofill-control mask-number SearchFilter" maxlength="15"
+                       name="@Html.NameFor(x=> x.PolicyNumber)" />
+            </div>
+
+            <div class="col-md-3 form-group">
+                <label>Endosso</label>
+                <input type="text" class="form-control mat-input-element mat-form-field-autofill-control mask-number SearchFilter" maxlength="9"
+                       name="@Html.NameFor(x=> x.EndorsementNumber)" />
+            </div>
+
+            <div class="col-md-3 form-group">
+                <label>Parcela/fatura</label>
+                <input type="text" class="form-control mat-input-element mat-form-field-autofill-control mask-number SearchFilter" maxlength="3"
+                       name="@Html.NameFor(x=> x.InstallmentNumber)" />
+            </div>
+
+            <div class="col-md-3 form-group">
+                <label>Prêmio total</label>
+                <input type="text" class="form-control mat-input-element mat-form-field-autofill-control mask-money-positive SearchFilter"
+                       name="@Html.NameFor(x=> x.PremiumValue)" />
+            </div>
+
+            <div class="col-md-3 form-group">
+                <label>Nosso número</label>
+                <input type="text" class="form-control mat-input-element mat-form-field-autofill-control mask-number SearchFilter" maxlength="10"
+                       name="@Html.NameFor(x=> x.OurNumber)">
+            </div>
+
+            <div class="col-md-3 form-group SearchPeriodId SpecificPeriod" style="display: none">
+                <label>A partir de</label>
+                <div class="input-group">
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control mask-date SearchFilter FromDate"
+                           name="@Html.NameFor(x=> x.FromDate)" id="FromDate">
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="fas fa-calendar-alt" onclick="$('.FromDate').focus();"></i></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 form-group SearchPeriodId SpecificPeriod" style="display: none">
+                <label>Até</label>
+                <div class="input-group">
+                    <input type="text" class="form-control mat-input-element mat-form-field-autofill-control mask-date SearchFilter ToDate"
+                           name="@Html.NameFor(x=> x.ToDate)" id="ToDate">
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="fas fa-calendar-alt" onclick="$('.ToDate').focus();"></i></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <button type="button" class="btn mat-focus-indicator button mat-raised-button mat-button-base" onclick="LatePaymentSlip.search()">PESQUISAR</button>
+                <button type="button" class="btn mat-focus-indicator button__white mat-raised-button mat-button-base" onclick="LatePaymentSlip.clear()">LIMPAR BUSCA</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="row PageBlock LatePaymentSlipResult" style="display: none;">
+        <div class="col-12 header__title mb-3">
+            <p class="title__semibold__orange">Resultado</p>
+            <p class="subtitle"></p>
+        </div>
+        <div class="col-12">
+            <div class="row" id="LatePaymentSlipGridContainer">
+                @{await Html.RenderPartialAsync("~/Views/Payment/LatePaymentSlipGrid.cshtml", Model);}
+            </div>
+        </div>
+        <div class="col-12">
+            <button type="button" class="btn mat-focus-indicator button mat-raised-button mat-button-base" onclick="LatePaymentSlip.clear()">VOLTAR</button>
+        </div>
+    </div>
+
+    <div class="row PageBlock LatePaymentSlipDetail" style="display: none;">
+        <div class="col-12 header__title mb-3">
+            <p class="title__semibold__orange">Detalhes do Boleto Atrasado</p>
+            <p class="subtitle"></p>
+        </div>
+        <div class="col-12">
+            <div class="row" id="LatePaymentSlipDetailContainer"></div>
+        </div>
+        <div class="col-12">
+            <button type="button" class="btn mat-focus-indicator button mat-raised-button mat-button-base" onclick="LatePaymentSlip.backResults()">VOLTAR</button>
+        </div>
+    </div>
+</div>
+<script src="~/js/AutoCompleteFilters.js?version=@DateTime.Now.Ticks"></script>
+<script>
+    $(document).ready(function () {
+        format.initializeInputMasks('#formLatePaymentSlip');
+        rangeUtil.initializeDate('#FromDate', '#ToDate');
+        validationrules.init('#formLatePaymentSlip');
+        LatePaymentSlip.clear();
+
+        AutoCompleteFilters.brokerInit('.BrokerFilter', '#formLatePaymentSlip',
+            function (data) {
+                $('.BrokerData.BrokerId').val(data.brokerId);
+                $('.BrokerData.BrokerName').val(data.name);
+                $('.BrokerData.BrokerCpfCnpjNumber').val(data.cpfCnpjNumber);
+                $('.BrokerData.BrokerLegacyCode').val(data.legacyCode);
+                $('.BrokerData.BrokerUserId').val(data.legacyUserId);
+                $('.BrokerData.BrokerSusepCode').val(data.susepCode);
+            },
+            function () {
+                $('.BrokerData').val('');
+            }
+        );
+
+        AutoCompleteFilters.takerInit('.TakerFilter', '#formLatePaymentSlip', '.BrokerId',
+            function (data) {
+                $('.TakerData.TakerLegacyCode').val(data.legacyCode);
+            },
+            function () {
+                $('.TakerData').val('');
+            }
+        );
+
+        AutoCompleteFilters.insuredInit('.InsuredFilter', '#formLatePaymentSlip',
+            function (data) {
+                $('.InsuredData.InsuredLegacyCode').val(data.legacyCode);
+            },
+            function () {
+                $('.InsuredData').val('');
+            }
+        );
+
+    });
+
+    var LatePaymentSlip = {
+
+        search: function () {
+            commons.postAndCallback('#formLatePaymentSlip', true, function (formValues) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/Payment/LatePaymentSlipGrid',
+                    data: formValues,
+                    dataType: 'html',
+                    beforeSend: function () {
+                        loading.show("Processando... por favor, aguarde...");
+                    },
+                    success: function (data) {
+                        loading.hide();
+                        $('#LatePaymentSlipGridContainer').html(data);
+                        $('.LatePaymentSlipResult').show();
+                        commons.scrollToElement('#LatePaymentSlipGridContainer');
+                    },
+                    error: function (xhr) {
+                        loading.hide();
+                        messages.ajaxError(xhr);
+                    }
+                });
+            });
+        },
+
+        clear: function () {
+            $('.SearchFilter').val('');
+            $('.LatePaymentSlipResult').hide();
+            commons.scrollToElement('.LatePaymentSlipSearch');
+        },
+
+        back: function () {
+            LatePaymentSlip.clear();
+            $('.PageBlock').hide();
+            $('.LatePaymentSlipFilter').show();
+        },
+
+        view: function (ourNumber) {
+            $.ajax({
+                type: 'POST',
+                url: '/Payment/LatePaymentSlipDetail',
+                data: { 'ourNumber': ourNumber },
+                dataType: 'html',
+                beforeSend: function () {
+                    loading.show("Processando... por favor, aguarde...");
+                },
+                success: function (data) {
+                    loading.hide();
+                    $('#LatePaymentSlipDetailContainer').html(data);
+                    $('.PageBlock').hide();
+                    $('.LatePaymentSlipDetail').show();
+                    commons.scrollToElement('#LatePaymentSlipDetailContainer');
+                },
+                error: function (xhr) {
+                    loading.hide();
+                    messages.ajaxError(xhr);
+                }
+            });
+        },
+
+        backResults: function () {
+            $('.PageBlock').hide();
+            $('.LatePaymentSlipFilter').show();
+            $('.LatePaymentSlipResult').show();
+            commons.scrollToElement('#LatePaymentSlipGridContainer');
+        },
+
+    };
+
+</script>

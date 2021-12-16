@@ -25,7 +25,7 @@ namespace Application.Services {
             try {
 
                 var items = await productRepository.ListAsync(status);
-                var payloads = from a in items select new Product() { ProductId = a.ProductId, Name = a.Name };
+                var payloads = from a in items select new Product() { ProductId = a.ProductId, Name = a.Name, LegacyCode = a.LegacyCode };
                 return payloads.ToList();
 
             } catch (Exception e) {

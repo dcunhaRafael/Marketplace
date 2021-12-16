@@ -1,0 +1,129 @@
+﻿@model Portal.Web.Models.Payment.LatePaymentSlipViewModel
+@using Domain.Util.Extensions;
+<div class="col-md-3 LatePaymentSlipCards" style="@(Model.SummaryByCount.Count == 0 ? "display:none": "")">
+    <div class="card h-100">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-12">
+                    <i class="fas fa-coins"></i>&nbsp;Sumário
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 mb-2 form-group">
+                    <label>Valores devidos:</label>
+                </div>
+                @foreach (var value in Model.SummaryByValue) {
+                    <div class="col-12 mb-2 form-group">
+                        <label>@(value.Name):&nbsp;</label><span class="label-bold">@(value.Value?.FormatCurrency())</span>
+                        <div class="progress" style="height: 2em;">
+                            <div class="progress-bar" role="progressbar" style="width: @(value.Percentage)%; background-color: @(value.BackgroundColor);"
+                                 aria-valuenow="@(value.Percentage)" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                }
+                <div class="col-12">
+                    <hr />
+                </div>
+                <div class="col-12 mb-2">
+                    <label>Quantidade de inadimplentes:</label>
+                </div>
+                @foreach (var count in Model.SummaryByCount) {
+                    <div class="col-12 mb-2 form-group">
+                        <label>@(count.Name):&nbsp;</label><span class="label-bold">@(count.Count)</span>
+                        <div class="progress" style="height: 2em;">
+                            <div class="progress-bar" role="progressbar" style="width: @(count.Percentage)%; background-color: @(count.BackgroundColor);"
+                                 aria-valuenow="@(count.Percentage)" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div class="@(Model.SummaryByCount.Count == 0 ? "col-12": "col-md-9")">
+    <div class="card h-100">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-12">
+                    <i class="fas fa-list"></i>&nbsp;Detalhes
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-12" id="SlipCards">
+                    @for (int i = 0; i < Model.Results.Count; i++) {
+                        <div class="card page-@(Math.Ceiling((i + 1) / 5M)) mb-3">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col-11">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label>Prêmio:&nbsp;</label><span class="label-bold">@(Model.Results[i].TotalPremiumValue?.FormatCurrency())</span>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Vencimento:&nbsp;</label><span class="label-bold">@(Model.Results[i].DueDate?.FormatDate())</span>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Dias em atraso:&nbsp;</label><span class="label-bold">@(Model.Results[i].LateDays)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-11">
+                                        <div class="row">
+                                            <div class="col-md-4 mb-2">
+                                                <label>Nosso número:&nbsp;</label><span class="label-bold">@(Model.Results[i].OurNumber)</span>
+                                            </div>
+                                            <div class="col-md-3 mb-2">
+                                                <label>Apólice:&nbsp;</label><span class="label-bold">@(Model.Results[i].PolicyNumber)</span>
+                                            </div>
+                                            <div class="col-md-3 mb-2">
+                                                <label>Endosso:&nbsp;</label><span class="label-bold">@(Model.Results[i].EndorsementNumber)</span>
+                                            </div>
+                                            <div class="col-md-2 mb-2">
+                                                <label>Parcela:&nbsp;</label><span class="label-bold">@(Model.Results[i].InstallmentNumber)</span>
+                                            </div>
+                                            <div class="col-12 mb-2">
+                                                <label>Pagador:&nbsp;</label><span class="label-bold">@(Model.Results[i].InsuredName)</span>
+                                            </div>
+                                            <div class="col-12">
+                                                <label>Linha digitável:&nbsp;</label><span class="label-bold BarcodeDigitableLine-@(Model.Results[i].Id)">@(Model.Results[i].BarcodeDigitableLine?.FormatBarcodeDigitableLine())</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-1 text-center">
+                                        <a title="Visualizar" href="#" onclick="event.preventDefault(); LatePaymentSlip.view('@Model.Results[i].OurNumber')">
+                                            <span class="fas fa-eye pointer" />
+                                        </a><br />
+                                        <a title="Copiar linha digitável" href="#" onclick="event.preventDefault(); commons.copySpan2Clipboard('.BarcodeDigitableLine-@(Model.Results[i].Id)')">
+                                            <span class="fas fa-barcode pointer" />
+                                        </a><br />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="col-lg-6">
+                    <label id="slips-position" class="dataTables_info"></label>
+                </div>
+                <div class="col-lg-6">
+                    <ul id="slips-pagination" class="pagination justify-content-end remove-vertical-margin"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        cardPagination.initialize('#SlipCards', '#slips-pagination', '#slips-position', '@(Model.Results.Count)', 5, '.LatePaymentSlipCards');
+    });
+</script>

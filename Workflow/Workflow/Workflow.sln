@@ -53,6 +53,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DatabaseScripts", "Database
 		DatabaseScripts\Cargas.sql = DatabaseScripts\Cargas.sql
 		DatabaseScripts\ComissionStatementStatus.sql = DatabaseScripts\ComissionStatementStatus.sql
 		DatabaseScripts\DocumentType.sql = DatabaseScripts\DocumentType.sql
+		DatabaseScripts\FixedDomain.sql = DatabaseScripts\FixedDomain.sql
 		DatabaseScripts\OccurrenceType.sql = DatabaseScripts\OccurrenceType.sql
 		DatabaseScripts\OccurrenceTypeDocument.sql = DatabaseScripts\OccurrenceTypeDocument.sql
 		DatabaseScripts\OccurrenceTypeLiberationUser.sql = DatabaseScripts\OccurrenceTypeLiberationUser.sql

@@ -81,6 +81,7 @@
     <None Include="wwwroot\lib\data-tables\datatables.min.js" />
     <None Include="wwwroot\lib\jquery-maskmoney\jquery.maskMoney.min.js" />
     <None Include="wwwroot\lib\jquery-mask\jquery.mask.js" />
+    <None Include="wwwroot\lib\jquery-simplepagination\jquery.simplePagination.js" />
     <None Include="wwwroot\lib\moment\moment-with-locales.js" />
     <None Include="wwwroot\lib\moment\moment-with-locales.min.js" />
     <None Include="wwwroot\lib\moment\moment.js" />

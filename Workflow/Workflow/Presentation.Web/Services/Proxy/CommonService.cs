@@ -437,5 +437,37 @@ namespace Presentation.Web.Services.Proxy {
             }
         }
 
+        public IList<FixedDomain> ListLatePaymentSlipAgings() {
+            var serviceMethodName = "ListLatePaymentSlipAgings";
+            var methodParameters = new { };
+            LogTrace(MethodBase.GetCurrentMethod(), "Init", methodParameters, new LoggerComplement());
+
+            RawRequest rawRequest = new RawRequest();
+            try {
+
+                rawRequest.RequestUri = string.Format("{0}{1}", SERVICE_NAME, serviceMethodName);
+                LogDebug(MethodBase.GetCurrentMethod(), $"URI: {rawRequest.RequestUri}", new LoggerComplement());
+                rawRequest.BodyObject = null;
+                LogDebug(MethodBase.GetCurrentMethod(), "Body", rawRequest.BodyObject, new LoggerComplement());
+                RawResponse rawResponse = serviceFactory.ServiceClient.Post<RawRequest, RawResponse>(rawRequest.RequestUri, rawRequest);
+                LogDebug(MethodBase.GetCurrentMethod(), "RawResponse", rawResponse, new LoggerComplement());
+
+                var serviceResponse = JsonConvert.DeserializeObject<ServiceReturn>(rawResponse.Conteudo);
+                if (!serviceResponse.Success) {
+                    throw new LegacyServiceException(serviceResponse.Message);
+                }
+                var items = JsonConvert.DeserializeObject<IList<FixedDomain>>(serviceResponse.Data);
+                return items;
+
+            } catch (Exception e) {
+                if (!(e is LegacyServiceException)) {
+                    LogError(MethodBase.GetCurrentMethod(), methodParameters, e, new LoggerComplement());
+                }
+                throw new IntegrationException($"Erro na chamada do serviço '{serviceMethodName}': {e.Message}", e);
+            } finally {
+                LogTrace(MethodBase.GetCurrentMethod(), "End", new LoggerComplement());
+            }
+        }
+
     }
 }

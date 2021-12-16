@@ -16,10 +16,12 @@ namespace Infrastructure.IoC.Repository {
             services.AddScoped<IComissionStatementStatusRepository, ComissionStatementStatusRepository>();
             services.AddScoped<ICoverageRepository, CoverageRepository>();
             services.AddScoped<IDocumentTypeRepository, DocumentTypeRepository>();
+            services.AddScoped<IFixedDomainRepository, FixedDomainRepository>();
             services.AddScoped<IInsuredRepository, InsuredRepository>();
             services.AddScoped<IOccurrenceTypeRepository, OccurrenceTypeRepository>();
             services.AddScoped<IOccurrenceTypeDocumentRepository, OccurrenceTypeDocumentRepository>();
             services.AddScoped<IOccurrenceTypeLiberationUserRepository, OccurrenceTypeLiberationUserRepository>();
+            services.AddScoped<ILatePaymentRepository, LatePaymentRepository>();
             services.AddScoped<IPendingInstallmentRepository, PendingInstallmentRepository>();
             services.AddScoped<IPolicyBatchRepository, PolicyBatchRepository>();
             services.AddScoped<IPolicyBatchConfigurationRepository, PolicyBatchConfigurationRepository>();

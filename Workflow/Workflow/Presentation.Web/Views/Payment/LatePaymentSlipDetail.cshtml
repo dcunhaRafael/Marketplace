@@ -1,0 +1,132 @@
+﻿@model Portal.Web.Models.Payment.LatePaymentSlipViewModel;
+@using Domain.Enumerators;
+@using Domain.Util.Extensions;
+<div class="col-12">
+    <div class="card mb-3">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-12">
+                    <i class="fas fa-file-signature"></i>&nbsp;Dados da apólice/endosso
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 mb-2 form-group">
+                    <label>Produto:&nbsp;</label><span class="label-bold">@(Model.CurrentItem.ProductName)</span>
+                </div>
+                <div class="col-md-6 mb-2 form-group">
+                    <label>Corretor:&nbsp;</label><span class="label-bold">@(Model.CurrentItem.BrokerSusepCode) - @(Model.CurrentItem.BrokerName)</span>
+                </div>
+
+                <div class="col-md-6 mb-2 form-group">
+                    <label>Empresa:&nbsp;</label><span class="label-bold">@(Model.CurrentItem.TakerDocument?.FormatCpfCnpj()) - @(Model.CurrentItem.TakerName)</span>
+                </div>
+                <div class="col-md-6 mb-2 form-group">
+                    <label>Segurado:&nbsp;</label><span class="label-bold">@(Model.CurrentItem.InsuredDocument?.FormatCpfCnpj()) - @(Model.CurrentItem.InsuredName)</span>
+                </div>
+
+                <div class="col-md-3 form-group">
+                    <label>Apólice:&nbsp;</label><span class="label-bold">@(Model.CurrentItem.PolicyNumber)</span>
+                </div>
+                <div class="col-md-3 form-group">
+                    <label>Endosso:&nbsp;</label><span class="label-bold">@(Model.CurrentItem.EndorsementNumber)</span>
+                </div>
+                <div class="col-md-3 form-group">
+                    <label>Parcela:&nbsp;</label><span class="label-bold">@(Model.CurrentItem.InstallmentNumber)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-12">
+    <div class="card mb-3">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-12">
+                    <i class="fas fa-barcode"></i>&nbsp;Dados do título
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 mb-2 form-group">
+                    <label>Forma de pagamento:&nbsp;</label><span class="label-bold">@(Model.CurrentItem.PaymentMethodName)</span>
+                </div>
+                <div class="col-md-3 mb-2 form-group">
+                    <label>Vencimento:&nbsp;</label><span class="label-bold">@(Model.CurrentItem.DueDate?.FormatDate())</span>
+                </div>
+                <div class="col-md-3 mb-2 form-group">
+                    <label>Valor tarifário:&nbsp;</label><span class="label-bold">@(Model.CurrentItem.TariffPremiumValue?.FormatCurrency())</span>
+                </div>
+
+                <div class="col-md-3 mb-2 form-group">
+                    <label>Prêmio líquido:&nbsp;</label><span class="label-bold">@(Model.CurrentItem.NetPremiumValue?.FormatCurrency())</span>
+                </div>
+                <div class="col-md-3 mb-2 form-group">
+                    <label>Adic. fracionamento:&nbsp;</label><span class="label-bold">@(Model.CurrentItem.AdditionalFractionation?.FormatCurrency())</span>
+                </div>
+                <div class="col-md-3 mb-2 form-group">
+                    <label>Custo:&nbsp;</label><span class="label-bold">@(Model.CurrentItem.CostValue?.FormatCurrency())</span>
+                </div>
+                <div class="col-md-3 mb-2 form-group">
+                    <label>IOF:&nbsp;</label><span class="label-bold">@(Model.CurrentItem.IofValue?.FormatCurrency())</span>
+                </div>
+
+                <div class="col-md-3 form-group">
+                    <label>Prêmio total:&nbsp;</label><span class="label-bold">@(Model.CurrentItem.TotalPremiumValue?.FormatCurrency())</span>
+                </div>
+                <div class="col-md-3 form-group">
+                    <label>Dias atraso:&nbsp;</label><span class="label-bold">@(Model.CurrentItem.LateDays)</span>
+                </div>
+                <div class="col-md-3 form-group">
+                    <label>Nosso número:&nbsp;</label><span class="label-bold">@(Model.CurrentItem.OurNumber)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-12">
+    <div class="card mb-3">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-12">
+                    <i class="fas fa-calendar"></i>&nbsp;Novo vencimento
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3 mb-2 form-group">
+                    <label>Novo vencimento:&nbsp;</label><span class="label-bold">@(Model.CurrentItem.DueDate?.FormatDate())</span>
+                </div>
+                <div class="col-md-3 mb-2 form-group">
+                    <label>Juros:&nbsp;</label><span class="label-bold">@(Model.CurrentItem.InterestAmount?.FormatCurrency())</span>
+                </div>
+                <div class="col-md-3 mb-2 form-group">
+                    <label>Multa:&nbsp;</label><span class="label-bold">@(Model.CurrentItem.FineAmount?.FormatCurrency())</span>
+                </div>
+                <div class="col-md-3 mb-2 form-group">
+                    <label>Desconto:&nbsp;</label><span class="label-bold">@(Model.CurrentItem.DiscountAmount?.FormatCurrency())</span>
+                </div>
+
+                <div class="col-md-3 form-group">
+                    <label>Valor total:&nbsp;</label><span class="label-bold">@(Model.CurrentItem.NewTotalValue?.FormatCurrency())</span>
+                </div>
+                <div class="col-md-3 form-group">
+                    <label>Dias atraso:&nbsp;</label><span class="label-bold">@(Model.CurrentItem.NewLateDays)</span>
+                </div>
+                <div class="col-md-3 form-group">
+                    <label>Nosso número:&nbsp;</label><span class="label-bold">@(Model.CurrentItem.NewOurNumber)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+
+    });
+</script>

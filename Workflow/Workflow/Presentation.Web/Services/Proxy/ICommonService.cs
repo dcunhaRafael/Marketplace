@@ -16,5 +16,6 @@ namespace Presentation.Web.Services.Proxy {
         void AddAudit(Audit audit);
         IList<UpdateIndex> ListUpdateIndexes();
         IList<ComissionStatementStatus> ListComissionStatementStatus();
+        IList<FixedDomain> ListLatePaymentSlipAgings();
     }
 }

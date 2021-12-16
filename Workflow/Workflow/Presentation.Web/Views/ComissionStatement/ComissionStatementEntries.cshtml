@@ -85,7 +85,7 @@
                     <td class="text-nowrap">@(item.InsuredName)</td>
                     <td class="text-nowrap text-right">@(item.TariffPremiumValue?.FormatCurrency())</td>
                     <td class="text-nowrap">@(item.ComissionTypeName)</td>
-                    <td class="text-nowrap text-right">@(item.ComissionPercentage?.FormatPercent())</td>
+                    <td class="text-nowrap text-right">@(item.ComissionPercentage?.FormatDecimal())</td>
                     <td class="text-nowrap text-right">@(item.ComissionValue?.FormatCurrency())</td>
                 </tr>
             }

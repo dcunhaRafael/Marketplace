@@ -33,3 +33,11 @@ insert into DocumentType(Name, LegacyCode, Status, InclusionUserId, InclusionDat
 --OccurrenceTypeLiberationUser
 
 --RefusalReason
+
+--FixedDomain 
+INSERT INTO FixedDomain (GroupName, Name, StringValue, DisplayOrder, Status, InclusionUserId, InclusionDate) VALUES ('LatePaymentSlipAgings', 'De 0 a 30 dias', '0|30|#FFF000', 1, 1, 1, getdate());
+INSERT INTO FixedDomain (GroupName, Name, StringValue, DisplayOrder, Status, InclusionUserId, InclusionDate) VALUES ('LatePaymentSlipAgings', 'De 31 a 60 dias', '31|60|#FFC900', 2, 1, 1, getdate());
+INSERT INTO FixedDomain (GroupName, Name, StringValue, DisplayOrder, Status, InclusionUserId, InclusionDate) VALUES ('LatePaymentSlipAgings', 'De 61 a 120 dias', '61|120|#FF9B00', 3, 1, 1, getdate());
+INSERT INTO FixedDomain (GroupName, Name, StringValue, DisplayOrder, Status, InclusionUserId, InclusionDate) VALUES ('LatePaymentSlipAgings', 'De 121 a 180 dias', '121|180|#FF8000', 4, 1, 1, getdate());
+INSERT INTO FixedDomain (GroupName, Name, StringValue, DisplayOrder, Status, InclusionUserId, InclusionDate) VALUES ('LatePaymentSlipAgings', 'De 181 a 365 dias', '181|365|#FF5D00', 5, 1, 1, getdate());
+INSERT INTO FixedDomain (GroupName, Name, StringValue, DisplayOrder, Status, InclusionUserId, InclusionDate) VALUES ('LatePaymentSlipAgings', 'Acima de 365 dias', '365|999999|#FF0000', 6, 1, 1, getdate());

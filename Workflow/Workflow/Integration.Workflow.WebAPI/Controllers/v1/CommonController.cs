@@ -17,6 +17,7 @@ namespace Integration.Workflow.WebAPI.Controllers.v1 {
         private readonly IComissionStatementService comissionStatementService;
         private readonly ICoverageService coverageService;
         private readonly IDocumentTypeService documentTypeService;
+        private readonly IFixedDomainService fixedDomainService;
         private readonly IInsuredService insuredService;
         private readonly IOccurrenceTypeService occurrenceTypeService;
         private readonly IProductService productService;
@@ -27,14 +28,16 @@ namespace Integration.Workflow.WebAPI.Controllers.v1 {
         private readonly IUserService userService;
 
         public CommonController(ILogger<CommonController> logger, IAuditService auditService,
-            IBrokerService brokerService, IComissionStatementService comissionStatementService, ICoverageService coverageService, IDocumentTypeService documentTypeService, 
-            IInsuredService insuredService, IOccurrenceTypeService occurrenceTypeService, IProductService productService, IProfileService profileService, 
-            IRefusalReasonService refusalReasonService, ITakerService takerService, IUpdateIndexService updateIndexService, IUserService userService) : base(logger) {
+            IBrokerService brokerService, IComissionStatementService comissionStatementService, ICoverageService coverageService, IDocumentTypeService documentTypeService,
+            IFixedDomainService fixedDomainService, IInsuredService insuredService, IOccurrenceTypeService occurrenceTypeService, IProductService productService, 
+            IProfileService profileService, IRefusalReasonService refusalReasonService, ITakerService takerService, IUpdateIndexService updateIndexService, 
+            IUserService userService) : base(logger) {
             this.auditService = auditService;
             this.brokerService = brokerService;
             this.comissionStatementService = comissionStatementService;
             this.coverageService = coverageService;
             this.documentTypeService = documentTypeService;
+            this.fixedDomainService = fixedDomainService;
             this.insuredService = insuredService;
             this.occurrenceTypeService = occurrenceTypeService;
             this.productService = productService;
@@ -216,5 +219,17 @@ namespace Integration.Workflow.WebAPI.Controllers.v1 {
             }
         }
 
+        [HttpPost("ListLatePaymentSlipAgings")]
+        public async Task<IActionResult> ListLatePaymentSlipAgings() {
+            try {
+
+                var items = await fixedDomainService.List(null, FixedDomainGroupNameEnum.LatePaymentSlipAgings);
+
+                return base.ReturnSuccess(data: items);
+
+            } catch (Exception e) {
+                return base.ReturnError(MethodBase.GetCurrentMethod(), e);
+            }
+        }
     }
 }

@@ -126,5 +126,28 @@ namespace Domain.Util.Extensions {
             }
             return string.Empty;
         }
+
+        //Linha digitável: 34191 09008 42012 131894 60087 920009 6 88290001167645
+        public static string FormatBarcodeDigitableLine(this string value) {
+            string formattedValue = "";
+            try {
+                if (!string.IsNullOrWhiteSpace(value)) {
+                    var rawValue = value.KeepNumbersOnly();
+                    formattedValue = string.Format("{0}  {1}  {2}  {3}  {4}  {5}  {6}  {7}",
+                        rawValue.Substring(0, 5),
+                        rawValue.Substring(5, 5),
+                        rawValue.Substring(10, 5),
+                        rawValue.Substring(15, 6),
+                        rawValue.Substring(21, 5),
+                        rawValue.Substring(26, 6),
+                        rawValue.Substring(32, 1),
+                        rawValue.Substring(33));
+                }
+            } catch {
+                formattedValue = value;
+            }
+            return formattedValue;
+        }
+
     }
 }

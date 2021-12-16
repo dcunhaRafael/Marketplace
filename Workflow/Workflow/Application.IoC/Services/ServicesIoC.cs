@@ -12,9 +12,11 @@ namespace Application.IoC.Services {
             services.AddScoped<IComissionStatementService, ComissionStatementService>();
             services.AddScoped<ICoverageService, CoverageService>();
             services.AddScoped<IDocumentTypeService, DocumentTypeService>();
+            services.AddScoped<IFixedDomainService, FixedDomainService>();
             services.AddScoped<IInsuredService, InsuredService>();
             services.AddScoped<IOccurrenceTypeService, OccurrenceTypeService>();
             services.AddScoped<IOccurrenceValidationRuleService, OccurrenceValidationRuleService>();
+            services.AddScoped<IPaymentService, PaymentService>();
             services.AddScoped<IPolicyBatchService, PolicyBatchService>();
             services.AddScoped<IPolicyBatchConfigurationService, PolicyBatchConfigurationService>();
             services.AddScoped<IPolicyRenovationService, PolicyRenovationService>();

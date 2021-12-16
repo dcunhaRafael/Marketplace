@@ -28,6 +28,7 @@ namespace Presentation.Web {
             services.AddScoped<IComissionStatementService, ComissionStatementService>();
             services.AddScoped<ICommonService, CommonService>();
             services.AddScoped<IConfigurationService, ConfigurationService>();
+            services.AddScoped<IPaymentService, PaymentService>();
             services.AddScoped<IProposalService, ProposalService>();
             services.AddScoped<IRenewalService, RenewalService>();
 

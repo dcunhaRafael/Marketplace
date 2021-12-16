@@ -102,6 +102,14 @@ var commons = {
         $(formSelector).submit();
     },
 
+    copySpan2Clipboard: function (selectSelector) {
+        var value = '<input value="' + $(selectSelector).text() + '" id="clipboardCopiedValue" />';
+        $(value).insertAfter(selectSelector);
+        $("#clipboardCopiedValue").select();
+        document.execCommand("Copy");
+        $('body').find('#clipboardCopiedValue').remove();
+    },
+
 };
 
 var format = {
@@ -957,5 +965,44 @@ var rangeUtil = {
         $(beginSelector).off('change');
         $(endSelector).off('change');
     },
+
+};
+
+var cardPagination = {
+
+    initialize: function (cardsSelector, paginatorSelector, positionSelector, recordCount, pageCount = 10, scrollToId = '.app-header') {
+        if (recordCount == 0) {
+            $(positionSelector).text('Nenhum registro encontrado');
+        } else {
+            $(paginatorSelector).pagination({
+                items: recordCount,
+                itemsOnPage: pageCount,
+                cssStyle: '',
+                prevText: 'Anterior',
+                nextText: 'Próximo',
+                ellipsePageSet: false,
+                onPageClick: function (pageNumber, event) {
+                    cardPagination.loadPage(cardsSelector, positionSelector, pageNumber, recordCount, pageCount, scrollToId);
+                },
+                onInit: function () {
+                    cardPagination.loadPage(cardsSelector, positionSelector, 1, recordCount, pageCount, scrollToId);
+                },
+            });
+        }
+    },
+
+    loadPage: function (cardsSelector, positionSelector, pageNumber, recordCount, pageCount = 10, scrollToId) {
+        $(cardsSelector + ' .card').hide();
+        $(cardsSelector + ' .card.page-' + pageNumber).show();
+
+        let firstRecord = (((pageNumber - 1) * pageCount) + 1);
+        let latsRecord = firstRecord + (pageCount - 1);
+        if (latsRecord > recordCount) {
+            latsRecord = recordCount;
+        }
+
+        $(positionSelector).text('Exibindo registros de ' + firstRecord.toLocaleString('pt-BR') + ' à ' + latsRecord.toLocaleString('pt-BR') + ' do total de ' + recordCount.toLocaleString('pt-BR'));
+        commons.scrollToElement(scrollToId);
+    }
 
 };
