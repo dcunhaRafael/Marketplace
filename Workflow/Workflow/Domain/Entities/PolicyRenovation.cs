@@ -18,6 +18,7 @@ namespace Domain.Entities {
         public string BrokerName { get; set; }
         public int? InsuredExternalId { get; set; }
         public string InsuredName { get; set; }
+        public long? InsuredDocument { get; set; }
         public int? TakerExternalId { get; set; }
         public long? TakerDocument { get; set; }
         public string TakerName { get; set; }

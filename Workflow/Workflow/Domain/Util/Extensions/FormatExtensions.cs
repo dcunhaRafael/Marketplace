@@ -127,7 +127,7 @@ namespace Domain.Util.Extensions {
             return string.Empty;
         }
 
-        //Linha digitável: 34191 09008 42012 131894 60087 920009 6 88290001167645
+        //Exemplo de linha digitável: 34191 09008 42012 131894 60087 920009 6 88290001167645
         public static string FormatBarcodeDigitableLine(this string value) {
             string formattedValue = "";
             try {

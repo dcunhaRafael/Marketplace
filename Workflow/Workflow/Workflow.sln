@@ -60,6 +60,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DatabaseScripts", "Database
 		DatabaseScripts\PolicyBatch.sql = DatabaseScripts\PolicyBatch.sql
 		DatabaseScripts\PolicyBatchConfiguration.sql = DatabaseScripts\PolicyBatchConfiguration.sql
 		DatabaseScripts\PolicyBatchConfigurationMail.sql = DatabaseScripts\PolicyBatchConfigurationMail.sql
+		DatabaseScripts\PolicyRenovation.sql = DatabaseScripts\PolicyRenovation.sql
 		DatabaseScripts\ProposalOccurrence.sql = DatabaseScripts\ProposalOccurrence.sql
 		DatabaseScripts\ProposalOccurrenceDocument.sql = DatabaseScripts\ProposalOccurrenceDocument.sql
 		DatabaseScripts\ProposalOccurrenceHistory.sql = DatabaseScripts\ProposalOccurrenceHistory.sql
