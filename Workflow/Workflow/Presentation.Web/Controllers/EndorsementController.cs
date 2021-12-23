@@ -82,6 +82,8 @@ namespace Portal.Web.Controllers {
                     new PolicyRenovation() {
                         PolicyRenovationId = 1,
                         EndorsementTypeName = "Sem movimento",
+                        ProposalNumber = 12345678,
+                        EndorsementNumber = 23232,
                         InclusionUserId = 1,
                         InclusionDate = DateTime.Now,
                         StartOfTerm = DateTime.Now.AddDays(-365),

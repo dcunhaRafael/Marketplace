@@ -46,6 +46,8 @@ namespace Domain.Payload {
 
 
         public string EndorsementTypeName { get; set; }
+        public int? ProposalNumber { get; set; }
+        public int? EndorsementNumber { get; set; }
         public int? InclusionUserId { get; set; }
         public string InclusionUserName { get; set; }
         public DateTime? InclusionDate { get; set; }

@@ -30,7 +30,7 @@
         <label>Segurado</label>
         <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" readonly value="00.000.000/0000-00 - Segurado Ltda." />
     </div>
-    <div class="col-md-6 form-group">
+    <div class="col-md-3 form-group">
         <label>Vigência</label>
         <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" readonly value="De 99/99/9999 à 99/99/9999" />
     </div>
@@ -40,7 +40,7 @@
     </div>
     <div class="col-sm-12 form-group">
         <label>Objeto segurado</label>
-        <textarea class="form-control mat-input-element mat-form-field-autofill-control" rows="5"
+        <textarea class="form-control mat-input-element mat-form-field-autofill-control" rows="3"
                   readonly>Texto do objeto segurado atual</textarea>
     </div>
 </div>
@@ -55,6 +55,8 @@
                 <thead>
                     <tr>
                         <th class="mat-header-cell cdk-header-cell ng-star-inserted">TIPO</th>
+                        <th class="mat-header-cell cdk-header-cell ng-star-inserted">PROPOSTA</th>
+                        <th class="mat-header-cell cdk-header-cell ng-star-inserted">ENDOSSO</th>
                         <th class="mat-header-cell cdk-header-cell ng-star-inserted">INÍCIO VIGÊNCIA</th>
                         <th class="mat-header-cell cdk-header-cell ng-star-inserted">FINAL VIGÊNCIA</th>
                         <th class="mat-header-cell cdk-header-cell ng-star-inserted">I.S.</th>
@@ -68,28 +70,30 @@
                 @if (Model.PolicyEndorsements != null) {
                     <tbody>
                         @for (int i = 0; i < Model.PolicyEndorsements.Count; i++) {
-                            <tr class="mat-row cdk-row ng-star-inserted">
-                                <td>@Model.PolicyEndorsements[i].EndorsementTypeName</td>
-                                <td>@(Model.PolicyEndorsements[i].StartOfTerm?.FormatDate())</td>
-                                <td>@(Model.PolicyEndorsements[i].EndOfTerm?.FormatDate())</td>
-                                <td>@(Model.PolicyEndorsements[i].InsuredAmount?.FormatCurrency())</td>
-                                <td>@(Model.PolicyEndorsements[i].PremiumValue?.FormatCurrency())</td>
-                                <td>@(Model.PolicyEndorsements[i].InclusionDate?.FormatDateTime())</td>
-                                <td>@(Model.PolicyEndorsements[i].InclusionUserName)</td>
-                                <td>@(Model.PolicyEndorsements[i].NewProposalStatusName)</td>
-                                <td>
-                                    <input type="hidden" name="@Html.NameFor(x => x.PolicyEndorsements[i].PolicyRenovationId)" value="@(Model.PolicyEndorsements[i].PolicyRenovationId)" />
-                                    <a title="Visualizar" onclick="event.preventDefault(); Workflow.viewDocuments(@Model.PolicyEndorsements[i].PolicyRenovationId)">
-                                        <span class="fas fa-eye"></span>
-                                    </a>@Html.Raw("&nbsp;")
-                                    <a title="Editar" onclick="event.preventDefault(); Workflow.viewLiberationUsers(@Model.PolicyEndorsements[i].PolicyRenovationId)">
-                                        <span class="fas fa-edit"></span>
-                                    </a>@Html.Raw("&nbsp;")
-                                    <a title="Imprimir" onclick="event.preventDefault(); Workflow.openForward('@(Model.PolicyEndorsements[i].PolicyRenovationId)')')">
-                                        <span class="fas fa-print"></span>
-                                    </a>@Html.Raw("&nbsp;")
-                                </td>
-                            </tr>
+                        <tr class="mat-row cdk-row ng-star-inserted">
+                            <td>@Model.PolicyEndorsements[i].EndorsementTypeName</td>
+                            <td>@Model.PolicyEndorsements[i].ProposalNumber</td>
+                            <td>@Model.PolicyEndorsements[i].EndorsementNumber</td>
+                            <td>@(Model.PolicyEndorsements[i].StartOfTerm?.FormatDate())</td>
+                            <td>@(Model.PolicyEndorsements[i].EndOfTerm?.FormatDate())</td>
+                            <td>@(Model.PolicyEndorsements[i].InsuredAmount?.FormatCurrency())</td>
+                            <td>@(Model.PolicyEndorsements[i].PremiumValue?.FormatCurrency())</td>
+                            <td>@(Model.PolicyEndorsements[i].InclusionDate?.FormatDateTime())</td>
+                            <td>@(Model.PolicyEndorsements[i].InclusionUserName)</td>
+                            <td>@(Model.PolicyEndorsements[i].NewProposalStatusName)</td>
+                            <td>
+                                <input type="hidden" name="@Html.NameFor(x => x.PolicyEndorsements[i].PolicyRenovationId)" value="@(Model.PolicyEndorsements[i].PolicyRenovationId)" />
+                                <a title="Visualizar" onclick="event.preventDefault(); Workflow.viewDocuments(@Model.PolicyEndorsements[i].PolicyRenovationId)">
+                                    <span class="fas fa-eye"></span>
+                                </a>@Html.Raw("&nbsp;")
+                                <a title="Editar" onclick="event.preventDefault(); Workflow.viewLiberationUsers(@Model.PolicyEndorsements[i].PolicyRenovationId)">
+                                    <span class="fas fa-edit"></span>
+                                </a>@Html.Raw("&nbsp;")
+                                <a title="Imprimir" onclick="event.preventDefault(); Workflow.openForward('@(Model.PolicyEndorsements[i].PolicyRenovationId)')')">
+                                    <span class="fas fa-print"></span>
+                                </a>@Html.Raw("&nbsp;")
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 }
