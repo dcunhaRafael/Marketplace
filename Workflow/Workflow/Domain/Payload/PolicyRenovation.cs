@@ -43,5 +43,13 @@ namespace Domain.Payload {
         public int? ProposalId { get; set; }
 
         public Exception Exception { get; set; }
+
+
+        public string EndorsementTypeName { get; set; }
+        public int? InclusionUserId { get; set; }
+        public string InclusionUserName { get; set; }
+        public DateTime? InclusionDate { get; set; }
+        public decimal? PremiumValue { get; set; }
+
     }
 }

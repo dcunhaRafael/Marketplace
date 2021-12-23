@@ -1,0 +1,132 @@
+﻿@model Presentation.Web.Models.Endorsement.EndorsementViewModel
+@using Domain.Enumerators;
+@using Domain.Util.Extensions;
+<div class="row EndorsementData Reason" style="display: none;">
+    <div class="col-12 header__title mb-3">
+        <p class="title__semibold__orange">Motivo do endosso</p>
+        <p class="subtitle"></p>
+    </div>
+    <div class="col-md-6 form-group">
+        <label>Motivo</label>
+        <select name="EndorsementReasonId" class="form-control mat-input-element mat-form-field-autofill-control EndorsementReasonId">
+            <option value="">Selecione</option>
+        </select>
+    </div>
+    <div class="col-md-12 form-group">
+        <label>Descrição</label>
+        <textarea class="form-control mat-input-element mat-form-field-autofill-control" rows="3">Texto de descrição do motivo de recusa informado pelo usuário</textarea>
+    </div>
+</div>
+
+<div class="row EndorsementData Term" style="display: none;">
+    <div class="col-12 header__title mb-3">
+        <p class="title__semibold__orange">Vigência</p>
+        <p class="subtitle"></p>
+    </div>
+    <div class="col-md-2 form-group">
+        <label>Início de vigência atual</label>
+        <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" readonly value="99/99/9999" />
+    </div>
+    <div class="col-md-2 form-group">
+        <label>Final de vigência atual</label>
+        <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" readonly value="99/99/9999" />
+    </div>
+    <div class="col-md-2 form-group">
+        <label>Dias de vigência atual</label>
+        <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" readonly value="730" />
+    </div>
+    <div class="col-md-2 form-group">
+        <label>Início de vigência do endosso</label>
+        <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" value="" />
+    </div>
+    <div class="col-md-2 form-group">
+        <label>Final de vigência do endosso</label>
+        <input type="text" class="form-control mat-input-element mat-form-field-autofill-control NewEndOfTerm" value="" />
+    </div>
+    <div class="col-md-2 form-group">
+        <label>Dias de vigência do endosso</label>
+        <input type="text" class="form-control mat-input-element mat-form-field-autofill-control NewEndOfTerm" value="" />
+    </div>
+</div>
+
+<div class="row EndorsementData InsuredAmount" style="display: none;">
+    <div class="col-12 header__title mb-3">
+        <p class="title__semibold__orange">Importância segurada</p>
+        <p class="subtitle"></p>
+    </div>
+    <div class="col-md-3 form-group">
+        <label>Atual</label>
+        <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" value="" />
+    </div>
+    <div class="col-md-3 form-group">
+        <label>Nova</label>
+        <input type="text" class="form-control mat-input-element mat-form-field-autofill-control" value="" />
+    </div>
+</div>
+
+<div class="row EndorsementData InsuredObject" style="display: none;">
+    <div class="col-12 header__title mb-3">
+        <p class="title__semibold__orange">Objeto segurado</p>
+        <p class="subtitle"></p>
+    </div>
+    <div class="col-md-12 form-group">
+        <textarea class="form-control mat-input-element mat-form-field-autofill-control" rows="5">Texto do novo objeto segurado informado pelo usuário</textarea>
+    </div>
+</div>
+
+<div class="row EndorsementData Attachments" style="display: none;">
+    <div class="col-12 header__title mb-3">
+        <p class="title__semibold__orange">Anexos</p>
+        <p class="subtitle"></p>
+    </div>
+    <div class="col-md-3 form-group">
+    </div>
+</div>
+
+<div class="row EndorsementData TermsAndConditions" style="display: none;">
+    <div class="col-12 header__title mb-3">
+        <p class="title__semibold__orange">Termos e condições</p>
+        <p class="subtitle"></p>
+    </div>
+    <div class="col-12 form-group">
+        <textarea class="form-control mat-input-element mat-form-field-autofill-control" rows="5">Texto dos termos e condições para operação</textarea>
+    </div>
+</div>
+
+<div class="row EndorsementData Restitution" style="display: none;">
+    <div class="col-12 header__title mb-3">
+        <p class="title__semibold__orange">Dados da restituição</p>
+        <p class="subtitle"></p>
+    </div>
+    <div class="col-12 form-group">
+        <textarea class="form-control mat-input-element mat-form-field-autofill-control" rows="5">Texto dos termos e condições para operação</textarea>
+    </div>
+</div>
+
+<div class="row EndorsementData Billing" style="display: none;">
+    <div class="col-12 header__title mb-3">
+        <p class="title__semibold__orange">Resumo de cobrança</p>
+        <p class="subtitle"></p>
+    </div>
+    <div class="col-12 form-group">
+        <textarea class="form-control mat-input-element mat-form-field-autofill-control" rows="5">Texto dos termos e condições para operação</textarea>
+    </div>
+</div>
+
+<div class="row EndorsementData Actions mt-3" style="display: none;">
+    <div class="col-12">
+        <button type="button" class="btn mat-focus-indicator button__white button mat-raised-button mat-button-base"
+                onclick="">
+            CALCULAR
+        </button>
+        <button type="button" class="btn mat-focus-indicator button__white button mat-raised-button mat-button-base"
+                onclick="Endorsement.backResults()">
+            CANCELAR
+        </button>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        controls.dataTableInit3("#EndorsementsGrid");
+    });
+</script>

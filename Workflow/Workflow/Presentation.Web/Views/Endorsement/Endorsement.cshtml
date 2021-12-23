@@ -1,0 +1,130 @@
+﻿@model Presentation.Web.Models.Endorsement.EndorsementViewModel
+@using Domain.Enumerators;
+@using Domain.Util.Extensions;
+@{
+    ViewBag.Title = "Index";
+}
+<div class="container-fluid screen-taker-appeal-table__query PageBlock EndorsementSearch">
+    <div class="row mb-4 header__title__with__buttom">
+        <div class="col-12 header__text">
+            <p class="title"><span>Endosso</span></p>
+            <p class="subtitle">Informe o número da apólice para visualizar os endossos existentes ou adicionar um novo</p>
+        </div>
+    </div>
+    <div class="row mb-4 EndorsementFilter container__form">
+        <div class="col-md-3 form-group">
+            <label>Apólice</label>
+            <input type="text" class="form-control mat-input-element mat-form-field-autofill-control mask-number SearchFilter" maxlength="12"
+                   name="@Html.NameFor(x=> x.PolicyNumber)">
+        </div>
+        <div class="col-12">
+            <button type="button" class="btn mat-focus-indicator button mat-raised-button mat-button-base" onclick="Endorsement.search()">PESQUISAR</button>
+            <button type="button" class="btn mat-focus-indicator button__white mat-raised-button mat-button-base" onclick="Endorsement.clear()">LIMPAR BUSCA</button>
+        </div>
+    </div>
+    <div class="data__table" id="PolicyEndorsementsGridContainer">
+        @{await Html.RenderPartialAsync("~/Views/Endorsement/PolicyEndorsementsGrid.cshtml", Model);}
+    </div>
+    <div class="data__table" id="EndorsementDataContainer">
+        @{await Html.RenderPartialAsync("~/Views/Endorsement/EndorsementData.cshtml", Model);}
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        Endorsement.clear();
+    });
+
+    var Endorsement = {
+
+        search: function () {
+            $.ajax({
+                type: 'POST',
+                url: '/Endorsement/PolicyEndorsementsGrid',
+                data: {
+                    'policyNumber': $('.PolicyNumber').val()
+                },
+                dataType: 'html',
+                beforeSend: function () {
+                    loading.show("Processando... por favor, aguarde...");
+                },
+                success: function (data) {
+                    loading.hide();
+                    $('#PolicyEndorsementsGridContainer').html(data);
+                    $('.PolicyEndorsementsResult').show();
+                    $('.PolicyEndorsementsList').show();
+                    commons.scrollToElement('.PolicyEndorsementsResult');
+                },
+                error: function (xhr) {
+                    loading.hide();
+                    messages.ajaxError(xhr);
+                }
+            });
+        },
+
+        clear: function () {
+            $('.SearchFilter').val('');
+            $('.PolicyEndorsementsResult').hide();
+        },
+
+
+        back: function () {
+            $('.EndorsementData').hide();
+            $('.EndorsementSearch').show();
+        },
+
+        new: function (type) {
+            $('.PolicyEndorsementsList').hide();
+            switch (type) {
+                case 1: // Sem movimento
+                    $('.EndorsementData.Reason').show();
+                    $('.EndorsementData.InsuredObject').show();
+                    $('.EndorsementData.Attachments').show();
+                    break;
+                case 2: // Cancelamento
+                    $('.EndorsementData.Reason').show();
+                    $('.EndorsementData.Attachments').show();
+                    $('.EndorsementData.TermsAndConditions').show();
+                    break;
+                case 3: // Prorrogação de vigência
+                    $('.EndorsementData.Reason').show();
+                    $('.EndorsementData.Term').show();
+                    $('.EndorsementData.NewEndOfTerm').prop('readonly', false);
+                    $('.EndorsementData.Attachments').show();
+                    $('.EndorsementData.Billing').show();
+                    break;
+                case 4: // Redução de vigência
+                    $('.EndorsementData.Reason').show();
+                    $('.EndorsementData.Term').show();
+                    $('.EndorsementData.NewEndOfTerm').prop('readonly', false);
+                    $('.EndorsementData.Attachments').show();
+                    $('.EndorsementData.Restitution').show();
+                    break;
+                case 5: // Aumento de IS
+                    $('.EndorsementData.Reason').show();
+                    $('.EndorsementData.Term').show();
+                    $('.EndorsementData.NewEndOfTerm').prop('readonly', false);
+                    $('.EndorsementData.InsuredAmount').show();
+                    $('.EndorsementData.Attachments').show();
+                    $('.EndorsementData.Billing').show();
+                    break;
+                case 6: // Redução de IS
+                    $('.EndorsementData.Reason').show();
+                    $('.EndorsementData.Term').show();
+                    $('.EndorsementData.NewEndOfTerm').prop('readonly', true);
+                    $('.EndorsementData.InsuredAmount').show();
+                    $('.EndorsementData.Attachments').show();
+                    $('.EndorsementData.Restitution').show();
+                    break;
+            }
+            $('.EndorsementData.Actions').show();
+        },
+
+        backResults: function () {
+            $('.EndorsementData').hide();
+            $('.PolicyEndorsementsList').show();
+        },
+
+
+    };
+
+</script>
